@@ -1,2 +1,2 @@
-# amigos
-Amigos Social Meeting Application
+# is-occupied
+Internet Of Things Course
