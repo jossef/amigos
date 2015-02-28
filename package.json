@@ -12,7 +12,6 @@
     "express": "~4.10.1",
     "express-session": "~1.9.1",
     "mongodb": "latest",
-    "mqtt": "latest",
     "socket.io": "^1.2.1"
   }
 }

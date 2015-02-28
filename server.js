@@ -2,7 +2,7 @@
     'use strict';
     var expressPort = 8080;
     var expressIPAddress = '0.0.0.0';
-    var mongoDBUrl = 'mongodb://127.0.0.1:27017/IsOccupied';
+    var mongoDBUrl = 'mongodb://127.0.0.1:27017/Amigos';
 
     var chalk = require('chalk');
     var express = require("express");
@@ -50,8 +50,8 @@
     expressApp.use('/static/', express.static(path.join(__dirname, 'static')));
 
     // REST API
-    expressApp.get("/api/messages/:id", function (request, response) {
-
+    expressApp.get("/api/hi", function (request, response) {
+        response.json({hello:'world'});
     });
 
     // Root Page

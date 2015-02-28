@@ -6,9 +6,9 @@
 
         // Builtin
         'ngAnimate',
+        'ngRoute',
 
         // External
-        'ui.router',
         'ui.bootstrap',
 
         'btford.socket-io'
@@ -17,9 +17,35 @@
     // ......................................................
     // SPA URL Route states
     app.config(
-        function ($stateProvider, $urlRouterProvider)
-        {
+        function ($routeProvider) {
 
+            return;
+
+            $routeProvider
+
+                .when('/', {
+                    templateUrl: "/static/views/main.html",
+                    controller: 'MainController'
+                })
+                .when('/exam/:stage', {
+                    templateUrl: "/static/views/exam.html",
+                    controller: 'ExamController'
+                })
+                .when('/exam', {
+                    templateUrl: "/static/views/exam.html",
+                    controller: 'ExamController'
+                })
+                .when('/devices/:id', {
+                    templateUrl: "/static/views/device.html",
+                    controller: 'DeviceController'
+                })
+                .when('/devices', {
+                    templateUrl: "/static/views/devices.html",
+                    controller: 'DevicesController'
+                })
+                .otherwise({
+                    redirectTo: '/'
+                });
         });
 
     // ......................................................

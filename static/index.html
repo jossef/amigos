@@ -10,6 +10,8 @@
 <div class="container" ng-controller="ShellController">
     <h1>Amigos Hi</h1>
 
+    <pre>{{osnat}}</pre>
+
     <ul>
         <li ng-repeat="message in messages | orderBy:'-date'">
             {{ message.date | date:'medium' }} {{ message.message }}
@@ -19,9 +21,9 @@
 </div>
 
 <script src="/static/lib/angular/angular.min.js"></script>
+<script src="/static/lib/angular-route/angular-route.min.js"></script>
 <script src="/static/lib/angular-animate/angular-animate.min.js"></script>
 <script src="/static/lib/angular-bootstrap/ui-bootstrap-tpls.min.js"></script>
-<script src="/static/lib/angular-ui-router/release/angular-ui-router.min.js"></script>
 <script src="/static/lib/angular-socket-io/socket.min.js"></script>
 <script src="/static/lib/socket.io-client/socket.io.js"></script>
 
