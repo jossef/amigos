@@ -9,9 +9,7 @@
         'ngRoute',
 
         // External
-        'ui.bootstrap',
-
-        'btford.socket-io'
+        'ui.bootstrap'
     ]);
 
     // ......................................................
