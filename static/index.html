@@ -15,13 +15,22 @@
 <body ng-app="amigos" layout="column" ng-controller="ShellController as ul">
 
 <div>
+        <md-toolbar layout="row">
+            <div class="md-toolbar-tools">
 
-    <md-toolbar layout="row">
-        <md-button class="menu" ng-click="ul.toggleList()" aria-label="Show User List">
-            <md-icon md-svg-icon="menu"></md-icon>
-        </md-button>
-        <h1>Angular Material - Starter App</h1>
-    </md-toolbar>
+                <md-button class="menu" ng-click="ul.toggleList()" aria-label="Show User List">
+                    <md-icon md-svg-icon="menu"></md-icon>
+                </md-button>
+
+                <span>Amigos</span>
+                <!-- fill up the space between left and right area -->
+                <span flex></span>
+                <md-button>
+                    Right Bar Button
+                </md-button>
+            </div>
+        </md-toolbar>
+
 
     <div flex layout="row">
 
