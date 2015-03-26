@@ -1,32 +1,62 @@
 <!DOCTYPE html>
 <html>
 <head lang="en">
-    <meta charset="UTF-8">
     <title>Amigos</title>
-    <link href="/static/lib/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet" type="text/css"/>
+
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="description" content="">
+    <meta name="viewport" content="initial-scale=1, maximum-scale=1, user-scalable=no"/>
+    <link rel='stylesheet' href='http://fonts.googleapis.com/css?family=Roboto:400,500,700,400italic'>
+    <link href="/static/lib/angular-material/angular-material.css" rel="stylesheet"/>
+    <link href="/static/assets/app.css" rel="stylesheet"/>
+
 </head>
-<body ng-app="amigos">
+<body ng-app="amigos" layout="column" ng-controller="ShellController as ul">
 
-<div class="container" ng-controller="ShellController">
-    <h1>Amigos Hi</h1>
+<div>
 
-    <pre>{{osnat}}</pre>
+    <md-toolbar layout="row">
+        <md-button class="menu" ng-click="ul.toggleList()" aria-label="Show User List">
+            <md-icon md-svg-icon="menu"></md-icon>
+        </md-button>
+        <h1>Angular Material - Starter App</h1>
+    </md-toolbar>
 
-    <ul>
-        <li ng-repeat="message in messages | orderBy:'-date'">
-            {{ message.date | date:'medium' }} {{ message.message }}
-        </li>
-    </ul>
+    <div flex layout="row">
+
+        <md-sidenav  class="md-whiteframe-z2" md-component-id="left">
+            <md-list>
+                <md-item ng-repeat="it in ul.users">
+                    <md-button ng-click="ul.selectUser(it)" ng-class="{'selected' : it === ul.selected }">
+                        <md-icon md-svg-icon="{{it.avatar}}" class="avatar"></md-icon>
+                        {{it.name}}
+                    </md-button>
+                </md-item>
+            </md-list>
+        </md-sidenav>
+
+        <md-content flex id="content">
+            <div ng-view></div>
+        </md-content>
+
+
+    </div>
+
 
 </div>
 
 <script src="/static/lib/angular/angular.min.js"></script>
 <script src="/static/lib/angular-route/angular-route.min.js"></script>
 <script src="/static/lib/angular-animate/angular-animate.min.js"></script>
-<script src="/static/lib/angular-bootstrap/ui-bootstrap-tpls.min.js"></script>
+<script src="/static/lib/angular-aria/angular-aria.min.js"></script>
+<script src="/static/lib/angular-material/angular-material.min.js"></script>
 
-<script src="/static/angular/amigos.js"></script>
-<script src="/static/angular/controllers/shell.js"></script>
+<script src="/static/src/amigos.js"></script>
+<script src="/static/src/home/home-controller.js"></script>
+<script src="/static/src/shell/shell-controller.js"></script>
+<script src="/static/src/users/user-controller.js"></script>
+<script src="/static/src/users/users-service.js"></script>
 
 </body>
 </html>
