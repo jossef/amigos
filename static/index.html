@@ -7,7 +7,9 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="description" content="">
     <meta name="viewport" content="initial-scale=1, maximum-scale=1, user-scalable=no"/>
+<!--
     <link rel='stylesheet' href='http://fonts.googleapis.com/css?family=Roboto:400,500,700,400italic'>
+-->
     <link href="/static/lib/angular-material/angular-material.css" rel="stylesheet"/>
     <link href="/static/assets/app.css" rel="stylesheet"/>
 
@@ -22,10 +24,10 @@
                     <md-icon md-svg-icon="menu"></md-icon>
                 </md-button>
 
-                <span>Amigos</span>
+                <span>Amigos {{name}}</span>
                 <!-- fill up the space between left and right area -->
                 <span flex></span>
-                <md-button>
+                <md-button ng-click="name='hi'">
                     Right Bar Button
                 </md-button>
             </div>
@@ -36,6 +38,13 @@
 
         <md-sidenav  class="md-whiteframe-z2" md-component-id="left">
             <md-list>
+
+                <md-item>
+                    <md-button ng-click="ul.foo()">
+                        Events
+                    </md-button>
+                </md-item>
+
                 <md-item ng-repeat="it in ul.users">
                     <md-button ng-click="ul.selectUser(it)" ng-class="{'selected' : it === ul.selected }">
                         <md-icon md-svg-icon="{{it.avatar}}" class="avatar"></md-icon>
@@ -66,6 +75,8 @@
 <script src="/static/src/shell/shell-controller.js"></script>
 <script src="/static/src/users/user-controller.js"></script>
 <script src="/static/src/users/users-service.js"></script>
+<script src="/static/src/event/events-controller.js"></script>
+<script src="/static/src/event/event-service.js"></script>
 
 </body>
 </html>

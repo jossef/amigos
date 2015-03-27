@@ -17,7 +17,14 @@
                     templateUrl: "/static/src/home/home-view.html",
                     controller: 'HomeController'
                 })
-
+                .when('/users', {
+                    templateUrl: "/static/src/users/user-view.html",
+                    controller: 'UserController'
+                })
+                .when('/events', {
+                    templateUrl: "/static/src/event/events-view.html",
+                    controller: 'EventsController'
+                })
                 .otherwise({
                     redirectTo: '/'
                 });
