@@ -3,28 +3,36 @@
 
     var app = angular.module('amigos');
 
-    app.controller("ShellController", function (userService, $http, $mdSidenav, $mdBottomSheet, $log, $q) {
-        var self = this;
+    app.controller("ShellController", function (userService, $http, $location , $mdSidenav, $mdBottomSheet, $log, $q) {
+        var vm = this;
 
-        self.messages = [];
+        vm.messages = [];
 
         $http.get('/api/hi').success(function (response) {
-            self.osnat = response;
+            vm.osnat = response;
         });
 
-        self.selected = null;
-        self.users = [];
-        self.selectUser = selectUser;
-        self.toggleList = toggleUsersList;
-        self.share = share;
+        vm.foo = function(){
+
+            $location.path('/events');
+
+        };
+
+        // -----------------------
+
+        vm.selected = null;
+        vm.users = [];
+        vm.selectUser = selectUser;
+        vm.toggleList = toggleUsersList;
+        vm.share = share;
 
         // Load all registered users
 
         userService
             .loadAllUsers()
             .then(function (users) {
-                self.users = [].concat(users);
-                self.selected = users[0];
+                vm.users = [].concat(users);
+                vm.selected = users[0];
             });
 
         // *********************************
@@ -48,15 +56,15 @@
          * @param menuId
          */
         function selectUser(user) {
-            self.selected = angular.isNumber(user) ? $scope.users[user] : user;
-            self.toggleList();
+            vm.selected = angular.isNumber(user) ? $scope.users[user] : user;
+            vm.toggleList();
         }
 
         /**
          * Show the bottom sheet
          */
         function share($event) {
-            var user = self.selected;
+            var user = vm.selected;
 
             $mdBottomSheet.show({
                 parent: angular.element(document.getElementById('content')),
