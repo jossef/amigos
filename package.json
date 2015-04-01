@@ -2,6 +2,7 @@
   "name": "amigos",
   "description": "Full-Stack JavaScript with MongoDB, Express, AngularJS, and Node.js",
   "version": "0.0.1",
+  "repository": "https://github.com/Jossef/amigos",
   "author": "Jossef",
   "engines": {
     "node": "0.10.x",
@@ -12,6 +13,12 @@
     "express": "~4.10.1",
     "express-session": "~1.9.1",
     "mongodb": "latest",
+    "passport": "latest",
+    "redis": "latest",
+    "passport-local": "latest",
+    "passport-facebook": "latest",
+    "passport-twitter": "latest",
+    "passport-google": "latest",
     "socket.io": "^1.2.1"
   }
 }
