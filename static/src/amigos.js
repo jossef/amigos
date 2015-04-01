@@ -17,6 +17,10 @@
                     templateUrl: "/static/src/home/home-view.html",
                     controller: 'HomeController'
                 })
+                .when('/newEvent', {
+                    templateUrl: "/static/src/NewEvent/NewEvent-view.html",
+                    controller: 'NewEventController'
+                })
 
                 .otherwise({
                     redirectTo: '/'
