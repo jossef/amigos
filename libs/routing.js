@@ -1,15 +1,28 @@
 (function () {
     'use strict';
 
-    var api = require('./api-handlers');
-    module.exports.setRouting = setRouting;
+    module.exports = {
+        setRouting: setRouting
+    };
 
-    function setRouting(app){
-        app.use('/static/', api.static);
-        app.get("/api/hi", api.hi);
-        app.get("/api/users", api.users);
-        app.get("/api/events", api.events);
-        app.get("/", api.root);
+    // --------------------------------
+
+    var api = require('./api-handlers');
+    var express = require('express');
+    var path = require('path');
+    var common = require('./common');
+
+    var staticFilesHandler = express.static(path.join(common.appDir, 'static'));
+
+    function setRouting(app) {
+        app.use('/static/', staticFilesHandler);
+        app.get('/api/users', api.listUsers);
+        app.post('/api/users', api.addUser);
+        app.get('/api/events', api.events);
+        app.post('/api/login', api.login);
+        app.get('/api/logout', api.logout);
+
+        app.get('/', api.root);
     }
 
 })();
