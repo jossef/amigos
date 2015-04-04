@@ -16,8 +16,11 @@
 
     function setRouting(app) {
         app.use('/static/', staticFilesHandler);
+
         app.get('/api/users', api.listUsers);
-        app.post('/api/users', api.addUser);
+        app.get('/api/users/:id', api.getUser);
+        app.post('/api/users', api.register);
+
         app.get('/api/events', api.events);
         app.post('/api/login', api.login);
         app.get('/api/logout', api.logout);
