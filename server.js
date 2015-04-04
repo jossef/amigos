@@ -14,22 +14,20 @@
     var http = require('http').Server(app);
     var io = require('socket.io')(http);
     var expressSession = require('express-session');
+    var passportLocalMongoose = require('passport-local-mongoose');
+
+    var mongoDBUrl = 'mongodb://127.0.0.1:27017/Amigos';
+    var mongoose = require('mongoose');
+    mongoose.connect(mongoDBUrl);
+
 
     var async = require('asyncawait/async');
     var await = require('asyncawait/await');
 
     // Bootstrapping
     //
-    app.use(expressSession({
-        secret: 'ami$5-aggqas#5967nr_e4ocm9ck2&a+i4r0klzpsp+*zp@myrq^agos',
-        name: 'AMIGOS',
-        proxy: true,
-        resave: true,
-        saveUninitialized: true
-    }));
-    app.use(passport.initialize());
-    app.use(passport.session());
     app.use(bodyParser.json());
+
     app.use(function (req, res, next) {
 
         res.jsonError = function (technicalMessage, userMessage) {
@@ -43,35 +41,21 @@
         next();
     });
 
-    routing.setRouting(app);
+    app.use(expressSession({
+        secret: 'ami$5-aggqas#5967nr_e4ocm9ck2&a+i4r0klzpsp+*zp@myrq^agos',
+        name: 'AMIGOS',
+        proxy: true,
+        resave: true,
+        saveUninitialized: true
+    }));
+    app.use(passport.initialize());
+    app.use(passport.session());
 
-    passport.serializeUser(function (user, done) {
-        done(null, user.username);
-    });
+    //passport.use(data.User.createStrategy());
+    //passport.serializeUser(data.User.serializeUser());
+    //passport.deserializeUser(data.User.deserializeUser());
 
-    passport.deserializeUser(function (username, done) {
-        console.log(username);
-
-        async(function () {
-
-
-            var exists = await(data.isUserExists(username));
-
-            var user = null;
-            if (exists) {
-                user = {username: username};
-            }
-
-            console.log(user);
-            done(err, user);
-
-        });
-
-
-    });
-
-
-    data.init();
+    routing(app, passport);
 
     // Listen
     //

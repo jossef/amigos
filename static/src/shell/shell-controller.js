@@ -8,10 +8,6 @@
 
         vm.messages = [];
 
-        $http.get('/api/hi').success(function (response) {
-            vm.osnat = response;
-        });
-
         vm.foo = function(){
 
             $location.path('/events');
@@ -25,6 +21,7 @@
         vm.selectUser = selectUser;
         vm.toggleList = toggleUsersList;
         vm.share = share;
+        vm.login = login;
 
         // Load all registered users
 
@@ -51,10 +48,10 @@
             });
         }
 
-        /**
-         * Select the current avatars
-         * @param menuId
-         */
+        function login() {
+            $location.path('/login');
+        }
+
         function selectUser(user) {
             vm.selected = angular.isNumber(user) ? $scope.users[user] : user;
             vm.toggleList();

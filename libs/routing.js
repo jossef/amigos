@@ -1,12 +1,6 @@
 (function () {
     'use strict';
 
-    module.exports = {
-        setRouting: setRouting
-    };
-
-    // --------------------------------
-
     var api = require('./api-handlers');
     var express = require('express');
     var path = require('path');
@@ -14,7 +8,8 @@
 
     var staticFilesHandler = express.static(path.join(common.appDir, 'static'));
 
-    function setRouting(app) {
+    module.exports = function(app, passport) {
+
         app.use('/static/', staticFilesHandler);
 
         app.get('/api/users', api.listUsers);
@@ -27,5 +22,4 @@
 
         app.get('/', api.root);
     }
-
 })();

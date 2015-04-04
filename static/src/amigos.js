@@ -21,13 +21,13 @@
                     templateUrl: "/static/src/users/user-view.html",
                     controller: 'UserController'
                 })
+                .when('/login', {
+                    templateUrl: "/static/src/login/login-view.html",
+                    controller: 'LoginController'
+                })
                 .when('/events', {
                     templateUrl: "/static/src/event/events-view.html",
                     controller: 'EventsController'
-                })
-                .when('/newEvent', {
-                    templateUrl: "/static/src/NewEvent/NewEvent-view.html",
-                    controller: 'NewEventController'
                 })
                 .otherwise({
                     redirectTo: '/'
@@ -68,7 +68,12 @@
             .icon("phone", "/static/assets/svg/phone.svg", 512);
 
         $mdThemingProvider.theme('default')
-            .primaryPalette('blue')
+            .primaryPalette('teal', {
+                'default': '500', // by default use shade 400 from the pink palette for primary intentions
+                'hue-1': '100', // use shade 100 for the <code>md-hue-1</code> class
+                'hue-2': '600', // use shade 600 for the <code>md-hue-2</code> class
+                'hue-3': 'A100' // use shade A100 for the <code>md-hue-3</code> class
+            })
             .accentPalette('red');
     });
 

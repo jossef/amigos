@@ -22,9 +22,12 @@
     "q": "latest",
     "async": "latest",
     "passport-local": "latest",
+    "passport-local-mongoose": "latest",
     "passport-facebook": "latest",
+    "bcrypt-nodejs": "latest",
     "passport-twitter": "latest",
     "passport-google": "latest",
+    "passport-google-oauth": "latest",
     "socket.io": "^1.2.1"
   }
 }

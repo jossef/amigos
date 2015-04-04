@@ -8,8 +8,7 @@
     var path = require('path');
     module.exports.appDir = getApplicationDirectory();
 
-    function getApplicationDirectory()
-    {
+    function getApplicationDirectory() {
         return path.dirname(require.main.filename);
     }
 

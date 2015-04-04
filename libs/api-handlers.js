@@ -2,6 +2,7 @@
     'use strict';
 
     var express = require('express');
+    var passport = require('passport');
     var path = require('path');
     var common = require('./common');
     var data = require('./data');
@@ -27,6 +28,7 @@
             }
             catch (e) {
                 console.log(e.message);
+                console.log(e.stack);
                 response.jsonError(e.message);
             }
         })();
@@ -85,7 +87,7 @@
                 return response.jsonError('Username already registered')
             }
 
-            await(data.addUser(user));
+            await(data.register(user.username, user.password));
             response.json();
         });
     }
@@ -104,7 +106,7 @@
         }
 
         request.login(user, function (err) {
-            return response.json({user: request.user, err: err});
+            return response.json({user: request.user, err: err ,'ist': request.isAuthenticated()});
         });
 
     }

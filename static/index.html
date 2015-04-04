@@ -7,60 +7,116 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="description" content="">
     <meta name="viewport" content="initial-scale=1, maximum-scale=1, user-scalable=no"/>
-<!--
     <link rel='stylesheet' href='http://fonts.googleapis.com/css?family=Roboto:400,500,700,400italic'>
--->
     <link href="/static/lib/angular-material/angular-material.css" rel="stylesheet"/>
-    <link href="/static/assets/app.css" rel="stylesheet"/>
 
+    <style>
+        html {
+
+        }
+
+        body {
+            background: #eee !important;
+
+        }
+
+        @media (min-width: 1000px) {
+
+            body {
+                box-shadow: inset 0 127px 0px #004D40;
+            }
+
+            .layout {
+                margin-top: 20px;
+                margin-bottom: 20px;
+                width: 1000px;
+                margin-left: auto;
+                margin-right: auto;
+            }
+
+        }
+
+        md-content {
+            background: transparent !important;
+        }
+
+        .layout {
+            background: #eeeeee !important;
+
+        }
+
+        md-card {
+            background: #fff !important;
+        }
+
+        md-toolbar {
+            box-shadow: none !important;
+        }
+
+        .layout {
+            max-width: 1200px;
+        }
+    </style>
 </head>
-<body ng-app="amigos" layout="column" ng-controller="ShellController as ul">
-
-<div>
-        <md-toolbar layout="row">
-            <div class="md-toolbar-tools">
-
-                <md-button class="menu" ng-click="ul.toggleList()" aria-label="Show User List">
-                    <md-icon md-svg-icon="menu"></md-icon>
-                </md-button>
-
-                <span>Amigos {{name}}</span>
-                <!-- fill up the space between left and right area -->
-                <span flex></span>
-                <md-button ng-click="name='hi'">
-                    Right Bar Button
-                </md-button>
-            </div>
-        </md-toolbar>
 
 
-    <div flex layout="row">
+<body ng-app="amigos" layout="column" ng-controller="ShellController as shellCtrl">
 
-        <md-sidenav  class="md-whiteframe-z2" md-component-id="left">
-            <md-list>
 
-                <md-item>
-                    <md-button ng-click="ul.foo()">
+<div layout="column" flex class="layout md-whiteframe-z5">
+
+
+    <md-toolbar layout="row" class="main-toolbar">
+        <div class="md-toolbar-tools">
+
+            <md-button class="menu" ng-click="shellCtrl.toggleList()" aria-label="Show User List">
+                <md-icon md-svg-icon="menu"></md-icon>
+            </md-button>
+
+            <span>Amigos {{name}}</span>
+            <!-- fill up the space between left and right area -->
+            <span flex></span>
+
+            <md-button ng-click="shellCtrl.login()">
+                Login
+            </md-button>
+        </div>
+
+    </md-toolbar>
+
+    <md-content layout="column" flex>
+
+        <md-sidenav class="md-whiteframe-z2" md-component-id="left">
+
+
+            <md-list layout="column">
+
+
+                <div layout="column" layout-align="center" ng-click="shellCtrl.toggleList()" >
+                    <md-button layout="row" class="md-primary" ng-href="/#/" >
+                        <span >Home</span>
+                        <span flex></span>
+                    </md-button>
+                    <div class="gap"></div>
+                    <md-button layout="row" class="md-primary" ng-href="/#/events">
                         Events
-                    </md-button>
-                </md-item>
+                        <span flex></span>
 
-                <md-item ng-repeat="it in ul.users">
-                    <md-button ng-click="ul.selectUser(it)" ng-class="{'selected' : it === ul.selected }">
-                        <md-icon md-svg-icon="{{it.avatar}}" class="avatar"></md-icon>
-                        {{it.name}}
                     </md-button>
-                </md-item>
+                    <div class="gap"></div>
+                    <md-button layout="row" class="md-primary" ng-click="showAdvanced($event)">
+                        Custom Dialog
+                        <span flex></span>
+
+                    </md-button>
+                </div>
+
+
             </md-list>
         </md-sidenav>
 
-        <md-content flex id="content">
-            <div ng-view></div>
-        </md-content>
-
-
-    </div>
-
+        <md-content ng-view layout="column" flex></md-content>
+    </md-content>
 
 </div>
 
@@ -72,12 +128,16 @@
 
 <script src="/static/src/amigos.js"></script>
 <script src="/static/src/home/home-controller.js"></script>
-<script src="/static/src/home/NewEvent-controller.js"></script>
 <script src="/static/src/shell/shell-controller.js"></script>
 <script src="/static/src/users/user-controller.js"></script>
 <script src="/static/src/users/users-service.js"></script>
 <script src="/static/src/event/events-controller.js"></script>
 <script src="/static/src/event/event-service.js"></script>
+<script src="/static/src/login/login-controller.js"></script>
+<script src="/static/src/login/login-service.js"></script>
 
 </body>
 </html>
+
+
+
