@@ -3,44 +3,15 @@
 
     var app = angular.module('amigos');
 
-    app.controller("ShellController", function (userService, $http, $location , $mdSidenav, $mdBottomSheet, $log, $q) {
+    app.controller("ShellController", function ($http, $location , $mdSidenav, $mdBottomSheet, $log, $q) {
         var vm = this;
 
         vm.messages = [];
 
-        vm.foo = function(){
-
-            $location.path('/events');
-
-        };
-
-        // -----------------------
-
-        vm.selected = null;
-        vm.users = [];
-        vm.selectUser = selectUser;
-        vm.toggleList = toggleUsersList;
+        vm.toggleSideMenu = toggleSideMenu;
         vm.share = share;
-        vm.login = login;
 
-        // Load all registered users
-
-        userService
-            .loadAllUsers()
-            .then(function (users) {
-                vm.users = [].concat(users);
-                vm.selected = users[0];
-            });
-
-        // *********************************
-        // Internal methods
-        // *********************************
-
-        /**
-         * First hide the bottomsheet IF visible, then
-         * hide or Show the 'left' sideNav area
-         */
-        function toggleUsersList() {
+        function toggleSideMenu() {
             var pending = $mdBottomSheet.hide() || $q.when(true);
 
             pending.then(function () {
@@ -52,14 +23,6 @@
             $location.path('/login');
         }
 
-        function selectUser(user) {
-            vm.selected = angular.isNumber(user) ? $scope.users[user] : user;
-            vm.toggleList();
-        }
-
-        /**
-         * Show the bottom sheet
-         */
         function share($event) {
             var user = vm.selected;
 

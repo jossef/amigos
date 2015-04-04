@@ -45,11 +45,11 @@
         // TODO: get from db or something
         var events = [];
 
-        events.push({name: 'asd1'});
-        events.push({name: 'asd2'});
-        events.push({name: 'asd3'});
-        events.push({name: 'asd4'});
-        events.push({name: 'asd5'});
+        events.push({id: 1, organizer: 'John', date: '2015-05-13', name: 'Social Meeting'});
+        events.push({id: 2, organizer: 'Naila', date: '2015-05-13', name: 'BBQ'});
+        events.push({id: 3, organizer: 'Qeraz', date: '2015-05-13', name: 'Birthday'});
+        events.push({id: 4, organizer: 'Seala', date: '2015-05-13', name: 'Meetup'});
+        events.push({id: 5, organizer: 'Poealo', date: '2015-05-13', name: 'Friends @ Beach'});
 
         response.json(events);
     }
@@ -106,7 +106,7 @@
         }
 
         request.login(user, function (err) {
-            return response.json({user: request.user, err: err ,'ist': request.isAuthenticated()});
+            return response.json({user: request.user, err: err, 'ist': request.isAuthenticated()});
         });
 
     }

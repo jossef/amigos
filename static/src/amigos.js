@@ -4,7 +4,8 @@
     var app = angular.module('amigos', [
         'ngAnimate',
         'ngRoute',
-        'ngMaterial'
+        'ngMaterial',
+        'ngMdIcons'
     ]);
 
     // ......................................................

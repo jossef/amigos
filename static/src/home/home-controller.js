@@ -3,11 +3,22 @@
 
     var app = angular.module('amigos');
 
-    app.controller("HomeController", function ($scope, $mdDialog) {
+    app.controller("HomeController", function ($scope, $mdBottomSheet, $mdDialog) {
         var vm = $scope;
 
         vm.alert = '';
 
+        vm.share = function(){
+
+            $mdBottomSheet.show({
+                templateUrl: '/static/src/users/user-view.html',
+                bindToController: true,
+            }).then(function (clickedItem) {
+                clickedItem && $log.debug(clickedItem.name + ' clicked!');
+            });
+
+
+        };
         vm.showAlert = function (ev) {
             // Appending dialog to document.body to cover sidenav in docs app
             // Modal dialogs should fully cover application
@@ -21,6 +32,9 @@
             alert = alert.targetEvent(ev);
 
             $mdDialog.show(alert);
+
+
+
         };
     });
 

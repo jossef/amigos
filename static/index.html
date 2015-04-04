@@ -63,13 +63,13 @@
 <body ng-app="amigos" layout="column" ng-controller="ShellController as shellCtrl">
 
 
-<div layout="column" flex class="layout md-whiteframe-z5">
+<div layout="column" flex class="layout md-whiteframe-z5" id="layout">
 
 
     <md-toolbar layout="row" class="main-toolbar">
         <div class="md-toolbar-tools">
 
-            <md-button class="menu" ng-click="shellCtrl.toggleList()" aria-label="Show User List">
+            <md-button class="menu" ng-click="shellCtrl.toggleSideMenu()" aria-label="Show menu">
                 <md-icon md-svg-icon="menu"></md-icon>
             </md-button>
 
@@ -77,7 +77,7 @@
             <!-- fill up the space between left and right area -->
             <span flex></span>
 
-            <md-button ng-click="shellCtrl.login()">
+            <md-button ng-href="/#/login">
                 Login
             </md-button>
         </div>
@@ -92,7 +92,7 @@
             <md-list layout="column">
 
 
-                <div layout="column" layout-align="center" ng-click="shellCtrl.toggleList()" >
+                <div layout="column" layout-align="center" ng-click="shellCtrl.toggleSideMenu()" >
                     <md-button layout="row" class="md-primary" ng-href="/#/" >
                         <span >Home</span>
                         <span flex></span>
@@ -125,6 +125,7 @@
 <script src="/static/lib/angular-animate/angular-animate.min.js"></script>
 <script src="/static/lib/angular-aria/angular-aria.min.js"></script>
 <script src="/static/lib/angular-material/angular-material.min.js"></script>
+<script src="//cdn.jsdelivr.net/angular-material-icons/0.4.0/angular-material-icons.min.js"></script>
 
 <script src="/static/src/amigos.js"></script>
 <script src="/static/src/home/home-controller.js"></script>
