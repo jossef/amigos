@@ -58,6 +58,8 @@
         .layout {
             max-width: 1200px;
         }
+
+
     </style>
 </head>
 
@@ -65,38 +67,44 @@
 <body ng-app="amigos" layout="column" ng-controller="ShellController as shellCtrl">
 
 
-<div layout="column" flex class="layout " id="layout">
-
-
-    <md-toolbar layout="row" class="main-toolbar">
-        <div class="md-toolbar-tools">
-
-            <md-button class="menu" ng-click="shellCtrl.toggleSideMenu()" aria-label="Show menu">
-                <md-icon md-svg-icon="menu"></md-icon>
-            </md-button>
-
-            <span>Amigos {{name}}</span>
-            <!-- fill up the space between left and right area -->
-            <span flex></span>
-
-            <md-button ng-click="shellCtrl.login()">
-                Login
-            </md-button>
-        </div>
-
-    </md-toolbar>
+<div layout="column" flex class="layout" id="layout">
 
     <md-content layout="column" flex>
 
         <md-sidenav class="md-whiteframe-z2" md-component-id="left">
 
+            <md-toolbar layout="row" class="main-toolbar">
+                <div class="md-toolbar-tools">
+
+                    <md-button class="menu" ng-click="shellCtrl.toggleSideMenu()" aria-label="Show menu">
+                        <md-icon md-svg-icon="menu"></md-icon>
+                    </md-button>
+
+                    <span>Close</span>
+
+                </div>
+
+            </md-toolbar>
+
+
+            <md-content class="md-padding">
+                <md-list>
+                    <md-subheader class="md-no-sticky">3 line item</md-subheader>
+                    <md-list-item layout="row">
+                        <p>oh dear</p>
+                        <span flex></span>
+                        <md-checkbox></md-checkbox>
+                        <md-icon class="md-secondary" ng-click="doSecondaryAction()" aria-label="Chat" md-svg-icon="communication:message"></md-icon>
+                    </md-list-item>
+                </md-list>
+            </md-content>
 
             <md-list layout="column">
 
 
-                <div layout="column" layout-align="center" ng-click="shellCtrl.toggleSideMenu()" >
-                    <md-button layout="row" class="md-primary" ng-href="/#/" >
-                        <span >Home</span>
+                <div layout="column" layout-align="center" ng-click="shellCtrl.toggleSideMenu()">
+                    <md-button layout="row" class="md-primary" ng-href="/#/">
+                        <span>Home</span>
                         <span flex></span>
                     </md-button>
                     <div class="gap"></div>
@@ -117,7 +125,28 @@
             </md-list>
         </md-sidenav>
 
-        <md-content ng-view layout="column" flex></md-content>
+        <md-toolbar layout="row" class="main-toolbar">
+            <div class="md-toolbar-tools">
+
+                <md-button class="menu" ng-click="shellCtrl.toggleSideMenu()" aria-label="Show menu">
+                    <md-icon md-svg-icon="menu"></md-icon>
+                </md-button>
+
+                <span>Amigos</span>
+                <!-- fill up the space between left and right area -->
+                <span flex></span>
+
+                <md-button ng-click="shellCtrl.login()">
+                    Login
+                </md-button>
+            </div>
+
+        </md-toolbar>
+
+        <md-content layout="column" flex>
+
+            <md-content ng-view layout="column" flex></md-content>
+        </md-content>
     </md-content>
 
 </div>
