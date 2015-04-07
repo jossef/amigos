@@ -10,6 +10,7 @@
   },
   "dependencies": {
     "chalk": "latest",
+    "morgan": "latest",
     "express": "~4.10.1",
     "express-session": "~1.9.1",
     "body-parser": "latest",
@@ -18,6 +19,7 @@
     "mongoose": "latest",
     "passport": "latest",
     "redis": "latest",
+    "openid": "latest",
     "asyncawait": "latest",
     "q": "latest",
     "async": "latest",

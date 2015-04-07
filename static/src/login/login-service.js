@@ -13,9 +13,9 @@
         // ............
 
 
-        function login(username,password) {
+        function login(email,password) {
             var data = {
-                username: username,
+                email: email,
                 password: password
             };
 

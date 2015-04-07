@@ -5,7 +5,10 @@
     var expressIPAddress = '0.0.0.0';
 
     var chalk = require('chalk');
+    var morgan = require('morgan');
     var routing = require('./libs/routing');
+    var cookieParser = require('cookie-parser');
+
     var data = require('./libs/data');
     var express = require('express');
     var passport = require('passport');
@@ -13,20 +16,20 @@
     var app = express();
     var http = require('http').Server(app);
     var io = require('socket.io')(http);
-    var expressSession = require('express-session');
+    var session = require('express-session');
     var passportLocalMongoose = require('passport-local-mongoose');
 
-    var mongoDBUrl = 'mongodb://127.0.0.1:27017/Amigos';
     var mongoose = require('mongoose');
-    mongoose.connect(mongoDBUrl);
+    var configDB = require('./config/database.js');
 
-
-    var async = require('asyncawait/async');
-    var await = require('asyncawait/await');
+    mongoose.connect(configDB.url); // connect to our database
 
     // Bootstrapping
     //
-    app.use(bodyParser.json());
+
+    app.use(morgan('dev')); // log every request to the console
+    app.use(cookieParser()); // read cookies (needed for auth)
+    app.use(bodyParser.json(null));
 
     app.use(function (req, res, next) {
 
@@ -41,7 +44,7 @@
         next();
     });
 
-    app.use(expressSession({
+    app.use(session({
         secret: 'ami$5-aggqas#5967nr_e4ocm9ck2&a+i4r0klzpsp+*zp@myrq^agos',
         name: 'AMIGOS',
         proxy: true,
@@ -50,6 +53,8 @@
     }));
     app.use(passport.initialize());
     app.use(passport.session());
+
+    require('./config/passport')(passport); // pass passport for configuration
 
     //passport.use(data.User.createStrategy());
     //passport.serializeUser(data.User.serializeUser());
@@ -61,5 +66,6 @@
     //
     http.listen(expressPort, expressIPAddress);
     console.log(chalk.bold.yellow('LISTENING'), 'express', chalk.cyan(expressIPAddress), chalk.cyan(expressPort));
+
 
 })();

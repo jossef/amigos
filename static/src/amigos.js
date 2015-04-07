@@ -4,41 +4,14 @@
     var app = angular.module('amigos', [
         'ngAnimate',
         'ngRoute',
-        'ngMaterial',
-        'ngMdIcons'
+        'ngMessages',
+        'ngMaterial'
     ]);
 
-    // ......................................................
-    // SPA URL Route states
-    app.config(
-        function ($routeProvider) {
 
-            $routeProvider
-                .when('/', {
-                    templateUrl: "/static/src/home/home-view.html",
-                    controller: 'HomeController'
-                })
-                .when('/users', {
-                    templateUrl: "/static/src/users/user-view.html",
-                    controller: 'UserController'
-                })
-                .when('/login', {
-                    templateUrl: "/static/src/login/login-view.html",
-                    controller: 'LoginController'
-                })
-                .when('/events', {
-                    templateUrl: "/static/src/event/events-view.html",
-                    controller: 'EventsController'
-                })
-                .otherwise({
-                    redirectTo: '/'
-                });
-        });
-
-    // ......................................................
-    // Promises Fix
     app.config(
         function ($provide) {
+
             $provide.decorator('$q', function ($delegate) {
                 var defer = $delegate.defer;
                 $delegate.defer = function () {
@@ -56,6 +29,7 @@
                 return $delegate;
             });
         });
+
 
     app.config(function ($mdThemingProvider, $mdIconProvider) {
 
