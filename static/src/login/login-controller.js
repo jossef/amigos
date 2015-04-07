@@ -17,7 +17,7 @@
                     commonService.redirect('home');
                 })
                 .error(function(error){
-                    commonService.showAlert("login failed", error.userMessage);
+                    commonService.showAlert("Damn", error.userMessage);
                 });
         };
 

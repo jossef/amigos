@@ -3,10 +3,11 @@
 
     var app = angular.module('amigos');
 
-    app.controller("ShellController", function ($http, $location, $mdSidenav, $mdBottomSheet, $log, $q) {
+    app.controller("ShellController", function ($http, commonService, $mdSidenav, $mdBottomSheet, $log, $q) {
         var vm = this;
 
         vm.messages = [];
+        vm.login = login;
 
         vm.toggleSideMenu = toggleSideMenu;
 
@@ -19,7 +20,7 @@
         }
 
         function login() {
-            $location.path('/login');
+            commonService.redirect('login');
         }
 
     });

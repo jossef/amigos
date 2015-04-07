@@ -19,7 +19,6 @@
             alert = alert.title(title);
             alert = alert.content(content);
             alert = alert.ok('Got it!');
-            alert = alert.targetEvent($event);
 
             $mdDialog.show(alert);
         }
