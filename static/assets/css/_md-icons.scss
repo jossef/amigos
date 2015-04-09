@@ -1,0 +1,22 @@
+
+@import "../../lib/material-design-iconic-font/scss/variables";
+
+// https://github.com/zavoloklom/material-design-iconic-font/issues/28
+$md-css-prefix: mdi;
+$md-font-path: "../../lib/material-design-iconic-font/fonts";
+
+@import "../../lib/material-design-iconic-font/scss/mixins";
+@import "../../lib/material-design-iconic-font/scss/path";
+@import "../../lib/material-design-iconic-font/scss/core";
+@import "../../lib/material-design-iconic-font/scss/sizes";
+@import "../../lib/material-design-iconic-font/scss/border";
+@import "../../lib/material-design-iconic-font/scss/pulled";
+@import "../../lib/material-design-iconic-font/scss/spinned";
+@import "../../lib/material-design-iconic-font/scss/rotated";
+@import "../../lib/material-design-iconic-font/scss/icons";
+
+
+md-icon{
+  font-size: 24px !important;
+  line-height: 24px;
+}

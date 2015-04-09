@@ -7,11 +7,13 @@
     var data = require('./data');
     var async = require('asyncawait/async');
     var await = require('asyncawait/await');
+    var fb = require('fb');
 
     module.exports = {
         root: root,
         listUsers: listUsers,
         getUser: getUser,
+        getFriends: getFriends,
         events: events
     };
 
@@ -62,6 +64,18 @@
             var username = request.params.id;
             var user = await(data.getUser(username));
             response.json(user);
+        });
+    }
+
+    function getFriends(request, response) {
+        apiHandler(request, response, function () {
+
+            if (!request.isAuthenticated())
+            {
+                throw new Error('yo, uncool.');
+            }
+
+            response.json(request.user);
         });
     }
 

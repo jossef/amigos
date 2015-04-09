@@ -16,9 +16,7 @@
                     commonService.showMessage("Logged in successfully");
                     commonService.redirect('home');
                 })
-                .error(function(error){
-                    commonService.showAlert("Damn", error.userMessage);
-                });
+                .error(commonService.errorHandler);
         };
 
     });

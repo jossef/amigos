@@ -16,10 +16,14 @@
         app.get('/api/users', api.listUsers);
         app.get('/api/users/:id', api.getUser);
         app.get('/api/events', api.events);
+        app.get('/api/friends', api.getFriends);
 
         app.post('/api/register', authentication.register);
         app.post('/api/login', authentication.login);
         app.get('/api/logout', authentication.logout);
+
+        app.get('/auth/facebook', authentication.facebookAuth);
+        app.get('/auth/facebook/callback', authentication.facebookAuthCallback);
 
         app.get('/', api.root);
     }

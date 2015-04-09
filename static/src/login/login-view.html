@@ -1,38 +1,66 @@
-<md-content>
-    <md-card style="max-width: 500px;">
-        <md-content flex class="md-padding">
-            <form name="loginForm" novalidate>
+<md-content layout="row">
+    <md-content flex></md-content>
+    <md-content style="width: 500px;">
+        <md-card style="max-width: 500px;">
 
-                <md-input-container>
-                    <label>Email</label>
-                    <input md-maxlength="50" required name="email" type="email" ng-model="email">
+                <md-content class="md-padding" flex>
 
-                    <div ng-messages="loginForm.email.$error">
-                        <div ng-message="required">This is required</div>
-                        <div ng-message="email">Hey! this ain't no valid email</div>
-                        <div ng-message="md-maxlength">Yo! needs to be less than 50 characters long</div>
-                    </div>
-                </md-input-container>
 
-                <md-input-container>
-                    <label>Password</label>
-                    <input type="password" name="password" required ng-model="password">
+                    <form name="loginForm" novalidate>
 
-                    <div ng-messages="loginForm.password.$error">
-                        <div ng-message="required">This is required</div>
-                    </div>
+                        <md-input-container>
+                            <label>Email </label>
+                            <input md-maxlength="50" required name="email" type="email" ng-model="email">
 
-                </md-input-container>
+                            <div ng-messages="loginForm.email.$error">
+                                <div ng-message="required">This is required</div>
+                                <div ng-message="email">Hey! this ain't no valid email</div>
+                                <div ng-message="md-maxlength">Yo! needs to be less than 50 characters long</div>
+                            </div>
+                        </md-input-container>
 
-                <div layout="row">
-                    <span flex></span>
-                    <md-button ng-disabled="!loginForm.$valid" class="md-raised md-primary" ng-click="login()">
-                        sign in
-                    </md-button>
-                </div>
-            </form>
+                        <md-input-container>
+                            <label>Password</label>
+                            <input type="password" name="password" required ng-model="password">
 
-        </md-content>
-    </md-card>
+                            <div ng-messages="loginForm.password.$error">
+                                <div ng-message="required">This is required</div>
+                            </div>
+
+                        </md-input-container>
+
+                        <md-content layout="row">
+
+
+
+                            <md-content layout="row">
+                                <md-button ng-href="/auth/facebook" ng-click="shell.loading=true">
+
+                                    <md-icon md-svg-icon="facebook"></md-icon>
+                                </md-button>
+                                <md-button ng-href="/auth/google">
+                                    <md-icon md-svg-icon="google_plus"></md-icon>
+                                </md-button>
+                                <md-button ng-href="/auth/twitter">
+                                    <md-icon md-svg-icon="twitter"></md-icon>
+                                </md-button>
+
+                            </md-content>
+                            <span flex></span>
+                            <md-button ng-disabled="!loginForm.$valid" class="md-raised md-primary" ng-click="login()">
+                                sign in
+                            </md-button>
+                        </md-content>
+
+                    </form>
+                </md-content>
+
+
+            <md-divider></md-divider>
+
+
+        </md-card>
+    </md-content>
+    <md-content flex></md-content>
 
 </md-content>

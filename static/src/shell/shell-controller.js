@@ -8,6 +8,7 @@
 
         vm.messages = [];
         vm.login = login;
+        vm.redirect = redirect;
 
         vm.toggleSideMenu = toggleSideMenu;
 
@@ -22,6 +23,12 @@
         function login() {
             commonService.redirect('login');
         }
+
+        function redirect(name){
+            commonService.redirect(name);
+            $mdSidenav('left').close();
+        }
+
 
     });
 

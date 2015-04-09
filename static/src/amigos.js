@@ -38,6 +38,7 @@
             .icon("menu", "/static/assets/svg/menu.svg", 24)
             .icon("share", "/static/assets/svg/share.svg", 24)
             .icon("google_plus", "/static/assets/svg/google_plus.svg", 512)
+            .icon("facebook", "/static/assets/svg/facebook.svg", 512)
             .icon("hangouts", "/static/assets/svg/hangouts.svg", 512)
             .icon("twitter", "/static/assets/svg/twitter.svg", 512)
             .icon("phone", "/static/assets/svg/phone.svg", 512);

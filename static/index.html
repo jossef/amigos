@@ -9,147 +9,13 @@
     <meta name="viewport" content="initial-scale=1, maximum-scale=1, user-scalable=no"/>
     <link rel='stylesheet' href='http://fonts.googleapis.com/css?family=Roboto:400,500,700,400italic'>
     <link href="/static/lib/angular-material/angular-material.css" rel="stylesheet"/>
-
-    <style>
-        html {
-
-        }
-
-        body {
-            background: #eee !important;
-
-        }
-
-        @media (min-width: 1000px) {
-
-            body {
-                box-shadow: inset 0 127px 0 #004D40;
-            }
-
-            .layout {
-                margin-top: 20px;
-                margin-bottom: 20px;
-                width: 1000px;
-                margin-left: auto;
-                margin-right: auto;
-            }
-
-        }
-
-        md-content {
-            background: transparent !important;
-        }
-
-        .layout {
-            background: #eeeeee !important;
-
-        }
-
-        md-card {
-            background: #fff !important;
-            margin-left: 0;
-            margin-right: 0;
-        }
-
-        md-toolbar {
-            box-shadow: none !important;
-        }
-
-        .layout {
-            max-width: 1200px;
-        }
-
-
-    </style>
+    <link href="/static/assets/css/style.css" rel="stylesheet"/>
 </head>
 
 
-<body ng-app="amigos" layout="column" ng-controller="ShellController as shellCtrl">
+<body ng-app="amigos" layout="column" >
 
-
-<div layout="column" flex class="layout" id="layout">
-
-    <md-content layout="column" flex>
-
-        <md-sidenav class="md-whiteframe-z2" md-component-id="left">
-
-            <md-toolbar layout="row" class="main-toolbar">
-                <div class="md-toolbar-tools">
-
-                    <md-button class="menu" ng-click="shellCtrl.toggleSideMenu()" aria-label="Show menu">
-                        <md-icon md-svg-icon="menu"></md-icon>
-                    </md-button>
-
-                    <span>Close</span>
-
-                </div>
-
-            </md-toolbar>
-
-
-            <md-content class="md-padding">
-                <md-list>
-                    <md-subheader class="md-no-sticky">3 line item</md-subheader>
-                    <md-list-item layout="row">
-                        <p>oh dear</p>
-                        <span flex></span>
-                        <md-checkbox></md-checkbox>
-                        <md-icon class="md-secondary" ng-click="doSecondaryAction()" aria-label="Chat" md-svg-icon="communication:message"></md-icon>
-                    </md-list-item>
-                </md-list>
-            </md-content>
-
-            <md-list layout="column">
-
-
-                <div layout="column" layout-align="center" ng-click="shellCtrl.toggleSideMenu()">
-                    <md-button layout="row" class="md-primary" ng-href="/#/">
-                        <span>Home</span>
-                        <span flex></span>
-                    </md-button>
-                    <div class="gap"></div>
-                    <md-button layout="row" class="md-primary" ng-href="/#/events">
-                        Events
-                        <span flex></span>
-
-                    </md-button>
-                    <div class="gap"></div>
-                    <md-button layout="row" class="md-primary" ng-click="showAdvanced($event)">
-                        Custom Dialog
-                        <span flex></span>
-
-                    </md-button>
-                </div>
-
-
-            </md-list>
-        </md-sidenav>
-
-        <md-toolbar layout="row" class="main-toolbar">
-            <div class="md-toolbar-tools">
-
-                <md-button class="menu" ng-click="shellCtrl.toggleSideMenu()" aria-label="Show menu">
-                    <md-icon md-svg-icon="menu"></md-icon>
-                </md-button>
-
-                <span>Amigos</span>
-                <!-- fill up the space between left and right area -->
-                <span flex></span>
-
-                <md-button ng-click="shellCtrl.login()">
-                    Login
-                </md-button>
-            </div>
-
-        </md-toolbar>
-
-        <md-content layout="column" flex>
-
-            <md-content ng-view layout="column" flex></md-content>
-        </md-content>
-    </md-content>
-
-</div>
+<shell-view></shell-view>
 
 <script src="/static/lib/angular/angular.min.js"></script>
 <script src="/static/lib/angular-route/angular-route.min.js"></script>
@@ -164,6 +30,7 @@
 <script src="/static/src/common-service.js"></script>
 <script src="/static/src/home/home-controller.js"></script>
 <script src="/static/src/shell/shell-controller.js"></script>
+<script src="/static/src/shell/shell-directive.js"></script>
 <script src="/static/src/events/events-controller.js"></script>
 <script src="/static/src/events/event-service.js"></script>
 <script src="/static/src/login/login-controller.js"></script>

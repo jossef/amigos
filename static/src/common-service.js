@@ -10,6 +10,7 @@
         return {
             showMessage: showMessage,
             showAlert: showAlert,
+            errorHandler: errorHandler,
             redirect: redirect
         };
 
@@ -31,6 +32,15 @@
                     .position('bottom')
                     .hideDelay(3000)
             );
+        }
+
+        function errorHandler(error)
+        {
+            // TODO perhaps show error messages for each case;
+            //      e.g. internet connectivity error
+
+            var message = (error && error.userMessage) || 'Oops! that operation just failed :(';
+            showAlert("Failed", message);
         }
 
         function redirect(name) {

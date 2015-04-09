@@ -1,13 +1,16 @@
 (function () {
     'use strict';
 
+    var passport = require('passport');
+    var callbackConfig = {successRedirect: '/', failureRedirect: '/'};
+
     module.exports = {
         register: register,
         login: login,
-        logout: logout
+        logout: logout,
+        facebookAuth: passport.authenticate('facebook', {scope: 'email'}),
+        facebookAuthCallback: passport.authenticate('facebook', callbackConfig )
     };
-    var passport = require('passport');
-
 
     function register(req, res, next) {
 
