@@ -2,9 +2,10 @@ html {
 
 }
 
-body {
-  background: #eee !important;
+$background: #ECECEC;
 
+body {
+  background-color: $background !important;
 }
 
 @media (min-width: 1000px) {
@@ -28,14 +29,15 @@ md-content {
 }
 
 .layout {
-  background: #eeeeee !important;
+  background: $background !important;
 
 }
 
 md-card {
   background: #fff !important;
-  margin-left: 0;
-  margin-right: 0;
+  margin:0;
+  border-radius: 0  !important;
+  box-shadow: 0 1px 4px 0 rgba(0, 0, 0, 0.26);
 }
 
 md-toolbar {
@@ -46,5 +48,16 @@ md-toolbar {
   max-width: 1200px;
 }
 
+.md-caption{
+  color: #999;
+  font-size: 0.9em;
+  font-weight: 700;
+  line-height: 0.1em;
+  display: block;
+}
+
+.md-tab-content{
+  padding-bottom: 5px;
+}
 
 

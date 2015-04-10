@@ -3,12 +3,16 @@
 
     var app = angular.module('amigos');
 
-    app.controller("ShellController", function ($http, commonService, $mdSidenav, $mdBottomSheet, $log, $q) {
+    app.controller("ShellController", function ($scope, $http, commonService, $mdSidenav, $mdBottomSheet, $log, $q) {
         var vm = this;
 
         vm.messages = [];
         vm.login = login;
         vm.redirect = redirect;
+
+        $scope.$watch(commonService.getTheme, function(theme){
+            vm.theme = theme;
+        });
 
         vm.toggleSideMenu = toggleSideMenu;
 

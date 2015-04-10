@@ -20,3 +20,31 @@ md-icon{
   font-size: 24px !important;
   line-height: 24px;
 }
+
+
+@mixin _base_icon_size($icon_size){
+  line-height: $icon_size;
+  width: $icon_size;
+  height: $icon_size;
+}
+
+
+.s16
+{
+  @include _base_icon_size(16px)
+}
+
+.s32
+{
+  @include _base_icon_size(32px)
+}
+
+.s48
+{
+  @include _base_icon_size(48px)
+}
+
+.s64
+{
+  @include _base_icon_size(64px)
+}

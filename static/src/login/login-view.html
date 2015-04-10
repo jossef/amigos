@@ -1,66 +1,89 @@
-<md-content layout="row">
-    <md-content flex></md-content>
-    <md-content style="width: 500px;">
-        <md-card style="max-width: 500px;">
+<md-content>
 
-                <md-content class="md-padding" flex>
+    <md-tabs class="" md-selected="data.selectedIndex">
+        <md-tab>
+            <md-tab-label>login</md-tab-label>
+            <md-tab-template>
 
-
-                    <form name="loginForm" novalidate>
-
-                        <md-input-container>
-                            <label>Email </label>
-                            <input md-maxlength="50" required name="email" type="email" ng-model="email">
-
-                            <div ng-messages="loginForm.email.$error">
-                                <div ng-message="required">This is required</div>
-                                <div ng-message="email">Hey! this ain't no valid email</div>
-                                <div ng-message="md-maxlength">Yo! needs to be less than 50 characters long</div>
-                            </div>
-                        </md-input-container>
-
-                        <md-input-container>
-                            <label>Password</label>
-                            <input type="password" name="password" required ng-model="password">
-
-                            <div ng-messages="loginForm.password.$error">
-                                <div ng-message="required">This is required</div>
-                            </div>
-
-                        </md-input-container>
-
-                        <md-content layout="row">
-
-
-
-                            <md-content layout="row">
-                                <md-button ng-href="/auth/facebook" ng-click="shell.loading=true">
-
-                                    <md-icon md-svg-icon="facebook"></md-icon>
-                                </md-button>
-                                <md-button ng-href="/auth/google">
-                                    <md-icon md-svg-icon="google_plus"></md-icon>
-                                </md-button>
-                                <md-button ng-href="/auth/twitter">
-                                    <md-icon md-svg-icon="twitter"></md-icon>
-                                </md-button>
-
-                            </md-content>
-                            <span flex></span>
-                            <md-button ng-disabled="!loginForm.$valid" class="md-raised md-primary" ng-click="login()">
-                                sign in
-                            </md-button>
-                        </md-content>
-
-                    </form>
+                <md-content layout="row" class="md-padding">
+                    <p class="md-caption">Sign in locally </p>
                 </md-content>
 
+                <md-card>
 
-            <md-divider></md-divider>
+
+                    <md-content class="md-padding" flex>
 
 
-        </md-card>
-    </md-content>
-    <md-content flex></md-content>
+                        <form name="loginForm" novalidate>
 
+                            <md-input-container>
+                                <label>Email </label>
+                                <input md-maxlength="50" required name="email" type="email" ng-model="email">
+
+                                <div ng-messages="loginForm.email.$error">
+                                    <div ng-message="required">This is required</div>
+                                    <div ng-message="email">Hey! this ain't no valid email</div>
+                                    <div ng-message="md-maxlength">Yo! needs to be less than 50 characters long</div>
+                                </div>
+                            </md-input-container>
+
+                            <md-input-container>
+                                <label>Password</label>
+                                <input type="password" name="password" required ng-model="password">
+
+                                <div ng-messages="loginForm.password.$error">
+                                    <div ng-message="required">This is required</div>
+                                </div>
+
+                            </md-input-container>
+
+                            <div layout="row">
+
+                                <span flex></span>
+
+                                <md-button ng-disabled="!loginForm.$valid" class="md-raised md-primary" ng-click="login()">
+                                    sign in
+                                </md-button>
+
+                            </div>
+
+                        </form>
+                    </md-content>
+                </md-card>
+
+                <md-content layout="row" class="md-padding">
+                    <p class="md-caption">Sign in with </p>
+                </md-content>
+                    <md-content layout="row" class="md-padding">
+
+                        <span flex></span>
+                        <md-content layout="row">
+                            <md-button ng-href="/auth/facebook" ng-click="shell.loading=true">
+                                <md-icon md-svg-icon="facebook" class="s64"></md-icon>
+                            </md-button>
+                            <md-button ng-href="/auth/google">
+                                <md-icon md-svg-icon="google_plus" class="s64"></md-icon>
+                            </md-button>
+                            <md-button ng-href="/auth/twitter">
+                                <md-icon md-svg-icon="twitter" class="s64"></md-icon>
+                            </md-button>
+
+                        </md-content>
+                        <span flex></span>
+
+                    </md-content>
+
+
+            </md-tab-template>
+        </md-tab>
+
+        <md-tab>
+            <md-tab-label>register</md-tab-label>
+            <md-tab-template>
+
+            </md-tab-template>
+        </md-tab>
+    </md-tabs>
 </md-content>
+

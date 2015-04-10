@@ -7,11 +7,16 @@
 
     function CommonService($mdToast, $mdDialog, $location, routingService) {
 
+        var theme = 'default';
+
         return {
             showMessage: showMessage,
             showAlert: showAlert,
             errorHandler: errorHandler,
-            redirect: redirect
+            redirect: redirect,
+            getTheme: function () {
+                return theme;
+            }
         };
 
         function showAlert(title, content) {
@@ -34,8 +39,7 @@
             );
         }
 
-        function errorHandler(error)
-        {
+        function errorHandler(error) {
             // TODO perhaps show error messages for each case;
             //      e.g. internet connectivity error
 
@@ -44,6 +48,7 @@
         }
 
         function redirect(name) {
+            theme = 'green';
             var route = routingService.routes[name];
             $location.path(route.path);
         }
