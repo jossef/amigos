@@ -3,13 +3,21 @@
 
     var passport = require('passport');
     var callbackConfig = {successRedirect: '/', failureRedirect: '/'};
+    var googleScopes = [
+        'profile',
+        'email',
+        'https://www.googleapis.com/auth/plus.login',
+        'https://www.google.com/m8/feeds',
+        'https://www.googleapis.com/auth/calendar'];
 
     module.exports = {
         register: register,
         login: login,
         logout: logout,
         facebookAuth: passport.authenticate('facebook', {scope: 'email'}),
-        facebookAuthCallback: passport.authenticate('facebook', callbackConfig )
+        facebookAuthCallback: passport.authenticate('facebook', callbackConfig),
+        googleAuth: passport.authenticate('google', {scope: googleScopes}),
+        googleAuthCallback: passport.authenticate('google', callbackConfig)
     };
 
     function register(req, res, next) {

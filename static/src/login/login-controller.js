@@ -4,7 +4,7 @@
     var app = angular.module('amigos');
 
     app.controller("LoginController", function ($scope, loginService, commonService) {
-        var vm = $scope;
+        var vm = this;
 
         vm.email = '';
         vm.password = '';
@@ -14,6 +14,16 @@
                 .login(vm.email, vm.password)
                 .success(function (user) {
                     commonService.showMessage("Logged in successfully");
+                    commonService.redirect('home');
+                })
+                .error(commonService.errorHandler);
+        };
+
+        vm.register = function () {
+            loginService
+                .register(vm.email, vm.password)
+                .success(function (user) {
+                    commonService.showMessage("Welcome!");
                     commonService.redirect('home');
                 })
                 .error(commonService.errorHandler);

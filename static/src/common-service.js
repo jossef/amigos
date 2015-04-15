@@ -48,8 +48,8 @@
         }
 
         function redirect(name) {
-            theme = 'green';
             var route = routingService.routes[name];
+            theme = route.theme;
             $location.path(route.path);
         }
     }

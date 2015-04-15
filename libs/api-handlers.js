@@ -40,16 +40,10 @@
     }
 
     function events(request, response) {
-        // TODO: get from db or something
-        var events = [];
-
-        events.push({id: 1, organizer: 'John', date: '2015-05-13', name: 'Social Meeting'});
-        events.push({id: 2, organizer: 'Naila', date: '2015-05-13', name: 'BBQ'});
-        events.push({id: 3, organizer: 'Qeraz', date: '2015-05-13', name: 'Birthday'});
-        events.push({id: 4, organizer: 'Seala', date: '2015-05-13', name: 'Meetup'});
-        events.push({id: 5, organizer: 'Poealo', date: '2015-05-13', name: 'Friends @ Beach'});
-
-        response.json(events);
+        apiHandler(request, response, function () {
+            var events = await(data.getEvents());
+            response.json(events);
+        });
     }
 
     function listUsers(request, response) {
@@ -75,8 +69,23 @@
                 throw new Error('yo, uncool.');
             }
 
-            response.json(request.user);
+            var google = require('googleapis');
+            var auth = require('../config/auth');
+            var plus = google.plus('v1');
+            var userId = request.user.google.id;
+
+            var oauth2Client = new google.auth.OAuth2(auth.googleAuth.clientID, auth.googleAuth.clientSecret, auth.googleAuth.callbackURL);
+            oauth2Client.setCredentials(request.user.google.token);
+
+
+            plus.people.get({ auth: oauth2Client, userId: 'me' }, function(err, user) {
+                console.log('Result: ' + (err ? err.message : user.displayName));
+
+                response.json(user);
+            });
+
         });
     }
+
 
 })();

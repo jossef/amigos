@@ -10,6 +10,7 @@
     "angular-messages": "~1.3",
     "angular-material": "latest",
     "material-design-color-palette": "latest",
-    "material-design-iconic-font": "~1.1.1"
+    "material-design-iconic-font": "~1.1.1",
+    "material-wizard": "latest"
   }
 }

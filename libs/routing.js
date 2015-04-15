@@ -25,6 +25,9 @@
         app.get('/auth/facebook', authentication.facebookAuth);
         app.get('/auth/facebook/callback', authentication.facebookAuthCallback);
 
+        app.get('/auth/google', authentication.googleAuth);
+        app.get('/auth/google/callback', authentication.googleAuthCallback);
+
         app.get('/', api.root);
     }
 })();

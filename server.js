@@ -46,10 +46,7 @@
 
     app.use(session({
         secret: 'ami$5-aggqas#5967nr_e4ocm9ck2&a+i4r0klzpsp+*zp@myrq^agos',
-        name: 'AMIGOS',
-        proxy: true,
-        resave: true,
-        saveUninitialized: true
+        name: 'AMIGOS'
     }));
     app.use(passport.initialize());
     app.use(passport.session());

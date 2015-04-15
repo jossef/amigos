@@ -7,7 +7,7 @@
                 <div class="md-toolbar-tools">
 
                     <md-button class="menu" ng-click="shell.toggleSideMenu()" aria-label="Show menu">
-                        <md-icon class="mdi-close"></md-icon>
+                        <md-icon md-font-icon="mdi-close"></md-icon>
                     </md-button>
 
                     <span>Close</span>
@@ -33,12 +33,13 @@
                 <md-list-item>
                     <md-button layout="row" class="md-primary" href ng-click="shell.redirect('messages')">
                         <md-content class="md-padding" flex layout="row">
+                            <md-icon class="mdi-message"></md-icon>
                             <span>messages</span>
                             <span flex></span>
-                            <md-icon class="mdi-message"></md-icon>
                         </md-content>
                     </md-button>
                 </md-list-item>
+
             </md-list>
         </md-sidenav>
 
@@ -46,7 +47,8 @@
             <div class="md-toolbar-tools">
 
                 <md-button class="menu" ng-click="shell.toggleSideMenu()" aria-label="Show menu">
-                    <md-icon md-svg-icon="menu"></md-icon>
+                    <md-icon md-font-icon="mdi-menu" ></md-icon>
+
                 </md-button>
 
                 <span>Amigos</span>

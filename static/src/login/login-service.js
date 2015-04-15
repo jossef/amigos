@@ -7,7 +7,8 @@
     function LoginService($http) {
 
         return {
-            login: login
+            login: login,
+            register: register
         };
 
         // ............
@@ -21,6 +22,16 @@
 
             var json = angular.toJson(data);
             return $http.post('/api/login/', json);
+        }
+
+        function register(email,password) {
+            var data = {
+                email: email,
+                password: password
+            };
+
+            var json = angular.toJson(data);
+            return $http.post('/api/register/', json);
         }
     }
 

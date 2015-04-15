@@ -8,11 +8,13 @@
     var chalk = require('chalk');
 
     var User = require('./models/user');
+    var Event = require('./models/event');
 
     module.exports = {
         isUserExists: isUserExists,
         getUsers: getUsers,
         register: register,
+        getEvents: getEvents,
 
         User: User
     };
@@ -46,6 +48,21 @@
                 }
 
                 deferred.resolve(users);
+            });
+
+        return deferred.promise;
+    }
+
+    function getEvents() {
+        var deferred = Q.defer();
+
+        Event.find({})
+            .exec(function (err, data) {
+                if (err) {
+                    return deferred.reject(err);
+                }
+
+                deferred.resolve(data);
             });
 
         return deferred.promise;

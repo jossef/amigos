@@ -8,19 +8,29 @@
             name: 'home',
             path: '/',
             view: '/static/src/home/home-view.html',
-            controller: 'HomeController'
+            controller: 'HomeController',
+            theme: 'green'
         },
         {
             name: 'login',
             path: '/login',
             view: '/static/src/login/login-view.html',
-            controller: 'LoginController'
+            controller: 'LoginController',
+            theme: 'orange'
         },
         {
             name: 'events',
             path: '/events',
             view: '/static/src/events/events-view.html',
-            controller: 'EventsController'
+            controller: 'EventsController',
+            theme: 'default'
+        },
+        {
+            name: 'create-event',
+            path: '/events/create',
+            view: '/static/src/events/create-event-view.html',
+            controller: 'CreateEventController',
+            theme: 'default'
         }
     ];
 
@@ -48,7 +58,9 @@
             $routeProvider
                 .when(route.path, {
                     templateUrl: route.view,
-                    controller: route.controller
+                    controller: route.controller,
+                    controllerAs: 'vm',
+                    color: route.theme || 'default'
                 })
         });
 

@@ -5,7 +5,8 @@
         'ngAnimate',
         'ngRoute',
         'ngMessages',
-        'ngMaterial'
+        'ngMaterial',
+        'material.wizard'
     ]);
 
 
@@ -43,24 +44,33 @@
             .icon("twitter", "/static/assets/svg/twitter.svg", 512)
             .icon("phone", "/static/assets/svg/phone.svg", 512);
 
+
+        var defaultWeights = {
+            'default': '500', // by default use shade 400 from the pink palette for primary intentions
+            'hue-1': '100', // use shade 100 for the <code>md-hue-1</code> class
+            'hue-2': '600', // use shade 600 for the <code>md-hue-2</code> class
+            'hue-3': 'A100' // use shade A100 for the <code>md-hue-3</code> class
+        };
+
         $mdThemingProvider.theme('default')
-            .primaryPalette('teal', {
-                'default': '500', // by default use shade 400 from the pink palette for primary intentions
-                'hue-1': '100', // use shade 100 for the <code>md-hue-1</code> class
-                'hue-2': '600', // use shade 600 for the <code>md-hue-2</code> class
-                'hue-3': 'A100' // use shade A100 for the <code>md-hue-3</code> class
-            })
+            .primaryPalette('teal', defaultWeights)
             .accentPalette('red');
 
 
         $mdThemingProvider.theme('green')
-            .primaryPalette('green', {
-                'default': '500', // by default use shade 400 from the pink palette for primary intentions
-                'hue-1': '100', // use shade 100 for the <code>md-hue-1</code> class
-                'hue-2': '600', // use shade 600 for the <code>md-hue-2</code> class
-                'hue-3': 'A100' // use shade A100 for the <code>md-hue-3</code> class
-            })
-            .accentPalette('lime');
+            .primaryPalette('green', defaultWeights)
+            .accentPalette('blue');
+
+
+        $mdThemingProvider.theme('purple')
+            .primaryPalette('purple', defaultWeights)
+            .accentPalette('brown');
+
+
+        $mdThemingProvider.theme('orange')
+            .primaryPalette('deep-orange', defaultWeights)
+            .accentPalette('blue-grey');
+
 
         $mdThemingProvider.alwaysWatchTheme(true);
 
