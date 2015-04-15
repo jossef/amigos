@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <title>Amigos</title>
+
+    <meta charset="utf-8">
+    <meta name="viewport" content="initial-scale=1, maximum-scale=1, user-scalable=no, width=device-width">
+    <title>Amigos</title>
+
+    <link href="lib/ionic/release/css/ionic.min.css" rel="stylesheet"/>
+    <link href="assets/css/style.css" rel="stylesheet"/>
+</head>
+
+
+<body ng-app="amigos" animation="slide-left-right-ios7">
+
+<shell-view></shell-view>
+
+<script src="lib/ionic/release/js/ionic.bundle.min.js"></script>
+<script src="lib/ngCordova/dist/ng-cordova-mocks.min.js"></script>
+<script src="lib/ngCordova/dist/ng-cordova.min.js"></script>
+
+<!-- cordova script (this will be a 404 during development) -->
+<script src="cordova.js"></script>
+
+<!-- TODO use browserify or something to bundle up these js files -->
+
+<script src="src/amigos.js"></script>
+<script src="src/routing.js"></script>
+<script src="src/common-service.js"></script>
+
+<script src="src/home/home-controller.js"></script>
+
+<script src="src/shell/shell-controller.js"></script>
+<script src="src/shell/shell-directive.js"></script>
+
+<script src="src/events/events-controller.js"></script>
+<script src="src/events/event-service.js"></script>
+<script src="src/events/create-event-controller.js"></script>
+
+<script src="src/login/login-controller.js"></script>
+<script src="src/login/login-service.js"></script>
+
+</body>
+</html>
+
+
+

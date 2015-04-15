@@ -3,8 +3,10 @@
 .sass-cache/
 npm-debug.log
 node_modules/
-static/lib
-app/tests/coverage/
+www/lib
 .bower-*/
 .idea/
 config/auth.js
+
+platforms/
+plugins/

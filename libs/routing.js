@@ -7,11 +7,7 @@
     var common = require('./common');
     var authentication = require('./authentication');
 
-    var staticFilesHandler = express.static(path.join(common.appDir, 'static'));
-
     module.exports = function(app, passport) {
-
-        app.use('/static/', staticFilesHandler);
 
         app.get('/api/users', api.listUsers);
         app.get('/api/users/:id', api.getUser);
