@@ -46,7 +46,9 @@
 
     app.use(session({
         secret: 'ami$5-aggqas#5967nr_e4ocm9ck2&a+i4r0klzpsp+*zp@myrq^agos',
-        name: 'AMIGOS'
+        name: 'AMIGOS',
+        resave: true,
+        saveUninitialized: true
     }));
     app.use(passport.initialize());
     app.use(passport.session());
@@ -63,6 +65,5 @@
     //
     http.listen(expressPort, expressIPAddress);
     console.log(chalk.bold.yellow('LISTENING'), 'express', chalk.cyan(expressIPAddress), chalk.cyan(expressPort));
-
 
 })();
