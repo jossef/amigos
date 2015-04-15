@@ -7,3 +7,4 @@ static/lib
 app/tests/coverage/
 .bower-*/
 .idea/
+config/auth.js

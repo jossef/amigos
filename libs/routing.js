@@ -2,14 +2,32 @@
     'use strict';
 
     var api = require('./api-handlers');
-    module.exports.setRouting = setRouting;
+    var express = require('express');
+    var path = require('path');
+    var common = require('./common');
+    var authentication = require('./authentication');
 
-    function setRouting(app){
-        app.use('/static/', api.static);
-        app.get("/api/hi", api.hi);
-        app.get("/api/users", api.users);
-        app.get("/api/events", api.events);
-        app.get("/", api.root);
+    var staticFilesHandler = express.static(path.join(common.appDir, 'static'));
+
+    module.exports = function(app, passport) {
+
+        app.use('/static/', staticFilesHandler);
+
+        app.get('/api/users', api.listUsers);
+        app.get('/api/users/:id', api.getUser);
+        app.get('/api/events', api.events);
+        app.get('/api/friends', api.getFriends);
+
+        app.post('/api/register', authentication.register);
+        app.post('/api/login', authentication.login);
+        app.get('/api/logout', authentication.logout);
+
+        app.get('/auth/facebook', authentication.facebookAuth);
+        app.get('/auth/facebook/callback', authentication.facebookAuthCallback);
+
+        app.get('/auth/google', authentication.googleAuth);
+        app.get('/auth/google/callback', authentication.googleAuthCallback);
+
+        app.get('/', api.root);
     }
-
 })();

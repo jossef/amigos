@@ -1,0 +1,38 @@
+<md-content>
+    <md-subheader>Events</md-subheader>
+
+    <md-card>
+
+        <md-content flex class="md-padding">
+
+            <md-list>
+                <md-item class="md-3-line" ng-repeat="item in events">
+
+                    <div layout="row">
+
+                        <div class="md-item-text" flex>
+                            <h3>{{item.name}}</h3>
+                            <h4>{{item.organizer}}</h4>
+                        </div>
+
+                        <span flex></span>
+                        <div layout="row" layout-align="center center">
+                            <md-button href="/#/events/{{item.id}}">
+                                <md-icon md-svg-src="/static/lib/material-design-icons/content/svg/production/ic_send_48px.svg"></md-icon>
+                            </md-button>
+                        </div>
+                    </div>
+                    <md-divider ng-if="!$last"></md-divider>
+                </md-item>
+            </md-list>
+
+        </md-content>
+
+    </md-card>
+
+</md-content>
+
+<md-button class="md-fab md-fab-bottom-right" ng-click="createEvent()">
+    <md-icon md-font-icon="mdi-add"></md-icon>
+</md-button>
+

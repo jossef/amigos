@@ -3,47 +3,20 @@
 
     var app = angular.module('amigos');
 
-    app.controller("ShellController", function (userService, $http, $location , $mdSidenav, $mdBottomSheet, $log, $q) {
+    app.controller("ShellController", function ($scope, $http, commonService, $mdSidenav, $mdBottomSheet, $log, $q) {
         var vm = this;
 
         vm.messages = [];
+        vm.login = login;
+        vm.redirect = redirect;
 
-        $http.get('/api/hi').success(function (response) {
-            vm.osnat = response;
+        $scope.$watch(commonService.getTheme, function (theme) {
+            vm.theme = theme;
         });
 
-        vm.foo = function(){
+        vm.toggleSideMenu = toggleSideMenu;
 
-            $location.path('/events');
-
-        };
-
-        // -----------------------
-
-        vm.selected = null;
-        vm.users = [];
-        vm.selectUser = selectUser;
-        vm.toggleList = toggleUsersList;
-        vm.share = share;
-
-        // Load all registered users
-
-        userService
-            .loadAllUsers()
-            .then(function (users) {
-                vm.users = [].concat(users);
-                vm.selected = users[0];
-            });
-
-        // *********************************
-        // Internal methods
-        // *********************************
-
-        /**
-         * First hide the bottomsheet IF visible, then
-         * hide or Show the 'left' sideNav area
-         */
-        function toggleUsersList() {
+        function toggleSideMenu() {
             var pending = $mdBottomSheet.hide() || $q.when(true);
 
             pending.then(function () {
@@ -51,48 +24,46 @@
             });
         }
 
-        /**
-         * Select the current avatars
-         * @param menuId
-         */
-        function selectUser(user) {
-            vm.selected = angular.isNumber(user) ? $scope.users[user] : user;
-            vm.toggleList();
+        function login() {
+            commonService.redirect('login');
         }
 
-        /**
-         * Show the bottom sheet
-         */
-        function share($event) {
-            var user = vm.selected;
-
-            $mdBottomSheet.show({
-                parent: angular.element(document.getElementById('content')),
-                templateUrl: '/static/src/users/user-view.html',
-                controller: ['$mdBottomSheet', UserSheetController],
-                controllerAs: "vm",
-                bindToController: true,
-                targetEvent: $event
-            }).then(function (clickedItem) {
-                clickedItem && $log.debug(clickedItem.name + ' clicked!');
-            });
-
-            /**
-             * Bottom Sheet controller for the Avatar Actions
-             */
-            function UserSheetController($mdBottomSheet) {
-                this.user = user;
-                this.items = [
-                    {name: 'Phone', icon: 'phone', icon_url: '/static/assets/svg/phone.svg'},
-                    {name: 'Twitter', icon: 'twitter', icon_url: '/static/assets/svg/twitter.svg'},
-                    {name: 'Google+', icon: 'google_plus', icon_url: '/static/assets/svg/google_plus.svg'},
-                    {name: 'Hangout', icon: 'hangouts', icon_url: '/static/assets/svg/hangouts.svg'}
-                ];
-                this.performAction = function (action) {
-                    $mdBottomSheet.hide(action);
-                };
-            }
+        function redirect(name) {
+            commonService.redirect(name);
+            $mdSidenav('left').close();
         }
+
+
+        $scope.toppings = [
+            {name: 'Pepperoni', wanted: true},
+            {name: 'Sausage', wanted: false},
+            {name: 'Black Olives', wanted: true},
+            {name: 'Green Peppers', wanted: false}
+        ];
+        $scope.settings = [
+            {name: 'Wi-Fi', extraScreen: 'Wi-fi menu', icon: 'device:network-wifi', enabled: true},
+            {name: 'Bluetooth', extraScreen: 'Bluetooth menu', icon: 'device:bluetooth', enabled: false},
+        ];
+        $scope.messages = [
+            {id: 1, title: "Message A", selected: false},
+            {id: 2, title: "Message B", selected: true},
+            {id: 3, title: "Message C", selected: true},
+        ];
+        $scope.people = [
+            {name: 'Janet Perkins', newMessage: true},
+            {name: 'Mary Johnson', newMessage: false},
+            {name: 'Peter Carlsson', newMessage: false}
+        ];
+        $scope.goToPerson = function (person) {
+            alert('Inspect ' + person);
+        };
+        $scope.navigateTo = function (to) {
+            alert('Imagine being taken to ' + to);
+        };
+        $scope.doSecondaryAction = function () {
+            alert('Seconday action clicked');
+        };
+
 
     });
 

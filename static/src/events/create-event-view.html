@@ -1,0 +1,61 @@
+<md-content flex>
+
+    <md-content layout="row" class="md-padding">
+        <p class="md-caption">Sign in locally </p>
+    </md-content>
+
+    <md-card>
+
+        <md-content class="md-padding" flex>
+            {{newEvent}}
+            {{step}}
+        </md-content>
+    </md-card>
+
+    <md-card>
+        <div ng-show="step == 0">
+            <md-content flex class="md-padding">
+
+                <form name="form" novalidate>
+                    <md-input-container>
+                        <label>Name your event</label>
+                        <input name="eventName" ng-model="newEvent.name" type="text" required>
+
+                        <div ng-show="form.eventName.$dirty " ng-messages="form.eventName.$error">
+                            <div ng-message="required">Item name is required</div>
+                        </div>
+                    </md-input-container>
+                </form>
+            </md-content>
+
+        </div>
+        <div ng-show="step == 1">
+            <md-content flex class="md-padding">
+                <md-list>
+                    <md-list-item class="md-3-line" ng-repeat="friend in friends" ng-click="friend.selected != friend.selected">
+
+                        <img ng-src="http://lorempixel.com/400/200/?123={{$index}}" class="md-avatar"/>
+
+                        <div class="md-list-item-text">
+                            <h3>{{ friend.name }}</h3>
+                            <h4>{{ friend.name }}</h4>
+                            <p>{{ friend.name }}</p>
+
+                            <md-divider ng-if="!$last"></md-divider>
+                        </div>
+
+                        <md-icon ng-show="friend.selected" class="mdi-done"></md-icon>
+
+                    </md-list-item>
+                </md-list>
+            </md-content>
+        </div>
+    </md-card>
+
+    <md-content layout="row">
+        <md-button flex ng-click="previewsStep()">back</md-button>
+        <md-button flex ng-click="nextStep()">next</md-button>
+    </md-content>
+
+</md-content>
+
