@@ -35,7 +35,7 @@
         passport.authenticate('local-signup', function (err, user, info) {
             if (err) return next(err);
             if (!user) {
-                return res.jsonError("Authentication failed");
+                return res.jsonError(info);
             }
 
             // Manually establish the session...

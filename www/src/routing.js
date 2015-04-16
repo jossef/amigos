@@ -8,29 +8,31 @@
             name: 'home',
             path: '/',
             view: 'src/home/home-view.html',
-            controller: 'HomeController',
-            theme: 'green'
+            controller: 'HomeController'
         },
         {
             name: 'login',
             path: '/login',
             view: 'src/login/login-view.html',
-            controller: 'LoginController',
-            theme: 'orange'
+            controller: 'LoginController as vm'
         },
         {
             name: 'events',
             path: '/events',
             view: 'src/events/events-view.html',
-            controller: 'EventsController',
-            theme: 'default'
+            controller: 'EventsController'
         },
         {
             name: 'create-event',
             path: '/events/create',
             view: 'src/events/create-event-view.html',
-            controller: 'CreateEventController',
-            theme: 'default'
+            controller: 'CreateEventController'
+        },
+        {
+            name: 'welcome',
+            path: '/welcome',
+            view: 'src/welcome/welcome-view.html',
+            controller: 'WelcomeController'
         }
     ];
 
@@ -59,8 +61,7 @@
                 .state(route.name, {
                     url: route.path,
                     templateUrl: route.view,
-                    controller: route.controller,
-                    controllerAs: 'vm'
+                    controller: route.controller
                 })
         });
 

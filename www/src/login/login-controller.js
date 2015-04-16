@@ -14,6 +14,7 @@
                 .login(vm.email, vm.password)
                 .success(function (user) {
                     commonService.showMessage("Logged in successfully");
+                    commonService.loggedInUser = user;
                     commonService.redirect('home');
                 })
                 .error(commonService.errorHandler);
@@ -24,6 +25,7 @@
                 .register(vm.email, vm.password)
                 .success(function (user) {
                     commonService.showMessage("Welcome!");
+                    commonService.loggedInUser = user;
                     commonService.redirect('home');
                 })
                 .error(commonService.errorHandler);
