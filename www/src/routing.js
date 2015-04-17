@@ -29,6 +29,12 @@
             controller: 'CreateEventController'
         },
         {
+            name: 'profile',
+            path: '/profile',
+            view: 'src/profile/profile-view.html',
+            controller: 'ProfileController'
+        },
+        {
             name: 'welcome',
             path: '/welcome',
             view: 'src/welcome/welcome-view.html',
