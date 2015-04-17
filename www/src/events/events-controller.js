@@ -11,6 +11,8 @@
                 vm.events = events;
             });
 
+        // TODO add this in logic
+        vm.isEventAdmin = true;
 
         vm.createEvent = function(){
             commonService.redirect('create-event');
