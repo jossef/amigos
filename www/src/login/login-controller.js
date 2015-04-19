@@ -3,7 +3,7 @@
 
     var app = angular.module('amigos');
 
-    app.controller("LoginController", function ($scope, loginService, commonService) {
+    app.controller("LoginController", function ($scope, loginService, commonService, $cordovaLocalNotification) {
         var vm = this;
 
         vm.email = '';
@@ -30,6 +30,18 @@
                 })
                 .error(commonService.errorHandler);
         };
+
+        vm.notify = function(){
+            var alarmTime = new Date();
+            $cordovaLocalNotification.add({
+                id: "1234",
+                date: alarmTime,
+                message: "Hello sir!",
+                title: "מה שלומך חבר?"
+            }).then(function () {
+                console.log("The notification has been set");
+            });
+        }
 
     });
 

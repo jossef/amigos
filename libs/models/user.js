@@ -29,9 +29,11 @@ var userSchema = mongoose.Schema({
         name: String
     },
     profile: {
-        isPrivacyEnabled: Boolean,
-        displayName: String
+        displayName: String,
+        phoneNumber: String
     }
+
+
 });
 
 // methods ======================

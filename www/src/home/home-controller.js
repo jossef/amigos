@@ -22,7 +22,7 @@
 
         if (!commonService.loggedInUser)
         {
-            // commonService.redirect('login');
+            commonService.redirect('login');
         }
 
 
