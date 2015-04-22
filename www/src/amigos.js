@@ -5,7 +5,7 @@
         'ngAnimate',
         'ionic',
         'ngCordova',
-        'ui.router',
+        'ui.router'
     ]);
 
 

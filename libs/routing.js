@@ -11,8 +11,12 @@
 
         app.get('/api/users', api.listUsers);
         app.get('/api/users/:id', api.getUser);
+
         app.get('/api/events', api.events);
+
         app.get('/api/friends', api.getFriends);
+
+        app.get('/api/info', api.getInfo);
 
         app.post('/api/register', authentication.register);
         app.post('/api/login', authentication.login);

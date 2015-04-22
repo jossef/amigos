@@ -14,6 +14,7 @@
         listUsers: listUsers,
         getUser: getUser,
         getFriends: getFriends,
+        getInfo: getInfo,
         events: events
     };
 
@@ -43,6 +44,26 @@
         apiHandler(request, response, function () {
             var events = await(data.getEvents());
             response.json(events);
+        });
+    }
+
+    function getInfo(request, response) {
+        apiHandler(request, response, function () {
+
+            var user = request.user;
+            if (user)
+            {
+                user = {
+                    phone: user.phone
+                }
+            }
+
+            // TODO move version to somewhere else
+
+            response.json({
+                user:  user,
+                version: 0.1
+            });
         });
     }
 
