@@ -1,4 +1,7 @@
 
+![image](https://raw.githubusercontent.com/Jossef/amigos/master/resources/splash.png)
+
+
 ### Setting up environement
 
 ![image](https://cloud.githubusercontent.com/assets/1287098/7170004/1f41eca6-e3d3-11e4-8f06-6dbe542ea041.png)
