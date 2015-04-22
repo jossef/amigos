@@ -1,35 +1,31 @@
-<div class="modal">
-
 <ion-view view-title="Sign-In">
+    <ion-content has-header="true">
+
+        <img src="assets/img/login.png" class="image-responsive"/>
+
+        <div class="padding">
 
 
-    <ion-content has-header="true" padding="true">
-        <div class="list">
-            <label class="item item-input">
-                <span class="input-label">Email</span>
-                <input type="email" ng-model="vm.email">
-            </label>
-            <label class="item item-input">
-                <span class="input-label">Password</span>
-                <input type="password" ng-model="vm.password">
-            </label>
-        </div>
-
-        <div class="row">
-            <div class="col">
-                <button class="button button-block button-outline button-positive" ng-click="vm.register()">Register</button>
+            <div class="list">
+                <label class="item item-input">
+                    <span class="input-label">Phone</span>
+                    <input type="email" ng-model="vm.email">
+                </label>
+                <label class="item item-input">
+                    <span class="input-label">Password</span>
+                    <input type="password" ng-model="vm.password">
+                </label>
             </div>
-            <div class="col">
-                <button class="button button-block button-positive" ng-click="vm.login()">Sign-In</button>
-            </div>
-        </div>
 
-        <div class="row">
-            <div class="col">
-                <button class="button button-block button-positive" ng-click="vm.notify()">Notify!</button>
+            <div class="row">
+                <div class="col">
+                    <button class="button button-block button-outline button-positive" ng-click="vm.register()">Register</button>
+                </div>
+                <div class="col">
+                    <button class="button button-block button-positive" ng-click="vm.login()">Sign-In</button>
+                </div>
             </div>
-        </div>
 
+        </div>
     </ion-content>
 </ion-view>
-</div>

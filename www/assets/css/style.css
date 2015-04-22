@@ -8770,4 +8770,8 @@ body {
 .yellow {
   background-color: yellow; }
 
+.image-responsive {
+  width: 100%;
+  height: auto; }
+
 /*# sourceMappingURL=style.css.map */
