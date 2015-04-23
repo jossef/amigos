@@ -2,6 +2,7 @@
     'use strict';
 
     var passport = require('passport');
+    var common = require('./common');
     var callbackConfig = {successRedirect: '/', failureRedirect: '/'};
     var googleScopes = [
         'profile',
@@ -23,14 +24,21 @@
     function register(req, res, next) {
 
         var user = req.body;
-        if (!user.email) {
-            return res.jsonError('Username is missing')
+        if (!user.phone) {
+            return res.jsonError('Phone is required')
+        }
+
+        if (!user.nickname) {
+            return res.jsonError('Nickname is required')
         }
 
         if (!user.password) {
-            return res.jsonError('Password is missing')
+            return res.jsonError('Password is required')
         }
 
+
+        // To fixed phone number
+        user.phone = common.parsePhoneNumber(user.phone);
 
         passport.authenticate('local-signup', function (err, user, info) {
             if (err) return next(err);
@@ -54,14 +62,16 @@
         // Input checks
 
         var user = req.body;
-        if (!user.email) {
-            return res.jsonError('Username is missing')
+        if (!user.phone) {
+            return res.jsonError('Phone is required')
         }
 
         if (!user.password) {
-            return res.jsonError('Password is missing')
+            return res.jsonError('Password is required')
         }
 
+        // To fixed phone number
+        user.phone = common.parsePhoneNumber(user.phone);
 
         passport.authenticate('local-login', function (err, user, info) {
             if (err) return next(err);

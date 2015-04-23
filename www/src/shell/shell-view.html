@@ -2,53 +2,56 @@
 
     <!-- Center content -->
     <ion-side-menu-content>
-
         <ion-nav-view></ion-nav-view>
     </ion-side-menu-content>
 
     <!-- Left menu -->
     <ion-side-menu side="left">
 
-        <ion-content>
+        <ion-content has-bouncing="true">
 
-        <div class="list">
+            <img src="assets/img/login.png" class="image-responsive"/>
 
-            <a class="item item-icon-left" href="#">
-                <i class="icon ion-email"></i>
-                Menu 1
-            </a>
 
-            <a class="item item-icon-left item-icon-right" href="#">
-                <i class="icon ion-chatbubble-working"></i>
-                Menu 2
-                <i class="icon ion-ios7-telephone-outline"></i>
-            </a>
+            <div class="list">
 
-            <a class="item item-icon-left" href="#">
-                <i class="icon ion-mic-a"></i>
-                Menu 3
-                <span class="item-note">
-                    message
-                </span>
-            </a>
 
-            <a class="item item-icon-left" href="#">
-                <i class="icon ion-person-stalker"></i>
-                Menu 4
-                <span class="badge badge-assertive">0</span>
-            </a>
 
-            <div class="item item-divider">
-                Separator
+                <a class="item item-icon-left item-icon-right" href="#">
+                    <i class="icon ion-chatbubble-working"></i>
+                    Menu 2
+                    <i class="icon ion-ios7-telephone-outline"></i>
+                </a>
+
+                <a class="item item-icon-left" href="#">
+                    <i class="icon ion-android-calendar"></i>
+                    Menu 3
+                    <span class="item-note">
+                        message
+                    </span>
+                </a>
+
+                <a class="item item-icon-left" href="#">
+                    <i class="icon ion-person-stalker"></i>
+                    Menu 4
+                    <span class="badge badge-assertive">0</span>
+                </a>
+
+                <div class="item item-divider">
+                    Account
+                </div>
+
+                <a class="item item-icon-left" ng-click="vm.redirect('profile')">
+                    <i class="icon ion-person"></i>
+                    Profile
+                </a>
+
+                <a class="item item-icon-left" ng-click="vm.logout()">
+                    <i class="icon ion-log-out"></i>
+                    Logout
+                </a>
+
             </div>
-
-            <a class="item item-icon-left" ng-click="clearStorage()">
-                <i class="icon ion-alert"></i>
-                Clear Local Storage
-                <span class="badge badge-dark">!</span>
-            </a>
-
-        </div>
         </ion-content>
 
     </ion-side-menu>

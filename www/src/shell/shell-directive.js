@@ -9,7 +9,7 @@
             restrict: 'E',
             templateUrl: 'src/shell/shell-view.html',
             controller:'ShellController',
-            controllerAs:'shell'
+            controllerAs:'vm'
         };
     });
 

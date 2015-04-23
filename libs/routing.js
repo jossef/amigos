@@ -18,6 +18,12 @@
 
         app.get('/api/info', api.getInfo);
 
+
+        app.get('/api/profile', api.getProfile);
+        app.post('/api/profile', api.updateProfile);
+
+        app.post('/api/validate/phone', api.validatePhone);
+
         app.post('/api/register', authentication.register);
         app.post('/api/login', authentication.login);
         app.get('/api/logout', authentication.logout);

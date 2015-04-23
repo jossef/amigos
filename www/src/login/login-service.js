@@ -8,15 +8,26 @@
 
         return {
             login: login,
-            register: register
+            logout: logout,
+            register: register,
+            validatePhone: validatePhone
         };
 
         // ............
 
 
-        function login(email,password) {
+        function validatePhone(phone) {
             var data = {
-                email: email,
+                phone: phone
+            };
+
+            var json = angular.toJson(data);
+            return $http.post(commonService.baseApi + '/api/validate/phone', json);
+        }
+
+        function login(phone, password) {
+            var data = {
+                phone: phone,
                 password: password
             };
 
@@ -24,9 +35,15 @@
             return $http.post(commonService.baseApi + '/api/login/', json);
         }
 
-        function register(email,password) {
+
+        function logout() {
+            return $http.get(commonService.baseApi + '/api/logout');
+        }
+
+        function register(phone, nickname, password) {
             var data = {
-                email: email,
+                phone: phone,
+                nickname: nickname,
                 password: password
             };
 

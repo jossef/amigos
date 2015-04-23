@@ -7,16 +7,21 @@
     function ProfileService($http, commonService) {
 
         return {
-            getProfile: getProfile
+            getProfile: getProfile,
+            updateProfile: updateProfile
         };
 
         // ............
 
         function getProfile() {
-
-            // TODO get user from ?
             return $http.get(commonService.baseApi + '/api/profile/');
         }
+
+        function updateProfile(data) {
+            var json = angular.toJson(data);
+            return $http.post(commonService.baseApi + '/api/profile/', json);
+        }
+
     }
 
 })();

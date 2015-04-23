@@ -8761,6 +8761,31 @@ a.button {
 body {
   cursor: url("../img/finger.png"), auto; }
 
+.pager {
+  position: relative;
+  bottom: 20px;
+  z-index: 1;
+  width: 100%;
+  height: 15px;
+  text-align: center; }
+  .pager .pager-page {
+    display: inline-block;
+    margin: 0px 3px;
+    width: 15px;
+    color: #000;
+    text-decoration: none;
+    opacity: 0.3; }
+    .pager .pager-page.active {
+      -webkit-transition: opacity 0.4s ease-in;
+      transition: opacity 0.4s ease-in;
+      opacity: 1; }
+
+.welcome-slider ion-slide {
+  min-height: 400px; }
+
+.image-profile {
+  box-shadow: inset 0px 230px 0px 0px #009587; }
+
 .pink {
   background-color: pink; }
 
@@ -8773,5 +8798,15 @@ body {
 .image-responsive {
   width: 100%;
   height: auto; }
+
+.form-errors .error {
+  color: #F44336; }
+.form-errors .success {
+  color: #33cd5f; }
+
+.push-near {
+  margin-top: 10px; }
+.push-far {
+  margin-top: 20px; }
 
 /*# sourceMappingURL=style.css.map */

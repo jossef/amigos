@@ -3,45 +3,47 @@
 
     var app = angular.module('amigos');
 
-    app.controller("LoginController", function ($scope, loginService, commonService, $cordovaLocalNotification) {
+    app.controller("LoginController", function ($scope, loginService, commonService) {
         var vm = this;
 
-        vm.email = '';
+        vm.phone = '';
         vm.password = '';
 
-        vm.login = function () {
+        vm.login = function (isValid) {
+
+            if (!isValid) {
+                commonService.showAlert('Hey!', "You need to correct the given information");
+                return;
+            }
+
             loginService
-                .login(vm.email, vm.password)
+                .login(vm.phone, vm.password)
                 .success(function (user) {
                     commonService.showMessage("Logged in successfully");
-                    commonService.loggedInUser = user;
-                    commonService.redirect('home');
+                    commonService.refreshInfo().success(function () {
+                        commonService.redirect('home');
+                    });
                 })
                 .error(commonService.errorHandler);
         };
 
-        vm.register = function () {
+        vm.register = function (isValid) {
+
+            if (!isValid) {
+                commonService.showAlert('Hey!', "You need to correct the given information");
+                return;
+            }
+
             loginService
-                .register(vm.email, vm.password)
+                .register(vm.phone, vm.nickname, vm.password)
                 .success(function (user) {
                     commonService.showMessage("Welcome!");
-                    commonService.loggedInUser = user;
-                    commonService.redirect('home');
+                    commonService.refreshInfo().success(function () {
+                        commonService.redirect('home');
+                    });
                 })
                 .error(commonService.errorHandler);
         };
-
-        vm.notify = function(){
-            var alarmTime = new Date();
-            $cordovaLocalNotification.add({
-                id: "1234",
-                date: alarmTime,
-                message: "Hello sir!",
-                title: "מה שלומך חבר?"
-            }).then(function () {
-                console.log("The notification has been set");
-            });
-        }
 
     });
 

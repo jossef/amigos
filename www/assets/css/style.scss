@@ -1,4 +1,6 @@
 @import "ionic";
+@import "pager";
+@import "images";
 
 .pink {
   background-color: pink;
@@ -15,4 +17,30 @@
 .image-responsive {
   width: 100%;
   height: auto;
+}
+
+.form-errors
+{
+
+
+  .error{
+     color: $assertive;
+  }
+
+  .success{
+     color: $balanced;
+  }
+}
+
+.push
+{
+  &-near
+  {
+    margin-top: 10px;
+  }
+
+  &-far
+  {
+    margin-top: 20px;
+  }
 }
