@@ -26,24 +26,51 @@
             name: 'events-create',
             path: '/events/create',
             abstract: true,
-            templateUrl: 'src/events/create-event-view.html',
+            templateUrl: 'src/events/create/create-event-base-view.html',
             controller: 'CreateEventController as vm'
         },
         {
-            name: 'events-create.step1',
-            path: '/1',
+            name: 'events-create.info',
+            path: '/info',
             views: {
                 'create-event':{
-                    templateUrl: 'src/events/create-event-step-1-view.html'
+                    templateUrl: 'src/events/create/create-event-info-view.html'
                 }
             }
         },
         {
-            name: 'events-create.step2',
-            path: '/2',
+            name: 'events-create.date',
+            path: '/date',
             views: {
                 'create-event':{
-                    templateUrl: 'src/events/create-event-step-2-view.html'
+                    templateUrl: 'src/events/create/create-event-date-view.html'
+                }
+            }
+        },
+        {
+            name: 'events-create.location',
+            path: '/location',
+            views: {
+                'create-event':{
+                    templateUrl: 'src/events/create/create-event-location-view.html'
+                }
+            }
+        },
+        {
+            name: 'events-create.participants',
+            path: '/participants',
+            views: {
+                'create-event':{
+                    templateUrl: 'src/events/create/create-event-participants-view.html'
+                }
+            }
+        },
+        {
+            name: 'events-create.logistics',
+            path: '/logistics',
+            views: {
+                'create-event':{
+                    templateUrl: 'src/events/create/create-event-logistics-view.html'
                 }
             }
         },

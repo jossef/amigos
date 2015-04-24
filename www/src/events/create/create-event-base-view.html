@@ -1,0 +1,49 @@
+<ion-view view-title="Create Event">
+
+    <ion-nav-bar class="bar-positive" animation="nav-title-slide-ios7">
+        <ion-nav-buttons side="left">
+            <button menu-toggle="left" class="button button-icon icon ion-navicon"></button>
+        </ion-nav-buttons>
+    </ion-nav-bar>
+
+    <ion-content has-header="true">
+
+        <div class="row row-center create-event">
+            <div class="col ">
+                <div ng-class="{'active': vm.isActive('events-create.info')}">
+                    <a ui-sref="events-create.info" >Details</a>
+                </div>
+            </div>
+            <div class="col ">
+                <div ng-class="{active: vm.isActive('events-create.date')}">
+                    <a ui-sref="events-create.date" >When</a>
+                </div>
+            </div>
+            <div class="col ">
+                <div ng-class="{active: vm.isActive('events-create.location')}">
+                    <a ui-sref="events-create.location" >Where</a>
+                </div>
+            </div>
+            <div class="col ">
+                <div ng-class="{active: vm.isActive('events-create.participants')}">
+                    <a ui-sref="events-create.participants" >Who</a>
+                </div>
+            </div>
+            <div class="col ">
+                <div ng-class="{active: vm.isActive('events-create.logistics')}">
+                    <a ui-sref="events-create.logistics" >What</a>
+                </div>
+            </div>
+        </div>
+
+
+
+
+        <div class="nav-view-workaround">
+
+            <ion-nav-view name="create-event"></ion-nav-view>
+        </div>
+
+    </ion-content>
+</ion-view>
+

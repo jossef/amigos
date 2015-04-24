@@ -8810,4 +8810,23 @@ body {
   min-height: 80px;
   height: auto; }
 
+.nav-view-workaround {
+  min-height: 400px; }
+
+.create-event {
+  text-align: center;
+  line-height: 3em; }
+  .create-event a {
+    text-decoration: none;
+    font-size: 1.3em;
+    color: #616161;
+    font-weight: 700;
+    font-family: Roboto, sans-serif; }
+  .create-event .active {
+    color: black;
+    border-bottom: 4px solid #2196F3; }
+  .create-event .todo {
+    color: silver;
+    border-bottom: 4px solid silver; }
+
 /*# sourceMappingURL=style.css.map */
