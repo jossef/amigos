@@ -16,11 +16,12 @@
     var app = express();
     var http = require('http').Server(app);
     var io = require('socket.io')(http);
-    var session = require('express-session');
-    var passportLocalMongoose = require('passport-local-mongoose');
 
     var mongoose = require('mongoose');
     var configDB = require('./config/database.js');
+
+    var session = require('express-session');
+    var MongoStore = require('connect-mongo')(session);
 
     mongoose.connect(configDB.url); // connect to our database
 
@@ -48,7 +49,13 @@
         secret: 'ami$5-aggqas#5967nr_e4ocm9ck2&a+i4r0klzpsp+*zp@myrq^agos',
         name: 'AMIGOS',
         resave: true,
-        saveUninitialized: true
+        saveUninitialized: true,
+        maxAge: new Date(Date.now() + 3600000),
+        store: new MongoStore(
+            { mongooseConnection: mongoose.connection },
+            function (err) {
+                console.log(err || 'connect-mongodb setup ok');
+            })
     }));
     app.use(passport.initialize());
     app.use(passport.session());

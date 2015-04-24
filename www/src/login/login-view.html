@@ -1,29 +1,118 @@
 <ion-view view-title="Sign-In">
+    <ion-content has-header="true" has-bouncing="true" ng-init="state='sign-in'">
 
-    <ion-header-bar class="bar-dark">
-        <h1 class="title">Login</h1>
-    </ion-header-bar>
+        <img src="assets/img/login.png" class="image-responsive"/>
+
+        <div class="padding" ng-show="state=='sign-in'">
+            <form name="loginForm" novalidate="" ng-submit="vm.login(loginForm.$valid)">
 
 
-    <ion-content has-header="true" padding="true">
-        <div class="list">
-            <label class="item item-input">
-                <span class="input-label">Email</span>
-                <input type="email" ng-model="vm.email">
-            </label>
-            <label class="item item-input">
-                <span class="input-label">Password</span>
-                <input type="password" ng-model="vm.password">
-            </label>
+                <div class="list">
+                    <label class="item item-input">
+                        <span class="input-label">
+                            Your Phone
+                            <div class="form-errors" ng-show="loginForm.$submitted || loginForm.phone.$touched" ng-messages="loginForm.phone.$error">
+                                <p class="error" ng-message="required">required </p>
+                                <p class="error" ng-message="pattern">invalid</p>
+                            </div>
+                        </span>
+                        <input type="tel" ng-model="vm.phone" name="phone" pattern="^\+?[0-9]{3}-?[0-9]{6,12}$" required>
+                    </label>
+
+                    <label class="item item-input">
+                        <span class="input-label">
+                            Password
+                            <div class="form-errors" ng-show="loginForm.$submitted || loginForm.password.$touched" ng-messages="loginForm.password.$error">
+                                <p class="error" ng-message="required">required</p>
+                            </div>
+                        </span>
+                        <input type="password" ng-model="vm.password" name="password" required>
+
+                    </label>
+                </div>
+
+                <div class="row">
+                    <div class="col">
+                        <button type="button" class="button button-block button-outline button-stable" ng-click="state='register'">New user?</button>
+                    </div>
+                    <div class="col">
+                        <button class="button button-block button-positive" type="submit">Sign-In</button>
+                    </div>
+                </div>
+            </form>
         </div>
 
-        <div class="row">
-            <div class="col">
-                <button class="button button-block button-outline button-positive" ng-click="vm.register()">Register</button>
-            </div>
-            <div class="col">
-                <button class="button button-block button-positive" ng-click="vm.login()">Sign-In</button>
-            </div>
+
+        <div class="padding" ng-show="state=='register'">
+
+            <form name="registerForm" novalidate="" ng-submit="vm.register(registerForm.$valid)">
+
+                <div class="list">
+                    <label class="item item-input">
+                        <span class="input-label">
+                            Your Phone
+                            <div class="form-errors" ng-show="registerForm.$submitted || registerForm.phone.$touched" ng-messages="registerForm.phone.$error">
+                                <p class="error" ng-message="required">required </p>
+
+                                <p class="error" ng-message="phone">already taken</p>
+
+                                <p class="error" ng-message="pattern">invalid</p>
+
+                                <p ng-if="registerForm.phone.$pending">checking...</p>
+                            </div>
+                        </span>
+                        <input type="tel" ng-model="vm.phone" name="phone" pattern="^\+?[0-9]{3}-?[0-9]{6,12}$" unique-phone required>
+                    </label>
+
+
+                    <label class="item item-input">
+                        <span class="input-label">
+                            Nick name
+
+                            <div class="form-errors" ng-show="registerForm.$submitted || registerForm.nickname.$touched" ng-messages="registerForm.nickname.$error">
+                                <p class="error" ng-message="required">required</p>
+                            </div>
+
+                        </span>
+                        <input type="text" name="nickname" ng-model="vm.nickname" required maxlength="20">
+                    </label>
+
+                    <label class="item item-input">
+                        <span class="input-label">
+                            Password
+                            <div class="form-errors" ng-show="registerForm.$submitted || registerForm.password.$touched" ng-messages="registerForm.password.$error">
+                                <p class="error" ng-message="required">required</p>
+                            </div>
+                        </span>
+                        <input type="password" ng-model="vm.password" name="password" required>
+
+                    </label>
+
+
+                    <label class="item item-input">
+                        <span class="input-label">
+                            Confirm Password
+
+                            <div class="form-errors" ng-show="registerForm.$submitted || registerForm.confirmPassword.$touched" ng-messages="registerForm.confirmPassword.$error">
+                                <p class="error" ng-message="required">required</p>
+
+                                <p class="error" ng-message="match">passwords don't match</p>
+                            </div>
+
+                        </span>
+                        <input type="password" ng-model="vm.passwordConfirm" name="confirmPassword" required match="vm.password">
+                    </label>
+                </div>
+                <div class="row">
+                    <div class="col">
+                        <button type="button" class="button button-block button-outline button-stable" ng-click="state='sign-in'">Existing user?</button>
+                    </div>
+                    <div class="col">
+                        <button class="button button-block button-positive" type="submit">Register</button>
+                    </div>
+                </div>
+            </form>
+
         </div>
 
     </ion-content>

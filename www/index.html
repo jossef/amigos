@@ -7,7 +7,6 @@
     <meta name="viewport" content="initial-scale=1, maximum-scale=1, user-scalable=no, width=device-width">
     <title>Amigos</title>
 
-    <link href="lib/ionic/release/css/ionic.min.css" rel="stylesheet"/>
     <link href="assets/css/style.css" rel="stylesheet"/>
 </head>
 
@@ -17,8 +16,8 @@
 <shell-view></shell-view>
 
 <script src="lib/ionic/release/js/ionic.bundle.min.js"></script>
-<script src="lib/ngCordova/dist/ng-cordova-mocks.min.js"></script>
 <script src="lib/ngCordova/dist/ng-cordova.min.js"></script>
+<script src="lib/angular-messages/angular-messages.min.js"></script>
 
 <!-- cordova script (this will be a 404 during development) -->
 <script src="cordova.js"></script>
@@ -28,8 +27,12 @@
 <script src="src/amigos.js"></script>
 <script src="src/routing.js"></script>
 <script src="src/common-service.js"></script>
+<script src="src/error-handling-service.js"></script>
 
 <script src="src/home/home-controller.js"></script>
+
+<script src="src/native/contacts-service.js"></script>
+<script src="src/native/mock-service.js"></script>
 
 <script src="src/welcome/welcome-controller.js"></script>
 
@@ -45,6 +48,7 @@
 
 <script src="src/login/login-controller.js"></script>
 <script src="src/login/login-service.js"></script>
+<script src="src/login/login-directives.js"></script>
 
 </body>
 </html>

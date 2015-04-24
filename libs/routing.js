@@ -11,9 +11,19 @@
 
         app.get('/api/users', api.listUsers);
         app.get('/api/users/:id', api.getUser);
+
         app.get('/api/events', api.events);
+
         app.get('/api/friends', api.getFriends);
         app.get('/api/naama-test', api.naamaTest);
+
+        app.get('/api/info', api.getInfo);
+
+
+        app.get('/api/profile', api.getProfile);
+        app.post('/api/profile', api.updateProfile);
+
+        app.post('/api/validate/phone', api.validatePhone);
 
         app.post('/api/register', authentication.register);
         app.post('/api/login', authentication.login);

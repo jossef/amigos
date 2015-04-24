@@ -3,17 +3,61 @@
 
     var app = angular.module('amigos');
 
-    app.controller("ProfileController", function ($scope, profileService, commonService) {
+    app.controller("ProfileController", function ($scope, $ionicPopover,  profileService, commonService) {
         var vm = this;
 
-        profileService.getProfile()
-            .success(function(){
+        // Popover ( a.k.a dropdown )
+        // ----------------------------------
 
-            })
-            .error(function(){
-                commonService.showAlert(':( @');
+        $ionicPopover.fromTemplateUrl('src/profile/profile-dropdown-view.html', {
+            scope: $scope
+        }).then(function(popover) {
+            vm.popover = popover;
+        });
+
+        // ----------------------------------
+
+
+        profileService.getProfile()
+            .success(function (profile) {
+                vm.phone = profile.phone;
+                vm.nickname = profile.nickname;
+                vm.password = '';
+                vm.changePassword = false;
             });
 
+
+        vm.update = function (isValid) {
+
+            if (!isValid) {
+                commonService.showAlert('Hey!', "You need to correct the given information");
+                return;
+            }
+
+            var data = {
+                nickname: vm.nickname
+            };
+
+            if (vm.changePassword && vm.password) {
+                data['password'] = vm.password;
+            }
+
+            profileService.updateProfile(data)
+                .success(function (profile) {
+                    commonService.refreshInfo();
+                    commonService.goBack();
+                });
+        };
+
+        vm.cancel = function(){
+            commonService.goBack();
+        };
+
+
+        vm.clearStorage = function(){
+            commonService.clearStorage();
+            commonService.showAlert('local storage cleared');
+        };
 
     });
 

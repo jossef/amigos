@@ -1,0 +1,46 @@
+@import "ionic";
+@import "pager";
+@import "images";
+
+.pink {
+  background-color: pink;
+}
+
+.red {
+  background-color: red;
+}
+
+.yellow {
+  background-color: yellow;
+}
+
+.form-errors
+{
+
+
+  .error{
+     color: $assertive;
+  }
+
+  .success{
+     color: $balanced;
+  }
+}
+
+.push
+{
+  &-near
+  {
+    margin-top: 10px;
+  }
+
+  &-far
+  {
+    margin-top: 20px;
+  }
+}
+
+.popover{
+  min-height: 80px;
+  height: auto;
+}

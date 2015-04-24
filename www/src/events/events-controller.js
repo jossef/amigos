@@ -4,13 +4,15 @@
     var app = angular.module('amigos');
 
     app.controller("EventsController", function ($scope, eventService, commonService) {
-        var vm = $scope;
+        var vm = this;
 
         eventService.getEvents()
             .success(function (events) {
                 vm.events = events;
             });
 
+        // TODO add this in logic
+        vm.isEventAdmin = true;
 
         vm.createEvent = function(){
             commonService.redirect('create-event');

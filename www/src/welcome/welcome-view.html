@@ -1,16 +1,51 @@
-<ion-slide-box on-slide-changed="slideHasChanged($index)">
-    <ion-slide>
-        <div class="box blue"><h1>Welcome to amigos</h1></div>
-    </ion-slide>
-    <ion-slide>
-        <div class="box yellow"><h1>TODO design pic1 jossef</h1></div>
-    </ion-slide>
-    <ion-slide>
-        <div class="box pink"><h1>TODO design pic2</h1></div>
-    </ion-slide>
+<ion-content>
 
-    <ion-slide>
-        <div class="box pink"><h1 ng-click="skip()">skip</h1></div>
-    </ion-slide>
 
-</ion-slide-box>
+    <div class="welcome-slider">
+
+        <ion-slide-box show-pager="false" delegate-handle="welcome-slider">
+            <ion-slide>
+                <div class="card">
+                    <div class="item item-text-wrap">
+                        This is a basic Card which contains an item that has wrapping text.
+                        <ion-spinner icon="spiral"></ion-spinner>
+
+                    </div>
+                </div>
+
+            </ion-slide>
+            <ion-slide>
+                <div class="box pink"><h1>TODO design pic2</h1></div>
+            </ion-slide>
+
+            <ion-slide>
+                <div class="box pink"><h1>TODO design pic2</h1></div>
+            </ion-slide>
+
+        </ion-slide-box>
+
+    </div>
+
+    <div class="pager">
+        <span class="pager-page"
+              ng-repeat="slide in vm.getSlides() track by $index"
+              ng-class="{'active': $index == vm.currentIndex()}" ng-click="vm.slide($index)">
+
+            <i class="icon ion-record"></i>
+
+
+        </span>
+    </div>
+
+    <div class="padding">
+
+    <button class="button button-block button-positive"
+            ng-class="vm.isLastSlide() ? 'button-large' : 'button-outline' "
+            ng-click="vm.skip()">
+
+        <span ng-show="vm.isLastSlide()">Yo! Let's Start!</span>
+        <span ng-hide="vm.isLastSlide()">Skip the intro</span>
+    </button>
+
+    </div>
+</ion-content>

@@ -8,7 +8,7 @@
             name: 'home',
             path: '/',
             view: 'src/home/home-view.html',
-            controller: 'HomeController'
+            controller: 'HomeController as vm'
         },
         {
             name: 'login',
@@ -20,25 +20,25 @@
             name: 'events',
             path: '/events',
             view: 'src/events/events-view.html',
-            controller: 'EventsController'
+            controller: 'EventsController as vm'
         },
         {
             name: 'create-event',
             path: '/events/create',
             view: 'src/events/create-event-view.html',
-            controller: 'CreateEventController'
+            controller: 'CreateEventController  as vm'
         },
         {
             name: 'profile',
             path: '/profile',
             view: 'src/profile/profile-view.html',
-            controller: 'ProfileController'
+            controller: 'ProfileController as vm'
         },
         {
             name: 'welcome',
             path: '/welcome',
             view: 'src/welcome/welcome-view.html',
-            controller: 'WelcomeController'
+            controller: 'WelcomeController as vm'
         }
     ];
 

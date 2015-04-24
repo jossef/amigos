@@ -4,7 +4,7 @@
     var app = angular.module('amigos');
 
     app.controller("CreateEventController", function ($scope, eventService, commonService) {
-        var vm = $scope;
+        var vm = this;
 
         vm.newEvent = {};
         vm.step = 0;

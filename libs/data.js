@@ -11,8 +11,14 @@
     var Event = require('./models/event');
 
     module.exports = {
+
         isUserExists: isUserExists,
+        getUser: getUser,
+        updateUser: updateUser,
+
+        isPhoneInUse: isPhoneInUse,
         getUsers: getUsers,
+
         register: register,
         getEvents: getEvents,
 
@@ -20,6 +26,22 @@
     };
 
     // ..........................
+
+    function isPhoneInUse(phone) {
+        var deferred = Q.defer();
+
+        User.findOne({phone: phone})
+            .exec(function (err, user) {
+                if (err) {
+                    return deferred.reject(err);
+                }
+
+                var exists = user && true;
+                deferred.resolve(exists);
+            });
+
+        return deferred.promise;
+    }
 
     function isUserExists(username) {
         var deferred = Q.defer();
@@ -36,6 +58,55 @@
 
         return deferred.promise;
     }
+
+
+    function getUser(phone) {
+        var deferred = Q.defer();
+
+        User.findOne({phone: phone}, { phone: true, nickname: true })
+            .exec(function (err, user) {
+                if (err) {
+                    return deferred.reject(err);
+                }
+
+                deferred.resolve(user);
+            });
+
+        return deferred.promise;
+    }
+
+
+
+    function updateUser(phone, data) {
+        var deferred = Q.defer();
+
+        User.findOne({'phone': phone}, function (err, user) {
+            if (err) {
+                return deferred.reject(err);
+            }
+
+            if (!user ) {
+                return deferred.reject('Authentication failed');
+            }
+
+            if (data.nickname)
+            {
+                user.nickname = data.nickname;
+            }
+
+            if (data.password)
+            {
+                user.password = user.generateHash(data.password);
+            }
+
+            user.save();
+
+            deferred.resolve();
+
+        });
+        return deferred.promise;
+    }
+
 
     function getUsers() {
         var deferred = Q.defer();

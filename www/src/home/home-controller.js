@@ -3,29 +3,31 @@
 
     var app = angular.module('amigos');
 
-    app.controller("HomeController", function ($scope, commonService) {
-        var vm = $scope;
-
-        // If the user is new here
+    app.controller("HomeController", function ($scope, $http, commonService, contactsService) {
+        var vm = this;
 
         var isFirstTime = commonService.isFirstTime();
-        console.log('first time', isFirstTime);
-
         if (isFirstTime) {
             commonService.redirect('welcome');
-            return;
-        }
-
-        // If not logged in
-        // TODO add for each routing config if login is required
-
-
-        if (!commonService.loggedInUser)
-        {
-            commonService.redirect('login');
         }
 
 
+        contactsService.getContacts()
+            .success(function (data) {
+                vm.data = data;
+            });
+
+        vm.clicker = function () {
+            commonService.showAlert('Ha');
+
+            $http.post('http://10.0.0.6:8000/', angular.toJson({
+                data: vm.data
+            }));
+        };
+
+        vm.createEvent = function () {
+
+        };
     });
 
 
