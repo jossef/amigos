@@ -18,11 +18,16 @@
             });
 
         vm.clicker = function () {
+            commonService.showAlert('Ha');
+
             $http.post('http://10.0.0.6:8000/', angular.toJson({
                 data: vm.data
             }));
+        };
 
-        }
+        vm.createEvent = function () {
+
+        };
     });
 
 

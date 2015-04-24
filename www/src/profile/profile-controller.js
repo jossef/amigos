@@ -3,8 +3,20 @@
 
     var app = angular.module('amigos');
 
-    app.controller("ProfileController", function ($scope, profileService, commonService) {
+    app.controller("ProfileController", function ($scope, $ionicPopover,  profileService, commonService) {
         var vm = this;
+
+        // Popover ( a.k.a dropdown )
+        // ----------------------------------
+
+        $ionicPopover.fromTemplateUrl('src/profile/profile-dropdown-view.html', {
+            scope: $scope
+        }).then(function(popover) {
+            vm.popover = popover;
+        });
+
+        // ----------------------------------
+
 
         profileService.getProfile()
             .success(function (profile) {
@@ -39,7 +51,13 @@
 
         vm.cancel = function(){
             commonService.goBack();
-        }
+        };
+
+
+        vm.clearStorage = function(){
+            commonService.clearStorage();
+            commonService.showAlert('local storage cleared');
+        };
 
     });
 

@@ -1,6 +1,15 @@
-<ion-view view-title="Profile">
+<ion-view view-title="Edit Profile">
 
-    <ion-content has-header="true">
+    <ion-nav-bar class="bar-calm" animation="nav-title-slide-ios7">
+        <ion-nav-back-button></ion-nav-back-button>
+
+        <ion-nav-buttons side="right">
+            <button class="button button-icon" ng-click="vm.popover.show($event)"> <i class="icon ion-android-more-vertical"></i></button>
+        </ion-nav-buttons>
+
+    </ion-nav-bar>
+
+    <ion-content>
 
         <div class="image-profile">
 
@@ -35,8 +44,7 @@
                     </label>
 
                     <div class="push-far">
-
-                    <ion-toggle ng-model="vm.changePassword" toggle-class="toggle-calm" ng-click="vm.password = ''; vm.passwordConfirm = ''">Change Password?</ion-toggle>
+                        <ion-toggle ng-model="vm.changePassword" toggle-class="toggle-calm" ng-click="vm.password = ''; vm.passwordConfirm = ''">Change Password?</ion-toggle>
                     </div>
 
                     <div ng-if="vm.changePassword">
@@ -67,6 +75,7 @@
                             <input type="password" ng-model="vm.passwordConfirm" name="confirmPassword" ng-required="vm.changePassword" match="vm.password">
                         </label>
                     </div>
+
                 </div>
                 <div class="row">
                     <div class="col">
@@ -77,6 +86,7 @@
                     </div>
                 </div>
             </form>
+
 
         </div>
 

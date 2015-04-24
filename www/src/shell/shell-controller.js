@@ -19,6 +19,10 @@
 
         commonService.refreshInfo();
 
+        vm.toggleMenu = function() {
+            vm.sideMenuController.toggleLeft();
+        };
+
         $scope.$watch(commonService.getInfo, function (info) {
             if (info && !info.user)
             {

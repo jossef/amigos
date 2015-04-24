@@ -8783,8 +8783,9 @@ body {
 .welcome-slider ion-slide {
   min-height: 400px; }
 
-.image-profile {
-  box-shadow: inset 0px 230px 0px 0px #009587; }
+.image-responsive {
+  width: 100%;
+  height: auto; }
 
 .pink {
   background-color: pink; }
@@ -8795,10 +8796,6 @@ body {
 .yellow {
   background-color: yellow; }
 
-.image-responsive {
-  width: 100%;
-  height: auto; }
-
 .form-errors .error {
   color: #F44336; }
 .form-errors .success {
@@ -8808,5 +8805,9 @@ body {
   margin-top: 10px; }
 .push-far {
   margin-top: 20px; }
+
+.popover {
+  min-height: 80px;
+  height: auto; }
 
 /*# sourceMappingURL=style.css.map */

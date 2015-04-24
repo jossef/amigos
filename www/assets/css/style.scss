@@ -14,11 +14,6 @@
   background-color: yellow;
 }
 
-.image-responsive {
-  width: 100%;
-  height: auto;
-}
-
 .form-errors
 {
 
@@ -43,4 +38,9 @@
   {
     margin-top: 20px;
   }
+}
+
+.popover{
+  min-height: 80px;
+  height: auto;
 }
