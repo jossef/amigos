@@ -1,61 +1,29 @@
-<md-content flex>
+<ion-view view-title="Create Event">
 
-    <md-content layout="row" class="md-padding">
-        <p class="md-caption">Sign in locally </p>
-    </md-content>
+    <ion-nav-bar class="bar-positive" animation="nav-title-slide-ios7">
+        <ion-nav-buttons side="left">
+            <button menu-toggle="left" class="button button-icon icon ion-navicon"></button>
+        </ion-nav-buttons>
+    </ion-nav-bar>
 
-    <md-card>
+    <ion-content has-header="true">
 
-        <md-content class="md-padding" flex>
-            {{newEvent}}
-            {{step}}
-        </md-content>
-    </md-card>
+        <div class="image-profile">
+            <img src="http://lorempixel.com/500/500/" class="image-responsive"/>
+        </div>
 
-    <md-card>
-        <div ng-show="step == 0">
-            <md-content flex class="md-padding">
 
-                <form name="form" novalidate>
-                    <md-input-container>
-                        <label>Name your event</label>
-                        <input name="eventName" ng-model="newEvent.name" type="text" required>
+        <div class="padding">
 
-                        <div ng-show="form.eventName.$dirty " ng-messages="form.eventName.$error">
-                            <div ng-message="required">Item name is required</div>
-                        </div>
-                    </md-input-container>
-                </form>
-            </md-content>
+            <h1>Create</h1>
+
+            <h1>Create</h1>
 
         </div>
-        <div ng-show="step == 1">
-            <md-content flex class="md-padding">
-                <md-list>
-                    <md-list-item class="md-3-line" ng-repeat="friend in friends" ng-click="friend.selected != friend.selected">
 
-                        <img ng-src="http://lorempixel.com/400/200/?123={{$index}}" class="md-avatar"/>
+        <ion-nav-view name="create-event"></ion-nav-view>
+    </ion-content>
 
-                        <div class="md-list-item-text">
-                            <h3>{{ friend.name }}</h3>
-                            <h4>{{ friend.name }}</h4>
-                            <p>{{ friend.name }}</p>
 
-                            <md-divider ng-if="!$last"></md-divider>
-                        </div>
-
-                        <md-icon ng-show="friend.selected" class="mdi-done"></md-icon>
-
-                    </md-list-item>
-                </md-list>
-            </md-content>
-        </div>
-    </md-card>
-
-    <md-content layout="row">
-        <md-button flex ng-click="previewsStep()">back</md-button>
-        <md-button flex ng-click="nextStep()">next</md-button>
-    </md-content>
-
-</md-content>
+</ion-view>
 

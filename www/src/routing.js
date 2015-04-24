@@ -7,37 +7,62 @@
         {
             name: 'home',
             path: '/',
-            view: 'src/home/home-view.html',
+            templateUrl: 'src/home/home-view.html',
             controller: 'HomeController as vm'
         },
         {
             name: 'login',
             path: '/login',
-            view: 'src/login/login-view.html',
+            templateUrl: 'src/login/login-view.html',
             controller: 'LoginController as vm'
         },
         {
             name: 'events',
             path: '/events',
-            view: 'src/events/events-view.html',
+            templateUrl: 'src/events/events-view.html',
             controller: 'EventsController as vm'
         },
         {
-            name: 'create-event',
+            name: 'events-create',
             path: '/events/create',
-            view: 'src/events/create-event-view.html',
-            controller: 'CreateEventController  as vm'
+            abstract: true,
+            templateUrl: 'src/events/create-event-view.html',
+            controller: 'CreateEventController as vm'
+        },
+        {
+            name: 'events-create.step1',
+            path: '/1',
+            views: {
+                'create-event':{
+                    templateUrl: 'src/events/create-event-step-1-view.html'
+                }
+            }
+        },
+        {
+            name: 'events-create.step2',
+            path: '/2',
+            views: {
+                'create-event':{
+                    templateUrl: 'src/events/create-event-step-2-view.html'
+                }
+            }
+        },
+        {
+            name: 'event',
+            path: '/events/:id',
+            templateUrl: 'src/events/event-view.html',
+            controller: 'EventController as vm'
         },
         {
             name: 'profile',
             path: '/profile',
-            view: 'src/profile/profile-view.html',
+            templateUrl: 'src/profile/profile-view.html',
             controller: 'ProfileController as vm'
         },
         {
             name: 'welcome',
             path: '/welcome',
-            view: 'src/welcome/welcome-view.html',
+            templateUrl: 'src/welcome/welcome-view.html',
             controller: 'WelcomeController as vm'
         }
     ];
@@ -66,8 +91,10 @@
             $stateProvider
                 .state(route.name, {
                     url: route.path,
-                    templateUrl: route.view,
-                    controller: route.controller
+                    templateUrl: route.templateUrl,
+                    controller: route.controller,
+                    abstract: route.abstract,
+                    views: route.views
                 })
         });
 

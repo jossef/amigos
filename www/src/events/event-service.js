@@ -4,12 +4,23 @@
     angular.module('amigos')
         .service('eventService', EventService);
 
+
+    var eventTypes = [
+        {name: 'Polo & Party', id: 'party'},
+        {name: 'Friendship', id: 'friendship'},
+        {name: 'Beach', id: 'beach'},
+        {name: 'Nature Trip', id: 'nature'},
+        {name: 'BBQ', id: 'bbq'},
+        {name: 'Picnic', id: 'picnic'},
+        {name: 'Other', id: 'other'}
+    ];
+
     function EventService($http, commonService) {
 
         return {
             getEvents: getEvents,
-            getEvent: getEvent
-
+            getEvent: getEvent,
+            eventTypes: eventTypes
         };
 
 

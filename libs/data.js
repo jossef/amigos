@@ -20,7 +20,9 @@
         getUsers: getUsers,
 
         register: register,
+
         getEvents: getEvents,
+        getEvent: getEvent,
 
         User: User
     };
@@ -60,10 +62,26 @@
     }
 
 
+    function getEvent(id) {
+        var deferred = Q.defer();
+
+        Event.findById(id)
+            .exec(function (err, event) {
+                if (err) {
+                    return deferred.reject(err);
+                }
+
+                deferred.resolve(event);
+            });
+
+        return deferred.promise;
+    }
+
+
     function getUser(phone) {
         var deferred = Q.defer();
 
-        User.findOne({phone: phone}, { phone: true, nickname: true })
+        User.findOne({phone: phone}, {phone: true, nickname: true})
             .exec(function (err, user) {
                 if (err) {
                     return deferred.reject(err);
@@ -76,7 +94,6 @@
     }
 
 
-
     function updateUser(phone, data) {
         var deferred = Q.defer();
 
@@ -85,17 +102,15 @@
                 return deferred.reject(err);
             }
 
-            if (!user ) {
+            if (!user) {
                 return deferred.reject('Authentication failed');
             }
 
-            if (data.nickname)
-            {
+            if (data.nickname) {
                 user.nickname = data.nickname;
             }
 
-            if (data.password)
-            {
+            if (data.password) {
                 user.password = user.generateHash(data.password);
             }
 
