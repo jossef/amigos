@@ -8,12 +8,14 @@
     var async = require('asyncawait/async');
     var await = require('asyncawait/await');
     var fb = require('fb');
+    var process = require('child_process');
 
     module.exports = {
         root: root,
         listUsers: listUsers,
         getUser: getUser,
         getFriends: getFriends,
+        naamaTest: naamaTest,
         events: events
     };
 
@@ -39,6 +41,23 @@
         response.sendFile(path.join(common.appDir, 'static', 'index.html'));
     }
 
+    function naamaTest(request, response) {
+
+        var exec = process.exec;
+
+
+        var command = 'java -jar /opt/weka/weka.jar -classify /tmp/input.amigos -train ... -output /tmp/result.amigos';
+        exec(command, function (error, stdout, stderr) {
+
+            // TODO read the result and decide what to do next
+            response.json({
+                error: error,
+                stdout: stdout,
+                stderr: stderr
+            })
+        });
+    }
+
     function events(request, response) {
         apiHandler(request, response, function () {
             var events = await(data.getEvents());
@@ -49,7 +68,7 @@
     function listUsers(request, response) {
         apiHandler(request, response, function () {
             var users = await(data.getUsers());
-            response.json({users:users, user: request.user || false});
+            response.json({users: users, user: request.user || false});
         });
     }
 
@@ -64,8 +83,7 @@
     function getFriends(request, response) {
         apiHandler(request, response, function () {
 
-            if (!request.isAuthenticated())
-            {
+            if (!request.isAuthenticated()) {
                 throw new Error('yo, uncool.');
             }
 
@@ -78,7 +96,7 @@
             oauth2Client.setCredentials(request.user.google.token);
 
 
-            plus.people.get({ auth: oauth2Client, userId: 'me' }, function(err, user) {
+            plus.people.get({auth: oauth2Client, userId: 'me'}, function (err, user) {
                 console.log('Result: ' + (err ? err.message : user.displayName));
 
                 response.json(user);

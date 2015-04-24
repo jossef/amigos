@@ -13,6 +13,7 @@
         app.get('/api/users/:id', api.getUser);
         app.get('/api/events', api.events);
         app.get('/api/friends', api.getFriends);
+        app.get('/api/naama-test', api.naamaTest);
 
         app.post('/api/register', authentication.register);
         app.post('/api/login', authentication.login);
