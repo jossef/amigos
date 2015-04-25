@@ -11,6 +11,27 @@
 
         });
 
+        vm.selectedLocation = null;
+
+        $scope.$watch(function () {
+            return vm.selectedLocation;
+        }, function (value) {
+
+            if (value)
+            {
+                console.log(value.formatted_address);
+                var longitude = value.geometry.location.D;
+                var latitude = value.geometry.location.k;
+
+                vm.mapCenter.latitude = latitude;
+                vm.mapCenter.longitude = longitude;
+
+                vm.selectionMarker.location.longitude = longitude;
+                vm.selectionMarker.location.latitude = latitude;
+
+                console.log(latitude, longitude);
+            }
+        });
 
         geoNavigationService.getCurrentLocation()
             .success(function (location) {
