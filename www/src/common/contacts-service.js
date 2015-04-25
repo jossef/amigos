@@ -6,14 +6,13 @@
     app.service('contactsService', ContactsService);
 
 
-    function ContactsService($q, $cordovaContacts, $ionicPlatform, mockService) {
+    function ContactsService($q, $cordovaContacts, $ionicPlatform, mockService, commonService) {
 
         var getContactsPromise = _getContacts();
 
         return {
             getContacts: getContacts,
-            pickContact: pickContact,
-            isNative: isNative
+            pickContact: pickContact
         };
 
         // ........
@@ -21,7 +20,7 @@
         function pickContact() {
             var def = $q.defer();
 
-            if (isNative()) {
+            if (commonService.isNative()) {
                 window.plugins.ContactChooser.chooseContact(function (contactInfo) {
                     // setTimeout - workaround for ios
                     setTimeout(function () {
@@ -49,12 +48,6 @@
             return getContactsPromise;
         }
 
-        function isNative() {
-            // TOOD hack this around when more platform are relevant
-            var isAndroid = ionic.Platform.isAndroid();
-            return isAndroid;
-
-        }
 
         function _getContacts() {
 
@@ -62,7 +55,7 @@
 
             $ionicPlatform.ready(function () {
 
-                if (isNative()) {
+                if (commonService.isNative()) {
                     $cordovaContacts.find({filter: ''})
                         .then(def.resolve, def.reject);
                 }

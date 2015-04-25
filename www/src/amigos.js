@@ -7,6 +7,7 @@
         'ionic',
         'ngCordova',
         'uiGmapgoogle-maps',
+        'geolocation',
         'ui.router'
     ]);
 
@@ -16,8 +17,7 @@
             v: '3.17',
             libraries: 'weather,geometry,visualization,places'
         });
-    })
-
+    });
 
 
     app.config(
