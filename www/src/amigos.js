@@ -8,6 +8,7 @@
         'ngCordova',
         'uiGmapgoogle-maps',
         'geolocation',
+        'ion-google-place',
         'ui.router'
     ]);
 
