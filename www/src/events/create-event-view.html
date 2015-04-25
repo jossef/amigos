@@ -68,10 +68,23 @@
                     </form>
 
                 </ion-content>
+
+                <ion-footer-bar class="bar-positive">
+                    <div class="buttons">
+                        <h1 class="title"></h1>
+
+                        <button type="submit" ng-click="vm.switchTab(1)"
+                                class="button button-clear"
+                                ng-class="{'button-outline' : vm.infoForm.$invalid}"
+                                >
+                            Next: When? <i class="icon ion-ios-arrow-forward"></i>
+                        </button>
+                    </div>
+                </ion-footer-bar>
+
             </ion-view>
 
         </ion-tab>
-
 
         <ion-tab title="When?" icon="{{ vm.whenForm.$valid ? 'ion-ios-checkmark' : 'ion-ios-circle-outline' }}">
 
@@ -84,36 +97,75 @@
                         </div>
 
                         <div class="list">
-                            <label class="item item-input item-stacked-label">
-                                <span class="input-label">
-                                    <b>Name</b> your event
-                                </span>
 
-                                <span class="form-errors" ng-show="vm.whenForm.$submitted || vm.whenForm.name.$touched" ng-messages="vm.whenForm.name.$error">
-                                    <p class="error" ng-message="required">required</p>
-                                </span>
+                            <div class="item item-toggle">
 
-                                <input type="text" name="name"
-                                       ng-model="vm.event.name"
-                                       ng-required="true"
-                                       placeholder="For example: Birthday to Daniel">
+                                <b>Have a date?</b>
 
-                            </label>
+                                <label class="toggle toggle-positive">
+                                    <input type="checkbox" ng-model="vm.haveDate">
+
+                                    <div class="track">
+                                        <div class="handle"></div>
+                                    </div>
+                                </label>
+
+                            </div>
+
+                            <div ng-show="vm.haveDate" class="item text-center">
+
+                                <date-picker ng-model="newDate" ng-required="vm.haveDate" ng-change="vm.addDate(newDate)">
+                                    <button class="button button-positive" ng-click="showDatePicker()"
+                                            ng-class="{'button-outline':!vm.hasDates()}">
+                                        <span ng-hide="vm.hasDates()">Click to set date</span>
+                                        <span ng-show="vm.hasDates()">Add another date</span>
+                                    </button>
+
+                                    <p ng-hide="vm.hasDates()" class="text-center">
+                                        Please pick a date
+                                    </p>
+
+                                    <p ng-show="vm.hasDates()" class="text-center">
+                                        <b>Great!</b> you can add more dates
+                                    </p>
+
+                                </date-picker>
+                            </div>
+
+
+                            <div class="item item-icon-right" ng-repeat="(epoch, date) in vm.dates">
+                                {{epoch | date:'dd/MM/yyyy hh:mm'}}
+
+                                <i class="icon ion-android-delete assertive" ng-click="vm.removeDate(epoch)"></i>
+
+                            </div>
 
                         </div>
-
-                        <div>
-                            <button type="submit" ng-click="vm.whenForm.$valid && vm.switchTab(2)"
-                                    class="button button-block button-positive button-large button-rect"
-                                    ng-class="{'button-outline' : vm.whenForm.$invalid}"
-                                    >
-                                Next: Where? <i class="icon ion-ios-arrow-forward"></i>
-                            </button>
-                        </div>
-
                     </form>
 
                 </ion-content>
+
+                <ion-footer-bar align-title="left" class="bar-positive">
+                    <div class="buttons">
+                        <button type="submit" ng-click="vm.switchTab(0)"
+                                class="button button-clear"
+                                ng-class="{'button-outline' : vm.whenForm.$invalid}"
+                                >
+                            <i class="icon ion-ios-arrow-back"></i> Back: Info
+                        </button>
+                    </div>
+                    <h1 class="title"></h1>
+
+                    <div class="buttons">
+                        <button type="submit" ng-click="vm.switchTab(2)"
+                                class="button button-clear"
+                                ng-class="{'button-outline' : vm.whenForm.$invalid}"
+                                >
+                            Next: Where? <i class="icon ion-ios-arrow-forward"></i>
+                        </button>
+                    </div>
+                </ion-footer-bar>
+
             </ion-view>
 
         </ion-tab>
@@ -149,11 +201,11 @@
                         </div>
 
                         <div>
-                            <button type="submit" ng-click="vm.whereForm.$valid && vm.switchTab(2)"
+                            <button type="submit" ng-click="vm.whereForm.$valid && vm.switchTab(3)"
                                     class="button button-block button-positive button-large button-rect"
                                     ng-class="{'button-outline' : vm.whereForm.$invalid}"
                                     >
-                                Next: Where? <i class="icon ion-ios-arrow-forward"></i>
+                                Next: Who? <i class="icon ion-ios-arrow-forward"></i>
                             </button>
                         </div>
 
@@ -175,31 +227,35 @@
                             <img src="assets/img/create-event-who.png" class="image-responsive"/>
                         </div>
 
+
+
                         <div class="list">
-                            <label class="item item-input item-stacked-label">
-                                <span class="input-label">
-                                    <b>Name</b> your event
-                                </span>
 
-                                <span class="form-errors" ng-show="vm.whoForm.$submitted || vm.whoForm.name.$touched" ng-messages="vm.whoForm.name.$error">
-                                    <p class="error" ng-message="required">required</p>
-                                </span>
+                            <div class="item text-center">
 
-                                <input type="text" name="name"
-                                       ng-model="vm.event.name"
-                                       ng-required="true"
-                                       placeholder="For example: Birthday to Daniel">
+                                <button class="button button-positive" ng-click="vm.pickFriend()"
+                                        ng-class="{'button-outline':!vm.hasFriends()}">Click to add a friend
+                                </button>
 
-                            </label>
+                            </div>
+
+
+                            <div class="item item-icon-right" ng-repeat="(key, info) in vm.friends">
+
+                                {{info.name}}
+
+                                <i class="icon ion-android-delete assertive" ng-click="vm.removeFriend(key)"></i>
+
+                            </div>
 
                         </div>
 
                         <div>
-                            <button type="submit" ng-click="vm.whoForm.$valid && vm.switchTab(2)"
+                            <button type="submit" ng-click="vm.whoForm.$valid && vm.switchTab(4)"
                                     class="button button-block button-positive button-large button-rect"
                                     ng-class="{'button-outline' : vm.whoForm.$invalid}"
                                     >
-                                Next: Where? <i class="icon ion-ios-arrow-forward"></i>
+                                Next: What? <i class="icon ion-ios-arrow-forward"></i>
                             </button>
                         </div>
 
@@ -211,11 +267,11 @@
         </ion-tab>
 
 
-        <ion-tab title="What?" icon="{{ vm.whoForm.$valid ? 'ion-ios-checkmark' : 'ion-ios-circle-outline' }}">
+        <ion-tab title="What?" icon="{{ vm.whatForm.$valid ? 'ion-ios-checkmark' : 'ion-ios-circle-outline' }}">
 
             <ion-view>
                 <ion-content padding="false">
-                    <form name="vm.whoForm" novalidate ng-submit="">
+                    <form name="vm.whatForm" novalidate ng-submit="">
 
                         <div class="line-0">
                             <img src="assets/img/create-event-what.png" class="image-responsive"/>
@@ -227,7 +283,7 @@
                                     <b>Name</b> your event
                                 </span>
 
-                                <span class="form-errors" ng-show="vm.whoForm.$submitted || vm.whoForm.name.$touched" ng-messages="vm.whoForm.name.$error">
+                                <span class="form-errors" ng-show="vm.whatForm.$submitted || vm.whatForm.name.$touched" ng-messages="vm.whatForm.name.$error">
                                     <p class="error" ng-message="required">required</p>
                                 </span>
 
@@ -241,11 +297,11 @@
                         </div>
 
                         <div>
-                            <button type="submit" ng-click="vm.whoForm.$valid && vm.switchTab(2)"
+                            <button type="submit" ng-click="vm.whatForm.$valid && vm.createEvent()"
                                     class="button button-block button-positive button-large button-rect"
-                                    ng-class="{'button-outline' : vm.whoForm.$invalid}"
+                                    ng-class="{'button-outline' : vm.whatForm.$invalid}"
                                     >
-                                Next: Where? <i class="icon ion-ios-arrow-forward"></i>
+                                Finished, Create Event
                             </button>
                         </div>
 

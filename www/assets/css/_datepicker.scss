@@ -1,0 +1,42 @@
+@import "ionic-variables";
+
+.date-picker {
+  /* Empty. Add your own CSS if you like */
+  transition: all;
+
+  .color_blue {
+    color: $positive !important;
+  }
+
+  .bg_color_blue {
+    background-color: $positive;
+  }
+
+  .date_col:hover {
+    background-color: rgba($positive, 0.5);
+    cursor: pointer;
+  }
+
+  .date_col:active {
+    background-color: rgba($positive, 1);
+    cursor: pointer;
+  }
+
+  .no_padding {
+    padding: 0;
+  }
+
+  .date_cell {
+    padding: 5px;
+  }
+
+  .error_msg {
+    color: $assertive !important;
+    font-size: 12px;
+  }
+
+  .date_selected {
+    background-color: $positive;
+    color: #fff;
+  }
+}

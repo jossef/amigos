@@ -8799,18 +8799,33 @@ body {
 .welcome-slider ion-slide {
   min-height: 400px; }
 
+.date-picker {
+  /* Empty. Add your own CSS if you like */
+  transition: all; }
+  .date-picker .color_blue {
+    color: #2196F3 !important; }
+  .date-picker .bg_color_blue {
+    background-color: #2196F3; }
+  .date-picker .date_col:hover {
+    background-color: rgba(33, 150, 243, 0.5);
+    cursor: pointer; }
+  .date-picker .date_col:active {
+    background-color: #2196f3;
+    cursor: pointer; }
+  .date-picker .no_padding {
+    padding: 0; }
+  .date-picker .date_cell {
+    padding: 5px; }
+  .date-picker .error_msg {
+    color: #F44336 !important;
+    font-size: 12px; }
+  .date-picker .date_selected {
+    background-color: #2196F3;
+    color: #fff; }
+
 .image-responsive, .event-type-item img {
   width: 100%;
   height: auto; }
-
-.pink {
-  background-color: pink; }
-
-.red {
-  background-color: red; }
-
-.yellow {
-  background-color: yellow; }
 
 .form-errors .error {
   color: #F44336; }
