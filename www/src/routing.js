@@ -23,60 +23,14 @@
             controller: 'EventsController as vm'
         },
         {
-            name: 'events-create',
+            name: 'create-event',
             path: '/events/create',
-            abstract: true,
-            templateUrl: 'src/events/create/create-event-base-view.html',
+            templateUrl: 'src/events/create-event-view.html',
             controller: 'CreateEventController as vm'
         },
         {
-            name: 'events-create.info',
-            path: '/info',
-            views: {
-                'create-event':{
-                    templateUrl: 'src/events/create/create-event-info-view.html'
-                }
-            }
-        },
-        {
-            name: 'events-create.date',
-            path: '/date',
-            views: {
-                'create-event':{
-                    templateUrl: 'src/events/create/create-event-date-view.html'
-                }
-            }
-        },
-        {
-            name: 'events-create.location',
-            path: '/location',
-            views: {
-                'create-event':{
-                    templateUrl: 'src/events/create/create-event-location-view.html'
-                }
-            }
-        },
-        {
-            name: 'events-create.participants',
-            path: '/participants',
-            views: {
-                'create-event':{
-                    templateUrl: 'src/events/create/create-event-participants-view.html'
-                }
-            }
-        },
-        {
-            name: 'events-create.logistics',
-            path: '/logistics',
-            views: {
-                'create-event':{
-                    templateUrl: 'src/events/create/create-event-logistics-view.html'
-                }
-            }
-        },
-        {
             name: 'event',
-            path: '/events/:id',
+            path: '/event/:id',
             templateUrl: 'src/events/event-view.html',
             controller: 'EventController as vm'
         },

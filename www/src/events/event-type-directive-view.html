@@ -1,0 +1,15 @@
+<div class="row" style="flex-wrap: wrap;">
+
+    <div class="col col-33" ng-repeat="eventType in eventTypes">
+
+        <div class="event-type-item"
+             ng-click="selectEventType(eventType.id)"
+             ng-class="{'active' : eventType.id == value}">
+            <span class="title">
+                {{eventType.name}}
+            </span>
+            <img ng-src="assets/img/event-types/{{eventType.id}}.jpg">
+        </div>
+    </div>
+
+</div>

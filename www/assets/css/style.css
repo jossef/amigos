@@ -3551,7 +3551,7 @@ cite {
 .text-right {
   text-align: right; }
 
-.text-center {
+.text-center, .event-type-item .title {
   text-align: center; }
 
 h1, h2, h3, h4, h5, h6,
@@ -6655,6 +6655,22 @@ button.item.item-button-right {
   stop-color: #616161; }
 .spinner-spiral.spinner-light .stop2 {
   stop-color: #fff; }
+.spinner-spiral.spinner-stable .stop2 {
+  stop-color: #f8f8f8; }
+.spinner-spiral.spinner-positive .stop2 {
+  stop-color: #2196F3; }
+.spinner-spiral.spinner-calm .stop2 {
+  stop-color: #009688; }
+.spinner-spiral.spinner-balanced .stop2 {
+  stop-color: #33cd5f; }
+.spinner-spiral.spinner-assertive .stop2 {
+  stop-color: #F44336; }
+.spinner-spiral.spinner-energized .stop2 {
+  stop-color: #FFEB3B; }
+.spinner-spiral.spinner-royal .stop2 {
+  stop-color: #9C27B0; }
+.spinner-spiral.spinner-dark .stop2 {
+  stop-color: #616161; }
 
 /**
  * Forms
@@ -8783,7 +8799,7 @@ body {
 .welcome-slider ion-slide {
   min-height: 400px; }
 
-.image-responsive {
+.image-responsive, .event-type-item img {
   width: 100%;
   height: auto; }
 
@@ -8814,22 +8830,45 @@ body {
   height: 400px; }
 
 .nav-view-workaround {
-  min-height: 400px; }
+  min-height: 700px; }
 
-.create-event {
-  text-align: center;
-  line-height: 3em; }
-  .create-event a {
-    text-decoration: none;
-    font-size: 1.3em;
-    color: #616161;
+.item-title {
+  padding-top: 0;
+  margin-top: 0;
+  padding-left: 12px; }
+
+.line-0 {
+  line-height: 0; }
+
+.item-no-padding {
+  padding-left: 0;
+  padding-right: 0; }
+
+.event-type-item {
+  transition: all 0.3s ease;
+  position: relative;
+  outline: 1px solid transparent;
+  background: #fff;
+  line-height: 0; }
+  .event-type-item.active {
+    outline: 2px solid #2196F3;
+    color: #fff; }
+    .event-type-item.active .title {
+      background-color: rgba(33, 150, 243, 0.9); }
+  .event-type-item .title {
+    line-height: 2.5em;
+    display: inline-block;
+    white-space: nowrap;
+    overflow: hidden !important;
+    text-overflow: ellipsis;
+    background: rgba(255, 255, 255, 0.8);
     font-weight: 700;
-    font-family: Roboto, sans-serif; }
-  .create-event .active {
-    color: black;
-    border-bottom: 4px solid #2196F3; }
-  .create-event .todo {
-    color: silver;
-    border-bottom: 4px solid silver; }
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0; }
+
+.button-rect {
+  border-radius: 0 !important; }
 
 /*# sourceMappingURL=style.css.map */

@@ -1,0 +1,261 @@
+<ion-view view-title="Create Event">
+
+    <ion-nav-bar class="bar-positive" animation="nav-title-slide-ios7">
+        <ion-nav-buttons side="left">
+            <button menu-toggle="left" class="button button-icon icon ion-navicon"></button>
+        </ion-nav-buttons>
+
+        <ion-nav-buttons side="right">
+            <button class="button button-icon" ui-sref="events"><i class="icon ion-android-close"></i></button>
+        </ion-nav-buttons>
+    </ion-nav-bar>
+
+    <ion-tabs class="tabs-icon-top tabs-top tabs-positive">
+
+        <ion-tab title="Info" icon="{{ vm.infoForm.$valid ? 'ion-ios-checkmark' : 'ion-ios-circle-outline' }}">
+
+            <ion-view>
+                <ion-content padding="false">
+                    <form name="vm.infoForm" novalidate ng-submit="">
+
+                        <div class="line-0">
+                            <img src="assets/img/create-event-name.png" class="image-responsive"/>
+                        </div>
+
+                        <div class="list">
+                            <label class="item item-input item-stacked-label">
+                                <span class="input-label">
+                                    <b>Name</b> your event
+                                </span>
+
+                                <span class="form-errors" ng-show="vm.infoForm.$submitted || vm.infoForm.name.$touched" ng-messages="vm.infoForm.name.$error">
+                                    <p class="error" ng-message="required">required</p>
+                                </span>
+
+                                <input type="text" name="name"
+                                       ng-model="vm.event.name"
+                                       ng-required="true"
+                                       placeholder="For example: Birthday to Daniel">
+
+                            </label>
+
+                            <div class=" item item-no-padding">
+                                <span class="item-title input-label">
+                                    <b>So...</b> what would it be?
+
+                                    <span class="form-errors" ng-show="vm.infoForm.$submitted" ng-messages="vm.infoForm.type.$error">
+                                        <p class="error" ng-message="required">required</p>
+                                    </span>
+                                </span>
+
+
+                                <event-type
+                                        name="type"
+                                        ng-required="true"
+                                        ng-model="vm.event.type"></event-type>
+                            </div>
+                        </div>
+
+                        <div>
+                            <button type="submit" ng-click="vm.infoForm.$valid && vm.switchTab(1)"
+                                    class="button button-block button-positive button-large button-rect"
+                                    ng-class="{'button-outline' : vm.infoForm.$invalid}"
+                                    >
+                                Next: When? <i class="icon ion-ios-arrow-forward"></i>
+                            </button>
+                        </div>
+
+                    </form>
+
+                </ion-content>
+            </ion-view>
+
+        </ion-tab>
+
+
+        <ion-tab title="When?" icon="{{ vm.whenForm.$valid ? 'ion-ios-checkmark' : 'ion-ios-circle-outline' }}">
+
+            <ion-view>
+                <ion-content padding="false">
+                    <form name="vm.whenForm" novalidate ng-submit="">
+
+                        <div class="line-0">
+                            <img src="assets/img/create-event-when.png" class="image-responsive"/>
+                        </div>
+
+                        <div class="list">
+                            <label class="item item-input item-stacked-label">
+                                <span class="input-label">
+                                    <b>Name</b> your event
+                                </span>
+
+                                <span class="form-errors" ng-show="vm.whenForm.$submitted || vm.whenForm.name.$touched" ng-messages="vm.whenForm.name.$error">
+                                    <p class="error" ng-message="required">required</p>
+                                </span>
+
+                                <input type="text" name="name"
+                                       ng-model="vm.event.name"
+                                       ng-required="true"
+                                       placeholder="For example: Birthday to Daniel">
+
+                            </label>
+
+                        </div>
+
+                        <div>
+                            <button type="submit" ng-click="vm.whenForm.$valid && vm.switchTab(2)"
+                                    class="button button-block button-positive button-large button-rect"
+                                    ng-class="{'button-outline' : vm.whenForm.$invalid}"
+                                    >
+                                Next: Where? <i class="icon ion-ios-arrow-forward"></i>
+                            </button>
+                        </div>
+
+                    </form>
+
+                </ion-content>
+            </ion-view>
+
+        </ion-tab>
+
+
+        <ion-tab title="Where?" icon="{{ vm.whereForm.$valid ? 'ion-ios-checkmark' : 'ion-ios-circle-outline' }}">
+
+            <ion-view>
+                <ion-content padding="false">
+                    <form name="vm.whereForm" novalidate ng-submit="">
+
+                        <div class="line-0">
+                            <img src="assets/img/create-event-where.png" class="image-responsive"/>
+                        </div>
+
+                        <div class="list">
+                            <label class="item item-input item-stacked-label">
+                                <span class="input-label">
+                                    <b>Name</b> your event
+                                </span>
+
+                                <span class="form-errors" ng-show="vm.whereForm.$submitted || vm.whereForm.name.$touched" ng-messages="vm.whereForm.name.$error">
+                                    <p class="error" ng-message="required">required</p>
+                                </span>
+
+                                <input type="text" name="name"
+                                       ng-model="vm.event.name"
+                                       ng-required="true"
+                                       placeholder="For example: Birthday to Daniel">
+
+                            </label>
+
+                        </div>
+
+                        <div>
+                            <button type="submit" ng-click="vm.whereForm.$valid && vm.switchTab(2)"
+                                    class="button button-block button-positive button-large button-rect"
+                                    ng-class="{'button-outline' : vm.whereForm.$invalid}"
+                                    >
+                                Next: Where? <i class="icon ion-ios-arrow-forward"></i>
+                            </button>
+                        </div>
+
+                    </form>
+
+                </ion-content>
+            </ion-view>
+
+        </ion-tab>
+
+
+        <ion-tab title="Who?" icon="{{ vm.whoForm.$valid ? 'ion-ios-checkmark' : 'ion-ios-circle-outline' }}">
+
+            <ion-view>
+                <ion-content padding="false">
+                    <form name="vm.whoForm" novalidate ng-submit="">
+
+                        <div class="line-0">
+                            <img src="assets/img/create-event-who.png" class="image-responsive"/>
+                        </div>
+
+                        <div class="list">
+                            <label class="item item-input item-stacked-label">
+                                <span class="input-label">
+                                    <b>Name</b> your event
+                                </span>
+
+                                <span class="form-errors" ng-show="vm.whoForm.$submitted || vm.whoForm.name.$touched" ng-messages="vm.whoForm.name.$error">
+                                    <p class="error" ng-message="required">required</p>
+                                </span>
+
+                                <input type="text" name="name"
+                                       ng-model="vm.event.name"
+                                       ng-required="true"
+                                       placeholder="For example: Birthday to Daniel">
+
+                            </label>
+
+                        </div>
+
+                        <div>
+                            <button type="submit" ng-click="vm.whoForm.$valid && vm.switchTab(2)"
+                                    class="button button-block button-positive button-large button-rect"
+                                    ng-class="{'button-outline' : vm.whoForm.$invalid}"
+                                    >
+                                Next: Where? <i class="icon ion-ios-arrow-forward"></i>
+                            </button>
+                        </div>
+
+                    </form>
+
+                </ion-content>
+            </ion-view>
+
+        </ion-tab>
+
+
+        <ion-tab title="What?" icon="{{ vm.whoForm.$valid ? 'ion-ios-checkmark' : 'ion-ios-circle-outline' }}">
+
+            <ion-view>
+                <ion-content padding="false">
+                    <form name="vm.whoForm" novalidate ng-submit="">
+
+                        <div class="line-0">
+                            <img src="assets/img/create-event-what.png" class="image-responsive"/>
+                        </div>
+
+                        <div class="list">
+                            <label class="item item-input item-stacked-label">
+                                <span class="input-label">
+                                    <b>Name</b> your event
+                                </span>
+
+                                <span class="form-errors" ng-show="vm.whoForm.$submitted || vm.whoForm.name.$touched" ng-messages="vm.whoForm.name.$error">
+                                    <p class="error" ng-message="required">required</p>
+                                </span>
+
+                                <input type="text" name="name"
+                                       ng-model="vm.event.name"
+                                       ng-required="true"
+                                       placeholder="For example: Birthday to Daniel">
+
+                            </label>
+
+                        </div>
+
+                        <div>
+                            <button type="submit" ng-click="vm.whoForm.$valid && vm.switchTab(2)"
+                                    class="button button-block button-positive button-large button-rect"
+                                    ng-class="{'button-outline' : vm.whoForm.$invalid}"
+                                    >
+                                Next: Where? <i class="icon ion-ios-arrow-forward"></i>
+                            </button>
+                        </div>
+
+                    </form>
+
+                </ion-content>
+            </ion-view>
+
+        </ion-tab>
+
+    </ion-tabs>
+</ion-view>
+

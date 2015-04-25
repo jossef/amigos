@@ -6,7 +6,7 @@
 
 
     var eventTypes = [
-        {name: 'Polo & Party', id: 'party'},
+        {name: 'Party', id: 'party'},
         {name: 'Friendship', id: 'friendship'},
         {name: 'Beach', id: 'beach'},
         {name: 'Nature Trip', id: 'nature'},
