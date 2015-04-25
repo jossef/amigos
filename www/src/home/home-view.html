@@ -9,5 +9,33 @@
         <a class="button button-outline button-royal" ng-click="vm.createEvent()">Create Event</a>
         <a class="button button-outline button-royal" ng-click="vm.clicker()">Test</a>
 
+        <div class="list list-inset">
+            <label class="item item-input">
+                <i class="icon ion-search placeholder-icon"></i>
+                <input type="text" ng-model="vm.search" placeholder="Search">
+            </label>
+        </div>
+
+        <button class="button button-block" ng-click="vm.createMarker()">Click me</button>
+
+        <div ng-repeat="marker in vm.markers">
+            {{marker}}
+        </div>
+
+        <ui-gmap-google-map events="vm.map.events" center="vm.map.center" zoom="vm.map.zoom" draggable="vm.map.true" >
+
+            <ui-gmap-search-box template="vm.searchbox.template" events="vm.searchbox.events" ></ui-gmap-search-box>
+            <!-- Added markers display-->
+            <ui-gmap-marker ng-repeat="marker in vm.markers"
+                            coords="marker.coords"
+                            options="marker.options" events="marker.events" idkey="marker.id"
+                            click="vm.setFocus($index)">
+            </ui-gmap-marker>
+            <!-- Selected marker display-->
+            <ui-gmap-marker
+                            coords="vm.clickedMarker.coords">
+            </ui-gmap-marker>
+        </ui-gmap-google-map>
+
     </ion-content>
 </ion-view>

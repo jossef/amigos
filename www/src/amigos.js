@@ -6,9 +6,18 @@
         'ngMessages',
         'ionic',
         'ngCordova',
-
+        'uiGmapgoogle-maps',
         'ui.router'
     ]);
+
+    app.config(function (uiGmapGoogleMapApiProvider) {
+        uiGmapGoogleMapApiProvider.configure({
+            key: 'AIzaSyDFpJUfZnR7T0M7_u3CmHIPGwIgO4-QBEc',
+            v: '3.17',
+            libraries: 'weather,geometry,visualization,places'
+        });
+    })
+
 
 
     app.config(
@@ -43,8 +52,7 @@
                     if (rejection.status === 404) {
 
                         var errorHandler = errorHandlingService.getCommunicationErrorHandler();
-                        if (errorHandler)
-                        {
+                        if (errorHandler) {
                             errorHandler();
                         }
                     }

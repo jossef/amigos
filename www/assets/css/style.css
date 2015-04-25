@@ -8810,4 +8810,7 @@ body {
   min-height: 80px;
   height: auto; }
 
+.angular-google-map-container {
+  height: 400px; }
+
 /*# sourceMappingURL=style.css.map */
