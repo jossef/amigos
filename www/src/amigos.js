@@ -41,6 +41,11 @@
             });
         });
 
+    app.config(
+        function ($ionicConfigProvider) {
+            $ionicConfigProvider.views.maxCache(0);
+        });
+
 
     app.config(function ($provide, $httpProvider) {
         $provide.factory('httpInterceptor', function ($q, errorHandlingService) {

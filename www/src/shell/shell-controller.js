@@ -33,6 +33,27 @@
             vm.info = info;
         });
 
+
+        $scope.$on('$routeChangeError', function(current, previous, rejection) {
+            console.log("routeChangeError", currrent, previous, rejection);
+        });
+
+        $scope.$on('$routeChangeStart', function(next, current) {
+            console.log("routeChangeStart");
+            console.dir(next);
+            console.dir(current);
+        });
+
+        $scope.$on('$routeChangeSuccess', function(current, previous) {
+            console.log("routeChangeSuccess");
+            console.dir(current);
+            console.dir(previous);
+        });
+
+        $scope.$on('$routeUpdate', function(rootScope) {
+            console.log("routeUpdate", rootScope);
+        });
+
     });
 
 })();

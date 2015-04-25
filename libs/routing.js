@@ -13,6 +13,7 @@
         app.get('/api/users/:id', api.getUser);
 
         app.get('/api/events', api.events);
+        app.get('/api/events/:id', api.getEvent);
 
         app.get('/api/friends', api.getFriends);
 

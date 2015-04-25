@@ -22,7 +22,8 @@
         getProfile: getProfile,
         updateProfile: updateProfile,
 
-        events: events
+        events: events,
+        getEvent: getEvent
     };
 
     // ............................
@@ -51,6 +52,14 @@
         apiHandler(req, res, function () {
             var events = await(data.getEvents());
             res.json(events);
+        });
+    }
+
+    function getEvent(req, res) {
+        apiHandler(req, res, function () {
+            var eventId = req.params.id;
+            var event = await(data.getEvent(eventId));
+            res.json(event);
         });
     }
 

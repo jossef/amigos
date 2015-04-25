@@ -3,7 +3,7 @@
 
     var app = angular.module('amigos');
 
-    app.controller("CreateEventController", function ($scope, eventService, commonService) {
+    app.controller("CreateEventController", function ($scope, $state, eventService, commonService) {
         var vm = this;
 
         vm.newEvent = {};
@@ -30,6 +30,10 @@
                 name: 'Jossef'
             }
         ];
+
+        vm.isActive = function(name){
+            return $state.includes(name)
+        }
 
     });
 
