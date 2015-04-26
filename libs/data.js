@@ -9,6 +9,10 @@
 
     var User = require('./models/user');
     var Event = require('./models/event');
+    var common = require('./common');
+
+    var async = require('asyncawait/async');
+    var await = require('asyncawait/await');
 
     module.exports = {
 
@@ -21,7 +25,8 @@
 
         register: register,
 
-        getEvents: getEvents,
+        getUserEvents: getUserEvents,
+        createEvent: createEvent,
         getEvent: getEvent,
 
         User: User
@@ -78,10 +83,58 @@
     }
 
 
-    function getUser(phone) {
+    function createEvent(creatorUser, data) {
         var deferred = Q.defer();
 
-        User.findOne({phone: phone}, {phone: true, nickname: true})
+        async(function () {
+
+            var usersInvolved = [];
+
+            creatorUser = await(getUser(creatorUser.phone));
+            usersInvolved.push(creatorUser);
+
+            var event = new Event();
+
+            event.name = data.name;
+            event.type = data.type;
+
+            for (var key in data.participants) {
+                var participant = data.participants[key];
+                var user = await(ensureUserExists(participant.phone, {nickname: participant.name}));
+                usersInvolved.push(user);
+
+                event.participants.push(user._id);
+            }
+
+            for (var key in data.dates) {
+                var date = data.dates[key];
+                event.dates.push(date);
+            }
+
+            event.location = data.location;
+
+            event.save();
+
+            // Now let's update all of the users
+            usersInvolved.forEach(function(user){
+                user.events.addToSet(event._id);
+                user.save();
+            });
+
+            deferred.resolve(event);
+        })();
+
+        return deferred.promise;
+    }
+
+
+    function getUser(phone) {
+
+        phone = common.parsePhoneNumber(phone);
+
+        var deferred = Q.defer();
+
+        User.findOne({phone: phone})
             .exec(function (err, user) {
                 if (err) {
                     return deferred.reject(err);
@@ -93,8 +146,10 @@
         return deferred.promise;
     }
 
+    function ensureUserExists(phone, data) {
 
-    function updateUser(phone, data) {
+        phone = common.parsePhoneNumber(phone);
+
         var deferred = Q.defer();
 
         User.findOne({'phone': phone}, function (err, user) {
@@ -103,7 +158,40 @@
             }
 
             if (!user) {
-                return deferred.reject('Authentication failed');
+                user = new User();
+                user.phone = phone;
+            }
+
+            if (data.nickname) {
+                user.nickname = data.nickname;
+            }
+
+            user.save(function(err){
+
+                if (err) {
+                    return deferred.reject(err);
+                }
+
+                deferred.resolve(user);
+            });
+        });
+
+        return deferred.promise;
+    }
+
+    function updateUser(phone, data) {
+
+        phone = common.parsePhoneNumber(phone);
+
+        var deferred = Q.defer();
+
+        User.findOne({'phone': phone}, function (err, user) {
+            if (err) {
+                return deferred.reject(err);
+            }
+
+            if (!user) {
+                return deferred.reject('User not found');
             }
 
             if (data.nickname) {
@@ -139,16 +227,22 @@
         return deferred.promise;
     }
 
-    function getEvents() {
+    function getUserEvents(user) {
         var deferred = Q.defer();
 
-        Event.find({})
+        var phone = common.parsePhoneNumber(user.phone);
+
+
+        User.findOne({'phone': phone}, {events: true})
+            .populate('events')
+            .populate('events.participants.user')
             .exec(function (err, data) {
                 if (err) {
                     return deferred.reject(err);
                 }
 
-                deferred.resolve(data);
+                deferred.resolve(data && data.events);
+
             });
 
         return deferred.promise;

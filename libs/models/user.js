@@ -3,6 +3,8 @@
 var mongoose = require('mongoose');
 var bcrypt = require('bcrypt-nodejs');
 
+var ObjectId = mongoose.Schema.ObjectId;
+
 // define the schema for our user model
 var userSchema = mongoose.Schema({
 
@@ -11,15 +13,20 @@ var userSchema = mongoose.Schema({
         required: true, unique: true,
         lowercase: true, trim: true
     },
+
     password: String,
     nickname: String,
+
+    registered: { type: Boolean, default: false },
 
     contacts: [
         {
             phone: String,
             nickname: String
         }
-    ]
+    ],
+
+    events: [{type: ObjectId, ref: 'Event'}]
 
 });
 

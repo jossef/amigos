@@ -23,6 +23,7 @@
         updateProfile: updateProfile,
 
         events: events,
+        createEvent: createEvent,
         getEvent: getEvent
     };
 
@@ -41,6 +42,12 @@
         })();
     }
 
+    function ensureAuthenticated(req) {
+        if (!req.isAuthenticated()) {
+            throw Error('User not logged in');
+        }
+    }
+
     // ............................
 
 
@@ -50,8 +57,20 @@
 
     function events(req, res) {
         apiHandler(req, res, function () {
-            var events = await(data.getEvents());
+            ensureAuthenticated(req);
+            var events = await(data.getUserEvents(req.user));
             res.json(events);
+        });
+    }
+
+    function createEvent(req, res) {
+        apiHandler(req, res, function () {
+            ensureAuthenticated(req);
+
+            var event = req.body;
+
+            await(data.createEvent(req.user, event));
+            res.json(req.body);
         });
     }
 
@@ -101,11 +120,7 @@
 
     function getProfile(req, res) {
         apiHandler(req, res, function () {
-
-            if (!req.isAuthenticated())
-            {
-                throw Error('User not logged in');
-            }
+            ensureAuthenticated(req);
 
             var user = await(data.getUser(req.user.phone));
             res.json(user);
@@ -114,11 +129,7 @@
 
     function updateProfile(req, res) {
         apiHandler(req, res, function () {
-
-            if (!req.isAuthenticated())
-            {
-                throw Error('User not logged in');
-            }
+            ensureAuthenticated(req);
 
             var body = req.body;
 

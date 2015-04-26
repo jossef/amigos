@@ -20,12 +20,19 @@
         return {
             getEvents: getEvents,
             getEvent: getEvent,
+            createEvent: createEvent,
             eventTypes: eventTypes
         };
 
 
         function getEvents(){
             return $http.get(commonService.baseApi + '/api/events');
+        }
+
+
+        function createEvent(event){
+            var json = angular.toJson(event);
+            return $http.post(commonService.baseApi + '/api/events', json);
         }
 
         function getEvent(id){

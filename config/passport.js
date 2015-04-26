@@ -47,18 +47,26 @@ module.exports = function (passport) {
                     if (err)
                         return done(err);
 
-                    if (user) {
+                    if (user && user.registered) {
                         return done(null, null, 'That phone is already taken.');
                     } else {
 
                         // if there is no user with that email
                         // create the user
-                        var newUser = new User();
+                        var newUser;
+
+                        if (user) {
+                            newUser = user;
+                        }
+                        else {
+                            newUser = new User();
+                        }
 
                         // set the user's local credentials
                         newUser.phone = phone;
                         newUser.password = newUser.generateHash(password);
                         newUser.nickname = req.body.nickname;
+                        newUser.registered = true;
 
                         // save the user
                         newUser.save(function (err) {

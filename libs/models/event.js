@@ -1,4 +1,3 @@
-
 var mongoose = require('mongoose');
 var user = require('./user');
 var product = require('./product');
@@ -7,35 +6,29 @@ var ObjectId = mongoose.Schema.ObjectId;
 var eventSchema = mongoose.Schema({
     name: String,
     type: String,
-    date: String,
+    dates: [Date],
     organizer: String,
     location: {
-        lat : String,
-        lng : String,
-        description : String,
-        parking: Boolean
+        latitude: String,
+        longitude: String,
+        address: String
     },
-    suggestions:[
-
-    ],
-    created: { type: Date, default: Date.now },
-    chat : [{
-        timestamp: { type: Date, default: Date.now },
-        message : String
+    created: {type: Date, default: Date.now},
+    chat: [{
+        timestamp: {type: Date, default: Date.now},
+        message: String
     }],
-    participants:[
+    participants: [
         {
-            user: { type : ObjectId, ref: 'User' },
-            approved: { type: Boolean, default: false},
-            tasks: [{
-
-            }]
+            user: {type: ObjectId, ref: 'User'},
+            approved: {type: Boolean, default: false},
+            tasks: [{}]
         }
     ],
-    cart: [
+    products: [
         {
-            product: { type : ObjectId, ref: 'Product' },
-            amount: { type: Number, default: 1}
+            product: {type: ObjectId, ref: 'Product'},
+            amount: {type: Number, default: 1}
         }
     ]
 });
