@@ -8,7 +8,6 @@
     var async = require('asyncawait/async');
     var await = require('asyncawait/await');
     var fb = require('fb');
-    var process = require('child_process');
 
     module.exports = {
         root: root,
@@ -17,7 +16,6 @@
 
         validatePhone: validatePhone,
         getFriends: getFriends,
-        naamaTest: naamaTest,
 
         getInfo: getInfo,
 
@@ -57,25 +55,6 @@
         res.sendFile(path.join(common.appDir, 'static', 'index.html'));
     }
 
-    function naamaTest(request, response) {
-
-        var exec = process.exec;
-
-
-        var command = 'java -jar /opt/weka/weka.jar -classify /tmp/input.amigos -train ... -output /tmp/result.amigos';
-        exec(command, function (error, stdout, stderr) {
-
-            // TODO read the result and decide what to do next
-            response.json({
-                error: error,
-                stdout: stdout,
-                stderr: stderr
-            })
-        });
-    }
-
-    function events(request, response) {
-        apiHandler(request, response, function () {
     function events(req, res) {
         apiHandler(req, res, function () {
             ensureAuthenticated(req);

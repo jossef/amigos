@@ -6,6 +6,7 @@
     var path = require('path');
     var common = require('./common');
     var authentication = require('./authentication');
+    var machineLearning = require('./machine-learning');
 
     module.exports = function(app, passport) {
 
@@ -17,7 +18,6 @@
         app.get('/api/events/:id', api.getEvent);
 
         app.get('/api/friends', api.getFriends);
-        app.get('/api/naama-test', api.naamaTest);
 
         app.get('/api/info', api.getInfo);
 
@@ -38,5 +38,7 @@
         app.get('/auth/google/callback', authentication.googleAuthCallback);
 
         app.get('/', api.root);
+
+        app.get('api/getShoppingList', machineLearning.getShoppingList);
     }
 })();

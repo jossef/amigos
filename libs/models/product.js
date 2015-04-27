@@ -5,7 +5,7 @@ var productSchema = mongoose.Schema({
     // TODO use mongo referece to define a custom id
     ID: String,
     name: String,
-    eventType: String,
+    similarity: [],
     image: String
 });
 

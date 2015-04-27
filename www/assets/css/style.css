@@ -6655,22 +6655,6 @@ button.item.item-button-right {
   stop-color: #616161; }
 .spinner-spiral.spinner-light .stop2 {
   stop-color: #fff; }
-.spinner-spiral.spinner-stable .stop2 {
-  stop-color: #f8f8f8; }
-.spinner-spiral.spinner-positive .stop2 {
-  stop-color: #2196F3; }
-.spinner-spiral.spinner-calm .stop2 {
-  stop-color: #009688; }
-.spinner-spiral.spinner-balanced .stop2 {
-  stop-color: #33cd5f; }
-.spinner-spiral.spinner-assertive .stop2 {
-  stop-color: #F44336; }
-.spinner-spiral.spinner-energized .stop2 {
-  stop-color: #FFEB3B; }
-.spinner-spiral.spinner-royal .stop2 {
-  stop-color: #9C27B0; }
-.spinner-spiral.spinner-dark .stop2 {
-  stop-color: #616161; }
 
 /**
  * Forms

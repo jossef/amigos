@@ -10,6 +10,7 @@
     var User = require('./models/user');
     var Event = require('./models/event');
     var common = require('./common');
+    var TaggedItem = require('./models/tagged-item');
 
     var async = require('asyncawait/async');
     var await = require('asyncawait/await');
@@ -29,7 +30,9 @@
         createEvent: createEvent,
         getEvent: getEvent,
 
-        User: User
+        User: User,
+
+        saveTaggedItem: saveTaggedItem
     };
 
     // ..........................
@@ -266,5 +269,43 @@
 
         return deferred.promise;
     }
+
+    function saveTaggedItem(data){
+
+        //TODO: complete the saving
+
+        var deferred = Q.defer();
+
+        async(function () {
+
+            var taggedItem = new TaggedItem();
+
+            taggedItem.eventType =
+
+            event.name = data.name;
+            event.type = data.type;
+
+            for (var key in data.participants) {
+                var participant = data.participants[key];
+                var user = await(ensureUserExists(participant.phone, {nickname: participant.name}));
+
+                taggedItem.participants.push(user._id);
+            }
+
+            for (var key in data.products) {
+                var products = data.products[key];
+                var product = await(ensureUserExists(products.ID, {name: products.name}));
+
+                taggedItem.products.push(product._id);
+            }
+
+
+            taggedItem.save();
+
+            deferred.resolve(taggedItem);
+        })();
+
+        return deferred.promise;
+    };
 
 })();
