@@ -7,7 +7,6 @@
         return {
             require: 'ngModel',
             link: function (scope, elm, attrs, ctrl) {
-                var usernames = ['0505600015', 'John', 'Jill', 'Jackie'];
 
                 ctrl.$asyncValidators.phone = function (modelValue, viewValue) {
 

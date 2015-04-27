@@ -1,61 +1,369 @@
-<md-content flex>
+<ion-view view-title="Create Event">
 
-    <md-content layout="row" class="md-padding">
-        <p class="md-caption">Sign in locally </p>
-    </md-content>
+    <ion-nav-bar class="bar-positive" animation="nav-title-slide-ios7">
+        <ion-nav-buttons side="left">
+            <button menu-toggle="left" class="button button-icon icon ion-navicon"></button>
+        </ion-nav-buttons>
 
-    <md-card>
+        <ion-nav-buttons side="right">
+            <button class="button button-icon" ui-sref="events"><i class="icon ion-android-close"></i></button>
+        </ion-nav-buttons>
+    </ion-nav-bar>
 
-        <md-content class="md-padding" flex>
-            {{newEvent}}
-            {{step}}
-        </md-content>
-    </md-card>
+    <ion-tabs class="tabs-icon-top tabs-top tabs-positive">
 
-    <md-card>
-        <div ng-show="step == 0">
-            <md-content flex class="md-padding">
+        <ion-tab title="Info" icon="{{ vm.infoForm.$valid ? 'ion-ios-checkmark' : 'ion-ios-circle-outline' }}">
 
-                <form name="form" novalidate>
-                    <md-input-container>
-                        <label>Name your event</label>
-                        <input name="eventName" ng-model="newEvent.name" type="text" required>
+            <ion-view>
+                <ion-content padding="false">
+                    <form name="vm.infoForm" novalidate ng-submit="">
 
-                        <div ng-show="form.eventName.$dirty " ng-messages="form.eventName.$error">
-                            <div ng-message="required">Item name is required</div>
-                        </div>
-                    </md-input-container>
-                </form>
-            </md-content>
-
-        </div>
-        <div ng-show="step == 1">
-            <md-content flex class="md-padding">
-                <md-list>
-                    <md-list-item class="md-3-line" ng-repeat="friend in friends" ng-click="friend.selected != friend.selected">
-
-                        <img ng-src="http://lorempixel.com/400/200/?123={{$index}}" class="md-avatar"/>
-
-                        <div class="md-list-item-text">
-                            <h3>{{ friend.name }}</h3>
-                            <h4>{{ friend.name }}</h4>
-                            <p>{{ friend.name }}</p>
-
-                            <md-divider ng-if="!$last"></md-divider>
+                        <div class="line-0">
+                            <img src="assets/img/create-event-name.png" class="image-responsive"/>
                         </div>
 
-                        <md-icon ng-show="friend.selected" class="mdi-done"></md-icon>
+                        <div class="list">
+                            <label class="item item-input item-stacked-label">
+                                <span class="input-label">
+                                    <b>Name</b> your event
+                                </span>
 
-                    </md-list-item>
-                </md-list>
-            </md-content>
-        </div>
-    </md-card>
+                                <span class="form-errors" ng-show="vm.infoForm.$submitted || vm.infoForm.name.$touched" ng-messages="vm.infoForm.name.$error">
+                                    <p class="error" ng-message="required">required</p>
+                                </span>
 
-    <md-content layout="row">
-        <md-button flex ng-click="previewsStep()">back</md-button>
-        <md-button flex ng-click="nextStep()">next</md-button>
-    </md-content>
+                                <input type="text" name="name"
+                                       ng-model="vm.name"
+                                       ng-required="true"
+                                       placeholder="For example: Birthday to Daniel">
 
-</md-content>
+                            </label>
+
+                            <div class=" item item-no-padding">
+                                <span class="item-title input-label">
+                                    <b>So...</b> what would it be?
+
+                                    <span class="form-errors" ng-show="vm.infoForm.$submitted" ng-messages="vm.infoForm.type.$error">
+                                        <p class="error" ng-message="required">required</p>
+                                    </span>
+                                </span>
+
+
+                                <event-type
+                                        name="type"
+                                        ng-required="true"
+                                        ng-model="vm.type"></event-type>
+                            </div>
+                        </div>
+
+
+                    </form>
+
+                </ion-content>
+
+                <ion-footer-bar class="bar-positive">
+                    <div class="buttons">
+                        <h1 class="title"></h1>
+
+                        <button type="submit" ng-click="vm.switchTab(1)"
+                                class="button button-clear">
+                            Next: When? <i class="icon ion-ios-arrow-forward"></i>
+                        </button>
+                    </div>
+                </ion-footer-bar>
+
+            </ion-view>
+
+        </ion-tab>
+
+        <ion-tab title="When?" icon="{{ vm.whenForm.$valid ? 'ion-ios-checkmark' : 'ion-ios-circle-outline' }}">
+
+            <ion-view>
+                <ion-content padding="false">
+                    <form name="vm.whenForm" novalidate ng-submit="">
+
+                        <div class="line-0">
+                            <img src="assets/img/create-event-when.png" class="image-responsive"/>
+                        </div>
+
+                        <div class="list">
+
+                            <div class="item item-toggle">
+
+                                <b>Have a date?</b>
+
+                                <label class="toggle toggle-positive">
+                                    <input type="checkbox" ng-model="vm.haveDate">
+
+                                    <div class="track">
+                                        <div class="handle"></div>
+                                    </div>
+                                </label>
+
+                            </div>
+
+                            <div ng-show="vm.haveDate" class="item text-center">
+
+                                <date-picker ng-model="newDate" ng-required="vm.haveDate" ng-change="vm.addDate(newDate)">
+                                    <button class="button button-positive" ng-click="showDatePicker()"
+                                            ng-class="{'button-outline':!vm.hasDates()}">
+                                        <span ng-hide="vm.hasDates()">Click to set date</span>
+                                        <span ng-show="vm.hasDates()">Add another date</span>
+                                    </button>
+
+                                    <p ng-hide="vm.hasDates()" class="text-center">
+                                        Please pick a date
+                                    </p>
+
+                                    <p ng-show="vm.hasDates()" class="text-center">
+                                        <b>Great!</b> you can add more dates
+                                    </p>
+
+                                </date-picker>
+                            </div>
+
+
+                            <div class="item item-icon-right" ng-repeat="(epoch, date) in vm.dates">
+                                {{epoch | date:'dd/MM/yyyy hh:mm'}}
+
+                                <i class="icon ion-android-delete assertive" ng-click="vm.removeDate(epoch)"></i>
+
+                            </div>
+
+                        </div>
+                    </form>
+
+                </ion-content>
+
+                <ion-footer-bar align-title="left" class="bar-positive">
+                    <div class="buttons">
+                        <button type="submit" ng-click="vm.switchTab(0)"
+                                class="button button-clear">
+                            <i class="icon ion-ios-arrow-back"></i> Back: Info
+                        </button>
+                    </div>
+                    <h1 class="title"></h1>
+
+                    <div class="buttons">
+                        <button type="submit" ng-click="vm.switchTab(2)"
+                                class="button button-clear">
+                            Next: Where? <i class="icon ion-ios-arrow-forward"></i>
+                        </button>
+                    </div>
+                </ion-footer-bar>
+
+            </ion-view>
+
+        </ion-tab>
+
+
+        <ion-tab title="Where?" icon="{{ vm.whereForm.$valid ? 'ion-ios-checkmark' : 'ion-ios-circle-outline' }}">
+
+            <ion-view>
+                <ion-content padding="false">
+                    <form name="vm.whereForm" novalidate ng-submit="">
+
+                        <div class="line-0">
+                            <img src="assets/img/create-event-where.png" class="image-responsive"/>
+                        </div>
+
+
+                        <div class="list list-inset">
+                            <label class="item item-input">
+                                <i class="icon ion-search placeholder-icon"></i>
+                                <ion-google-place placeholder="Enter an address, Apt# and ZIP" ng-model="vm.selectedLocation" ></ion-google-place>
+                            </label>
+                        </div>
+
+                        <ui-gmap-google-map events="vm.mapEvents" center="vm.mapCenter" zoom="vm.mapZoom" >
+                            <ui-gmap-marker coords="vm.selectionMarker.location" options="vm.selectionMarker.options" idkey="0"></ui-gmap-marker>
+                        </ui-gmap-google-map>
+
+                    </form>
+                </ion-content>
+
+
+                <ion-footer-bar align-title="left" class="bar-positive">
+                    <div class="buttons">
+                        <button type="submit" ng-click="vm.switchTab(1)"
+                                class="button button-clear" >
+                            <i class="icon ion-ios-arrow-back"></i> Back: When?
+                        </button>
+                    </div>
+                    <h1 class="title"></h1>
+
+                    <div class="buttons">
+                        <button type="submit" ng-click="vm.switchTab(3)"
+                                class="button button-clear">
+                            Next: Who? <i class="icon ion-ios-arrow-forward"></i>
+                        </button>
+                    </div>
+                </ion-footer-bar>
+
+
+            </ion-view>
+
+        </ion-tab>
+
+
+        <ion-tab title="Who?" icon="{{ vm.whoForm.$valid ? 'ion-ios-checkmark' : 'ion-ios-circle-outline' }}">
+
+            <ion-view>
+                <ion-content padding="false">
+                    <form name="vm.whoForm" novalidate ng-submit="">
+
+                        <div class="line-0">
+                            <img src="assets/img/create-event-who.png" class="image-responsive"/>
+                        </div>
+
+
+
+                        <div class="list">
+
+                            <div class="item text-center">
+
+                                <button class="button button-positive" ng-click="vm.pickFriend()"
+                                        ng-class="{'button-outline':!vm.hasFriends()}">Click to add a friend
+                                </button>
+
+
+                            </div>
+
+                            <div class="text-center">
+
+                                <h5 class="dark" ng-show="!vm.hasFriends()">You haven't selected any friends</h5>
+                            </div>
+
+                            <div class="item item-icon-right" ng-repeat="(key, info) in vm.friends">
+
+                                {{info.name}}
+
+                                <i class="icon ion-android-delete assertive" ng-click="vm.removeFriend(key)"></i>
+
+                            </div>
+
+                        </div>
+
+                    </form>
+
+                </ion-content>
+
+                <ion-footer-bar align-title="left" class="bar-positive">
+                    <div class="buttons">
+                        <button type="submit" ng-click="vm.switchTab(2)"
+                                class="button button-clear" >
+                            <i class="icon ion-ios-arrow-back"></i> Back: Where?
+                        </button>
+                    </div>
+                    <h1 class="title"></h1>
+
+                    <div class="buttons">
+                        <button type="submit" ng-click="vm.switchTab(4)"
+                                class="button button-clear">
+                            Next: What? <i class="icon ion-ios-arrow-forward"></i>
+                        </button>
+                    </div>
+                </ion-footer-bar>
+
+            </ion-view>
+
+        </ion-tab>
+
+
+        <ion-tab title="What?" icon="{{ vm.whatForm.$valid ? 'ion-ios-checkmark' : 'ion-ios-circle-outline' }}">
+
+            <ion-view>
+                <ion-content padding="false">
+                    <form name="vm.whatForm" novalidate ng-submit="">
+
+                        <div class="line-0">
+                            <img src="assets/img/create-event-what.png" class="image-responsive"/>
+                        </div>
+
+
+
+                        <div class="item item-toggle">
+
+                            <b>Recommend products?</b>
+
+                            <label class="toggle toggle-positive">
+                                <input type="checkbox" ng-model="vm.shouldRecommendProducts">
+
+                                <div class="track">
+                                    <div class="handle"></div>
+                                </div>
+                            </label>
+
+                        </div>
+
+
+                        <div ng-hide="vm.shouldRecommendProducts" class="list">
+                            <div class="item item-input-inset">
+
+                                <label class="item-input-wrapper">
+
+                                <input type="text" name="name"
+                                       ng-model="product"
+                                       ng-enter="vm.addProduct(product); product=''"
+                                       placeholder="Enter Product Name ">
+
+                                </label>
+                                <button class="button button-clear button-large button-positive" ng-click="vm.addProduct(product); product=''">
+                                    Add
+                                </button>
+
+
+                            </div>
+
+                            <div class="text-center">
+                                <h5 class="dark" ng-show="!vm.hasProducts()">You haven't added any products</h5>
+                            </div>
+
+
+                            <div class="item item-icon-right" ng-repeat="product in vm.products">
+                                {{product}}
+
+                                <i class="icon ion-android-delete assertive" ng-click="vm.removeProduct(product)"></i>
+
+                            </div>
+
+                        </div>
+
+                        <div ng-show="vm.shouldRecommendProducts" class="list">
+                            <div class="text-center">
+                                <h5 class="positive"><b>Products will be recommended</b></h5>
+                            </div>
+                        </div>
+
+
+
+                    </form>
+
+                </ion-content>
+
+
+                <ion-footer-bar align-title="left" class="bar-positive">
+                    <div class="buttons">
+                        <button type="submit" ng-click="vm.switchTab(2)"
+                                class="button button-clear" >
+                            <i class="icon ion-ios-arrow-back"></i> Back: Where?
+                        </button>
+                    </div>
+                    <h1 class="title"></h1>
+
+                    <div class="buttons">
+                        <button type="submit" ng-click="vm.createEvent()"
+                                class="button button-clear">
+                            Finish! <i class="icon ion-ios-arrow-forward"></i>
+                        </button>
+                    </div>
+                </ion-footer-bar>
+
+
+            </ion-view>
+
+        </ion-tab>
+
+    </ion-tabs>
+</ion-view>
 

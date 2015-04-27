@@ -1,46 +1,99 @@
 @import "ionic";
 @import "pager";
+@import "datepicker";
 @import "images";
 
-.pink {
-  background-color: pink;
-}
+.form-errors {
 
-.red {
-  background-color: red;
-}
-
-.yellow {
-  background-color: yellow;
-}
-
-.form-errors
-{
-
-
-  .error{
-     color: $assertive;
+  .error {
+    color: $assertive;
   }
 
-  .success{
-     color: $balanced;
+  .success {
+    color: $balanced;
   }
 }
 
-.push
-{
-  &-near
-  {
+.push {
+  &-near {
     margin-top: 10px;
   }
 
-  &-far
-  {
+  &-far {
     margin-top: 20px;
   }
 }
 
-.popover{
+.popover {
   min-height: 80px;
   height: auto;
+}
+
+.angular-google-map-container {
+  height: 400px;
+}
+
+.nav-view-workaround {
+  min-height: 700px;
+}
+
+
+.item-title
+{
+  padding-top: 0;
+  margin-top: 0;
+  padding-left: $padding-base-horizontal;
+}
+
+.line-0{
+  line-height: 0;
+}
+
+.item-no-padding
+{
+  padding-left: 0;
+  padding-right: 0;
+}
+
+.event-type-item {
+  transition: all 0.3s ease;
+
+
+
+  position: relative;
+  outline: 1px solid transparent;
+  background: #fff;
+  line-height: 0;
+
+  &.active{
+    outline: 2px solid $positive;
+    color: #fff;
+    .title{
+      background-color: transparentize($positive, 0.1);;
+    }
+  }
+
+  img {
+    @extend .image-responsive;
+  }
+  .title {
+    @extend .text-center;
+
+    line-height: 2.5em;
+
+    display: inline-block;
+    white-space: nowrap;
+    overflow: hidden !important;
+    text-overflow: ellipsis;
+    background: transparentize(#ffffff, 0.2);
+    font-weight: 700;
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+  }
+}
+
+.button-rect{
+  border-radius: 0 !important;
 }

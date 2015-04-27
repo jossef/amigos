@@ -3,7 +3,7 @@
 
     var app = angular.module('amigos');
 
-    app.controller("HomeController", function ($scope, $http, commonService, contactsService) {
+    app.controller("HomeController", function ($scope, $timeout, $http, geoNavigationService, commonService, contactsService, uiGmapGoogleMapApi, $templateCache) {
         var vm = this;
 
         var isFirstTime = commonService.isFirstTime();

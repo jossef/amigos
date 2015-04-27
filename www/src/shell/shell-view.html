@@ -1,59 +1,71 @@
-<ion-side-menus>
+<ion-view view-title="Edit Profile">
 
-    <!-- Center content -->
-    <ion-side-menu-content>
-        <ion-nav-view></ion-nav-view>
-    </ion-side-menu-content>
+    <ion-side-menus>
 
-    <!-- Left menu -->
-    <ion-side-menu side="left">
+        <!-- Center content -->
+        <ion-side-menu-content>
 
-        <ion-content has-bouncing="true">
+            <ion-nav-bar class="bar-positive">
+                <ion-nav-back-button>
+                </ion-nav-back-button>
 
-            <img src="assets/img/login.png" class="image-responsive"/>
+                <ion-nav-buttons side="left">
+                    <button menu-toggle="left" class="button button-icon icon ion-navicon"></button>
+                </ion-nav-buttons>
+            </ion-nav-bar>
+
+            <ion-nav-view></ion-nav-view>
+        </ion-side-menu-content>
+
+        <!-- Left menu -->
+        <ion-side-menu side="left">
+
+            <ion-content has-bouncing="true">
+
+                <img src="assets/img/login.png" class="image-responsive"/>
 
 
-            <div class="list">
+                <div class="list">
 
 
+                    <a menu-close class="item item-icon-left item-icon-right" href="#/events">
+                        <i class="icon ion-chatbubble-working"></i>
+                        Events
+                        <i class="icon ion-ios7-telephone-outline"></i>
+                    </a>
 
-                <a menu-close class="item item-icon-left item-icon-right"  href="#/events">
-                    <i class="icon ion-chatbubble-working"></i>
-                    Events
-                    <i class="icon ion-ios7-telephone-outline"></i>
-                </a>
+                    <a menu-close class="item item-icon-left" href="#">
+                        <i class="icon ion-android-calendar"></i>
+                        Menu 3
+                        <span class="item-note">
+                            message
+                        </span>
+                    </a>
 
-                <a menu-close class="item item-icon-left" href="#">
-                    <i class="icon ion-android-calendar"></i>
-                    Menu 3
-                    <span class="item-note">
-                        message
-                    </span>
-                </a>
+                    <a menu-close class="item item-icon-left" href="#">
+                        <i class="icon ion-person-stalker"></i>
+                        Menu 4
+                        <span class="badge badge-assertive">0</span>
+                    </a>
 
-                <a menu-close class="item item-icon-left" href="#">
-                    <i class="icon ion-person-stalker"></i>
-                    Menu 4
-                    <span class="badge badge-assertive">0</span>
-                </a>
+                    <div menu-close class="item item-divider">
+                        Account
+                    </div>
 
-                <div menu-close class="item item-divider">
-                    Account
+                    <a menu-close class="item item-icon-left" ng-click="vm.redirect('profile')">
+                        <i class="icon ion-person"></i>
+                        Profile
+                    </a>
+
+                    <a menu-close class="item item-icon-left" ng-click="vm.logout()">
+                        <i class="icon ion-log-out"></i>
+                        Logout
+                    </a>
+
                 </div>
+            </ion-content>
 
-                <a menu-close class="item item-icon-left" ng-click="vm.redirect('profile')">
-                    <i class="icon ion-person"></i>
-                    Profile
-                </a>
+        </ion-side-menu>
 
-                <a menu-close class="item item-icon-left" ng-click="vm.logout()">
-                    <i class="icon ion-log-out"></i>
-                    Logout
-                </a>
-
-            </div>
-        </ion-content>
-
-    </ion-side-menu>
-
-</ion-side-menus>
+    </ion-side-menus>
+</ion-view>

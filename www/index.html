@@ -2,15 +2,13 @@
 <html>
 <head lang="en">
     <title>Amigos</title>
-
     <meta charset="utf-8">
     <meta name="viewport" content="initial-scale=1, maximum-scale=1, user-scalable=no, width=device-width">
     <title>Amigos</title>
 
     <link href="assets/css/style.css" rel="stylesheet"/>
+    <link href="lib/ion-google-place/ion-google-place.css" rel="stylesheet"/>
 </head>
-
-
 <body ng-app="amigos" animation="slide-left-right-ios7">
 
 <shell-view></shell-view>
@@ -18,6 +16,10 @@
 <script src="lib/ionic/release/js/ionic.bundle.min.js"></script>
 <script src="lib/ngCordova/dist/ng-cordova.min.js"></script>
 <script src="lib/angular-messages/angular-messages.min.js"></script>
+<script src='lib/lodash/dist/lodash.min.js'></script>
+<script src='lib/angular-google-maps/dist/angular-google-maps.min.js'></script>
+<script src='lib/angularjs-geolocation/dist/angularjs-geolocation.min.js'></script>
+<script src='lib/ion-google-place/ion-google-place.js'></script>
 
 <!-- cordova script (this will be a 404 during development) -->
 <script src="cordova.js"></script>
@@ -26,13 +28,15 @@
 
 <script src="src/amigos.js"></script>
 <script src="src/routing.js"></script>
-<script src="src/common-service.js"></script>
-<script src="src/error-handling-service.js"></script>
+<script src="src/common/common-service.js"></script>
+<script src="src/common/error-handling-service.js"></script>
+<script src="src/common/datepicker-directive.js"></script>
+<script src="src/common/contacts-service.js"></script>
+<script src="src/common/geo-navigation-service.js"></script>
+<script src="src/common/mock-service.js"></script>
+<script src="src/common/ng-enter-directive.js"></script>
 
 <script src="src/home/home-controller.js"></script>
-
-<script src="src/native/contacts-service.js"></script>
-<script src="src/native/mock-service.js"></script>
 
 <script src="src/welcome/welcome-controller.js"></script>
 
@@ -44,11 +48,16 @@
 
 <script src="src/events/events-controller.js"></script>
 <script src="src/events/event-service.js"></script>
+<script src="src/events/event-controller.js"></script>
 <script src="src/events/create-event-controller.js"></script>
+<script src="src/events/event-type-directive.js"></script>
 
 <script src="src/login/login-controller.js"></script>
 <script src="src/login/login-service.js"></script>
 <script src="src/login/login-directives.js"></script>
+
+<! -- Google-Maps Loaded last because it needs the internet -->
+<script src="http://maps.googleapis.com/maps/api/js?libraries=places&key=AIzaSyDFpJUfZnR7T0M7_u3CmHIPGwIgO4-QBEc&sensor=true&libraries=places"></script>
 
 </body>
 </html>

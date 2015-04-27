@@ -3,8 +3,19 @@
 
     var app = angular.module('amigos');
 
-    app.controller("EventsController", function ($scope, eventService, commonService) {
+    app.controller("EventsController", function ($scope, $ionicPopover, eventService, commonService) {
         var vm = this;
+
+        // Popover ( a.k.a dropdown )
+        // ----------------------------------
+
+        $ionicPopover.fromTemplateUrl('src/events/events-dropdown-view.html', {
+            scope: $scope
+        }).then(function(popover) {
+            vm.popover = popover;
+        });
+
+        // ----------------------------------
 
         eventService.getEvents()
             .success(function (events) {
@@ -15,7 +26,7 @@
         vm.isEventAdmin = true;
 
         vm.createEvent = function(){
-            commonService.redirect('create-event');
+            commonService.redirect('events.create');
         };
 
     });

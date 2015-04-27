@@ -32,6 +32,8 @@
             goBack: goBack,
             clearHistory: clearHistory,
 
+            isNative: isNative,
+
             getInfo: getInfo,
             refreshInfo: refreshInfo
         };
@@ -137,6 +139,13 @@
 
         function setFirstTime(value) {
             storageSet('user:first-time', value);
+        }
+
+        function isNative() {
+            // TOOD hack this around when more platform are relevant
+            var isAndroid = ionic.Platform.isAndroid();
+            return isAndroid;
+
         }
 
     }

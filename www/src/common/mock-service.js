@@ -8,8 +8,33 @@
     function MockService() {
 
         return {
-            contacts: _contacts
+            contacts: _contacts,
+            pickContact: pickContact
         };
+
+        function pickContact(){
+            var item = _contacts[Math.floor(Math.random()*_contacts.length)];
+
+            var email;
+
+            if (item.emails && item.emails.length)
+            {
+                email = item.emails[0].value;
+            }
+
+            var phone;
+
+            if (item.phoneNumbers && item.phoneNumbers.length)
+            {
+                phone = item.phoneNumbers[0].value;
+            }
+
+            return {
+                name: item.displayName,
+                email: email,
+                phone: phone
+            };
+        }
 
     }
 

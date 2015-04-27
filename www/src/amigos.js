@@ -6,9 +6,19 @@
         'ngMessages',
         'ionic',
         'ngCordova',
-
+        'uiGmapgoogle-maps',
+        'geolocation',
+        'ion-google-place',
         'ui.router'
     ]);
+
+    app.config(function (uiGmapGoogleMapApiProvider) {
+        uiGmapGoogleMapApiProvider.configure({
+            key: 'AIzaSyDFpJUfZnR7T0M7_u3CmHIPGwIgO4-QBEc',
+            v: '3.17',
+            libraries: 'weather,geometry,visualization,places'
+        });
+    });
 
 
     app.config(
@@ -32,6 +42,12 @@
             });
         });
 
+    app.config(
+        function ($ionicConfigProvider) {
+            //$ionicConfigProvider.views.maxCache(0);
+        });
+
+
 
     app.config(function ($provide, $httpProvider) {
         $provide.factory('httpInterceptor', function ($q, errorHandlingService) {
@@ -43,8 +59,7 @@
                     if (rejection.status === 404) {
 
                         var errorHandler = errorHandlingService.getCommunicationErrorHandler();
-                        if (errorHandler)
-                        {
+                        if (errorHandler) {
                             errorHandler();
                         }
                     }
