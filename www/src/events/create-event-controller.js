@@ -180,7 +180,7 @@
             eventService.createEvent(event)
                 .success(function(){
                     commonService.showAlert('Event created');
-                    $state.go('events');
+                    $state.go('events', null, { reload: true });
                 })
                 .error(function(){
                     commonService.showAlert('Something went wrong');

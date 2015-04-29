@@ -8,8 +8,11 @@
 
         var isFirstTime = commonService.isFirstTime();
         if (isFirstTime) {
-            commonService.redirect('welcome');
+            //commonService.redirect('welcome');
         }
+
+        // TODO remove this later on
+        commonService.redirect('events');
 
 
         contactsService.getContacts()
