@@ -10,6 +10,7 @@
   <content src="index.html"/>
   <access origin="tel:*" launch-external="yes" />
   <access origin="maps:*" launch-external="yes" />
+  <access origin="geo:*" launch-external="yes" />
   <access origin="*"/>
   <preference name="webviewbounce" value="false"/>
   <preference name="UIWebViewBounce" value="false"/>

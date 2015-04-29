@@ -34,11 +34,17 @@
 
             isNative: isNative,
 
+            getUser: getUser,
+
             getInfo: getInfo,
             refreshInfo: refreshInfo
         };
 
         // .................
+
+            function getUser(){
+            return _info && _info.user;
+        }
 
         function goBack(){
             $ionicHistory.goBack();
