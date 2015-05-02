@@ -21,9 +21,13 @@
             getEvents: getEvents,
             getEvent: getEvent,
             createEvent: createEvent,
-            eventTypes: eventTypes
+            eventTypes: eventTypes,
+            getEventMessages: getEventMessages
         };
 
+        function getEventMessages(eventId){
+            return $http.get(commonService.baseApi + '/api/event/' + eventId + '/messages');
+        }
 
         function getEvents(){
             return $http.get(commonService.baseApi + '/api/events');

@@ -98,6 +98,7 @@
 
             var event = new Event();
 
+            event.organizer = creatorUser;
             event.name = data.name;
             event.type = data.type;
 
@@ -115,6 +116,8 @@
             }
 
             event.location = data.location;
+
+            // TODO set products here as well
 
             event.save();
 

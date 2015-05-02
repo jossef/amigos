@@ -28,9 +28,28 @@
             }));
         };
 
+        /*
+        var websocket = new WebSocket("ws://echo.websocket.org/");
+
+        vm.state = '';
+        websocket.onopen = function(){
+            vm.state = 'connected';
+            $timeout(angular.noop);
+
+        };
+        websocket.onmessage = function(e){
+            vm.message = e.data;
+            $timeout(angular.noop);
+        };
+
+        vm.wsTest = function(message){
+            websocket.send(message);
+        };
+
         vm.createEvent = function () {
 
         };
+        */
     });
 
 

@@ -8,7 +8,7 @@ var eventSchema = mongoose.Schema({
     type: String,
     dates: [Date],
     season: String,
-    organizer: String,
+    organizer: {type: ObjectId, ref: 'User'},
     location: {
         latitude: String,
         longitude: String,
@@ -17,13 +17,13 @@ var eventSchema = mongoose.Schema({
     created: {type: Date, default: Date.now},
     chat: [{
         timestamp: {type: Date, default: Date.now},
+        type: {type: String, enum: ['image', 'text'], default: 'text'},
         message: String
     }],
     participants: [
         {
             user: {type: ObjectId, ref: 'User'},
-            approved: {type: Boolean, default: false},
-            tasks: [{}]
+            approved: {type: Boolean, default: false}
         }
     ],
     products: [

@@ -14,14 +14,17 @@
     var passport = require('passport');
     var bodyParser = require('body-parser');
     var app = express();
-    var http = require('http').Server(app);
-    var io = require('socket.io')(http);
+    var http = require('http').createServer(app);
+    var io = require('socket.io')(http, {path: '/api/socket'});
 
     var mongoose = require('mongoose');
     var configDB = require('./config/database.js');
 
     var session = require('express-session');
     var MongoStore = require('connect-mongo')(session);
+
+    var webSockets = require('./libs/web-sockets');
+
 
     mongoose.connect(configDB.url); // connect to our database
 
@@ -52,7 +55,7 @@
         saveUninitialized: true,
         maxAge: new Date(Date.now() + 3600000),
         store: new MongoStore(
-            { mongooseConnection: mongoose.connection },
+            {mongooseConnection: mongoose.connection},
             function (err) {
                 console.log(err || 'connect-mongodb setup ok');
             })
@@ -62,15 +65,13 @@
 
     require('./config/passport')(passport); // pass passport for configuration
 
-    //passport.use(data.User.createStrategy());
-    //passport.serializeUser(data.User.serializeUser());
-    //passport.deserializeUser(data.User.deserializeUser());
 
     routing(app, passport);
 
-    // Listen
-    //
     http.listen(expressPort, expressIPAddress);
     console.log(chalk.bold.yellow('LISTENING'), 'express', chalk.cyan(expressIPAddress), chalk.cyan(expressPort));
+
+    webSockets.init(io);
+    console.log(chalk.bold.yellow('INITIALIZED'), 'web sockets');
 
 })();

@@ -3,15 +3,33 @@
 
     var app = angular.module('amigos');
 
-    app.service('commonService', CommonService);
-
     var baseApi = '';
+    var webSocketAddress = 'ws://localhost:8080';
     var showingAlert = false;
     var _info;
 
-    function CommonService($location, $http, $timeout, $ionicHistory, $ionicPopup, $window, routingService, errorHandlingService, $cordovaLocalNotification) {
+    app.factory('amigosSocket', function (socketFactory) {
+        return socketFactory({
+            ioSocket: io.connect(webSocketAddress, {path: '/api/socket'})
+        });
+    });
+
+    app.service('commonService', CommonService);
+    function CommonService($location, $http, $timeout, $rootScope, $ionicHistory, $ionicPopup, $window, routingService, errorHandlingService, $cordovaLocalNotification, amigosSocket) {
 
         errorHandlingService.setCommunicationErrorHandler(handleCommunicationError);
+
+        $rootScope.$watch(function () {
+            return _info;
+        }, function watchCallback(newValue, oldValue) {
+            console.log('user changed from ', oldValue, 'to', newValue);
+
+            amigosSocket.emit('identify', newValue && newValue.user);
+        }, true);
+
+        amigosSocket.on('identify', function(){
+            amigosSocket.emit('identify', _info && _info.user);
+        });
 
         return {
             showMessage: showMessage,
@@ -42,15 +60,15 @@
 
         // .................
 
-            function getUser(){
+        function getUser() {
             return _info && _info.user;
         }
 
-        function goBack(){
+        function goBack() {
             $ionicHistory.goBack();
         }
 
-        function clearHistory(){
+        function clearHistory() {
             $ionicHistory.clearHistory();
         }
 
@@ -69,7 +87,7 @@
         }
 
         function handleCommunicationError() {
-            showAlert('No internet connection','please check your internet connection and try again');
+            showAlert('No internet connection', 'please check your internet connection and try again');
         }
 
         function showAlert(title, content) {
