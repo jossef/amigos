@@ -29,6 +29,9 @@
         getUserEvents: getUserEvents,
         createEvent: createEvent,
         getEvent: getEvent,
+        getEventMessages: getEventMessages,
+        addEventMessage: addEventMessage,
+        getEventParticipants: getEventParticipants,
 
         User: User,
 
@@ -86,6 +89,70 @@
     }
 
 
+    function getEventMessages(eventId) {
+        var deferred = Q.defer();
+
+        Event.findById(eventId, {messages: true})
+            .exec(function (err, event) {
+                if (err) {
+                    return deferred.reject(err);
+                }
+
+                deferred.resolve(event && event.messages);
+            });
+
+        return deferred.promise;
+    }
+
+    function getEventParticipants(eventId) {
+        var deferred = Q.defer();
+
+        Event.findById(eventId, {participants: true})
+            .exec(function (err, event) {
+                if (err) {
+                    return deferred.reject(err);
+                }
+
+                deferred.resolve(event && event.participants);
+            });
+
+        return deferred.promise;
+    }
+
+    function addEventMessage(phone, eventId, message) {
+        var deferred = Q.defer();
+
+        async(function () {
+            var user = await(getUser(phone));
+
+            Event.findById(eventId, {messages: true})
+                .exec(function (err, event) {
+                    if (err) {
+                        return deferred.reject(err);
+                    }
+
+                    var eventMessage = {
+                        timestamp: new Date(),
+                        type: message.type,
+                        user: {
+                            id: user._id,
+                            name: user.nickname
+                        },
+                        message: message.message
+                    };
+
+                    event.messages.push(eventMessage);
+
+                    event.save();
+
+                    deferred.resolve(eventMessage);
+                });
+        })();
+
+        return deferred.promise;
+    }
+
+
     function createEvent(creatorUser, data) {
         var deferred = Q.defer();
 
@@ -122,7 +189,7 @@
             event.save();
 
             // Now let's update all of the users
-            usersInvolved.forEach(function(user){
+            usersInvolved.forEach(function (user) {
                 user.events.addToSet(event._id);
                 user.save();
             });
@@ -172,7 +239,7 @@
                 user.nickname = data.nickname;
             }
 
-            user.save(function(err){
+            user.save(function (err) {
 
                 if (err) {
                     return deferred.reject(err);
@@ -273,7 +340,7 @@
         return deferred.promise;
     }
 
-    function saveTaggedItem(data){
+    function saveTaggedItem(data) {
 
         //TODO: complete the saving
 
@@ -285,7 +352,7 @@
 
             taggedItem.eventType =
 
-            event.name = data.name;
+                event.name = data.name;
             event.type = data.type;
 
             for (var key in data.participants) {

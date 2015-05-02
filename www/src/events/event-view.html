@@ -14,7 +14,7 @@
 
     <ion-tabs class="tabs-positive tabs-icon-only">
 
-        <ion-tab title="Home" icon="ion-happy-outline">
+        <ion-tab title="Info" icon="ion-happy-outline">
 
             <ion-view>
                 <ion-content padding="false">
@@ -67,7 +67,7 @@
 
         </ion-tab>
 
-        <ion-tab title="About" icon="ion-android-chat">
+        <ion-tab title="Chat" icon="ion-android-chat">
 
             <ion-content class="content-stable"
                          on-swipe-left="hideTime = false"
@@ -75,13 +75,14 @@
 
                 <div class="chat">
 
-                    <div ng-repeat="message in vm.messages"
-                         ng-class="{other: message.phone != vm.user.phone}"
+                    <div ng-repeat="message in vm.event.messages"
+                         ng-class="{other: message.user.id != vm.user.id}"
                          class="messages">
 
 
-                        <div class="message" ng-class="{'slide-right': hideTime, '': !hideTime}">
-                            <span>{{ message.text }}</span>
+                        <div class="message" ng-class="{'slide-right': hideTime}">
+                            <span>{{ message.message }}</span>
+                            <span>{{ message.user.name }}</span>
                         </div>
 
 

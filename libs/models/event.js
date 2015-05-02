@@ -15,9 +15,13 @@ var eventSchema = mongoose.Schema({
         address: String
     },
     created: {type: Date, default: Date.now},
-    chat: [{
+    messages: [{
         timestamp: {type: Date, default: Date.now},
         type: {type: String, enum: ['image', 'text'], default: 'text'},
+        user: {
+            id: String,
+            name: String
+        },
         message: String
     }],
     participants: [

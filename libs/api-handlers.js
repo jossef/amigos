@@ -5,6 +5,7 @@
     var path = require('path');
     var common = require('./common');
     var data = require('./data');
+    var webSockets = require('./web-sockets');
     var async = require('asyncawait/async');
     var await = require('asyncawait/await');
     var fb = require('fb');
@@ -23,7 +24,10 @@
 
         events: events,
         createEvent: createEvent,
-        getEvent: getEvent
+        getEvent: getEvent,
+        getEventMessages: getEventMessages,
+        addEventMessage: addEventMessage
+
     };
 
     // ............................
@@ -78,6 +82,31 @@
             var eventId = req.params.id;
             var event = await(data.getEvent(eventId));
             res.json(event);
+        });
+    }
+
+    function getEventMessages(req, res) {
+        apiHandler(req, res, function () {
+            var eventId = req.params.id;
+            var event = await(data.getEventMessages(eventId));
+            res.json(event);
+        });
+    }
+
+    function addEventMessage(req, res) {
+        apiHandler(req, res, function () {
+            ensureAuthenticated(req);
+            var eventId = req.params.id;
+            var message = req.body;
+            var phone = req.user.phone;
+            var eventMessage = await(data.addEventMessage(phone, eventId, message));
+            var eventParticipants = await(data.getEventParticipants(eventId));
+
+            eventParticipants.forEach(function (eventParticipant){
+                webSockets.reload(eventParticipant._id);
+            });
+
+            res.json(eventMessage);
         });
     }
 

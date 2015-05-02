@@ -3,8 +3,9 @@
 
     var app = angular.module('amigos');
 
-    app.controller("EventController", function ($scope, $stateParams, eventService, geoNavigationService, commonService, $ionicScrollDelegate) {
+    app.controller("EventController", function ($scope, $stateParams, eventService, geoNavigationService, commonService, $ionicScrollDelegate, amigosSocket) {
         var vm = this;
+        var eventId = $stateParams.id;
 
         vm.mapMarker = {
             location: {
@@ -21,7 +22,7 @@
         vm.mapCenter = {latitude: 34.77056443691254, longitude: 32.08776046606412};
         vm.mapZoom = 15;
 
-        eventService.getEvent($stateParams.id)
+        eventService.getEvent(eventId)
             .success(function (event) {
                 vm.event = event;
 
@@ -51,24 +52,30 @@
             geoNavigationService.navigateToLocation(vm.event.location.longitude, vm.event.location.latitude);
         };
 
-        vm.messages = [];
+        // ..............................
+
+        $scope.$watch(commonService.getUser, function (user) {
+            vm.user = user;
+        });
+
+        $ionicScrollDelegate.scrollBottom(true);
 
         vm.sendMessage = function (message) {
-            var d = new Date();
-            d = d.toLocaleTimeString().replace(/:\d+ /, ' ');
-
-            // TODO use watch
-            var user = commonService.getUser();
-            vm.user = user;
-
-            vm.messages.push({
-                phone: user.phone + (vm.messages.length % 2 == 0 ? '' : '2'),
-                text: message,
-                time: d
+            eventService.addEventMessage(eventId, {
+                message: message,
+                type: 'text'
             });
-
-            $ionicScrollDelegate.scrollBottom(true);
         };
+
+        amigosSocket.on('reload', function () {
+
+            console.log('reloaded');
+
+            eventService.getEventMessages(eventId)
+                .success(function (messages) {
+                    vm.event.messages = messages;
+                });
+        });
 
 
     });
