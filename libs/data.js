@@ -40,7 +40,7 @@
     function isPhoneInUse(phone) {
         var deferred = Q.defer();
 
-        User.findOne({phone: phone})
+        User.findOne({phone: phone, registered: true})
             .exec(function (err, user) {
                 if (err) {
                     return deferred.reject(err);
