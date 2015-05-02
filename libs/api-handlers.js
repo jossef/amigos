@@ -15,7 +15,6 @@
         getUser: getUser,
 
         validatePhone: validatePhone,
-        getFriends: getFriends,
 
         getInfo: getInfo,
 
@@ -89,6 +88,7 @@
             if (user)
             {
                 user = {
+                    id: user._id,
                     phone: user.phone,
                     nickname: user.nickname
                 }
@@ -137,33 +137,6 @@
             res.json(user);
         });
     }
-
-    function getFriends(req, res) {
-        apiHandler(req, res, function () {
-
-            if (!req.isAuthenticated())
-            {
-                throw new Error('yo, uncool.');
-            }
-
-            var google = require('googleapis');
-            var auth = require('../config/auth');
-            var plus = google.plus('v1');
-            var userId = req.user.google.id;
-
-            var oauth2Client = new google.auth.OAuth2(auth.googleAuth.clientID, auth.googleAuth.clientSecret, auth.googleAuth.callbackURL);
-            oauth2Client.setCredentials(req.user.google.token);
-
-
-            plus.people.get({ auth: oauth2Client, userId: 'me' }, function(err, user) {
-                console.log('Result: ' + (err ? err.message : user.displayName));
-
-                res.json(user);
-            });
-
-        });
-    }
-
 
     function validatePhone(req, res) {
 
