@@ -3,7 +3,7 @@
 
     var app = angular.module('amigos');
 
-    app.controller("ProfileController", function ($scope, $ionicPopover,  profileService, commonService) {
+    app.controller("ProfileController", function ($scope, $ionicPopover,  profileService, commonService, interactiveService) {
         var vm = this;
 
         // Popover ( a.k.a dropdown )
@@ -30,7 +30,7 @@
         vm.update = function (isValid) {
 
             if (!isValid) {
-                commonService.showAlert('Hey!', "You need to correct the given information");
+                interactiveService.showMessage("You need to correct the given information");
                 return;
             }
 
@@ -56,7 +56,7 @@
 
         vm.clearStorage = function(){
             commonService.clearStorage();
-            commonService.showAlert('local storage cleared');
+            interactiveService.showMessage("Operation completed successfully");
         };
 
     });

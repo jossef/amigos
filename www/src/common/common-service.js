@@ -5,7 +5,6 @@
 
     var baseApi = '';
     var webSocketAddress = 'ws://localhost:8080';
-    var showingAlert = false;
     var _info;
 
     app.factory('amigosSocket', function (socketFactory) {
@@ -15,7 +14,7 @@
     });
 
     app.service('commonService', CommonService);
-    function CommonService($location, $http, $timeout, $rootScope, $ionicHistory, $ionicPopup, $window, routingService, errorHandlingService, $cordovaLocalNotification, amigosSocket) {
+    function CommonService($location, $http, $timeout, $rootScope, $ionicHistory, $window, routingService, errorHandlingService, $cordovaLocalNotification, interactiveService, amigosSocket) {
 
         errorHandlingService.setCommunicationErrorHandler(handleCommunicationError);
 
@@ -32,8 +31,6 @@
         });
 
         return {
-            showMessage: showMessage,
-            showAlert: showAlert,
             setNotification: setNotification,
 
             isFirstTime: isFirstTime,
@@ -50,7 +47,6 @@
             goBack: goBack,
             clearHistory: clearHistory,
 
-            isNative: isNative,
 
             getUser: getUser,
 
@@ -87,23 +83,7 @@
         }
 
         function handleCommunicationError() {
-            showAlert('No internet connection', 'please check your internet connection and try again');
-        }
-
-        function showAlert(title, content) {
-
-            if (showingAlert) {
-                return;
-            }
-
-            showingAlert = true;
-
-            return $ionicPopup.alert({
-                title: title,
-                template: content
-            }).then(function () {
-                showingAlert = false;
-            });
+            interactiveService.showMessage('Please check your internet connection and try again');
         }
 
         function getInfo() {
@@ -117,18 +97,12 @@
                 });
         }
 
-        function showMessage(text) {
-            // TODO use toast
-
-            showAlert('Hey', text);
-        }
-
         function errorHandler(error) {
             // TODO perhaps show error messages for each case;
             //      e.g. internet connectivity error
 
             var message = (error && error.userMessage) || 'Oops! that operation just failed :(';
-            showAlert("Failed", message);
+            interactiveService.showAlert("Failed", message);
         }
 
         function redirect(name) {
@@ -165,12 +139,6 @@
             storageSet('user:first-time', value);
         }
 
-        function isNative() {
-            // TOOD hack this around when more platform are relevant
-            var isAndroid = ionic.Platform.isAndroid();
-            return isAndroid;
-
-        }
 
     }
 

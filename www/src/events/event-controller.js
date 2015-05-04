@@ -12,7 +12,9 @@
             $ionicTabsDelegate.select(index);
         };
 
-        vm.switchTab(1);
+        $timeout(function(){
+            vm.switchTab(1);
+        });
 
         vm.mapMarker = {
             location: {

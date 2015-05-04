@@ -3,7 +3,7 @@
 
     var app = angular.module('amigos');
 
-    app.controller("HomeController", function ($scope, $timeout, $http, geoNavigationService, commonService, contactsService, uiGmapGoogleMapApi, $templateCache) {
+    app.controller("HomeController", function ($scope, $timeout, $http, geoNavigationService, commonService, contactsService, interactiveService) {
         var vm = this;
 
         var isFirstTime = commonService.isFirstTime();
@@ -21,7 +21,7 @@
             });
 
         vm.clicker = function () {
-            commonService.showAlert('Ha');
+            interactiveService.showAlert('Ha');
 
             $http.post('http://10.0.0.6:8000/', angular.toJson({
                 data: vm.data

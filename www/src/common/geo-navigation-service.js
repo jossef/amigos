@@ -6,7 +6,7 @@
     app.service('geoNavigationService', GeoNavigationService);
 
 
-    function GeoNavigationService($q, commonService, geolocation) {
+    function GeoNavigationService($q, lifecycleService, geolocation) {
 
         var geocoder = new google.maps.Geocoder();
         return {
@@ -20,7 +20,7 @@
         function navigateToLocation(longitude, latitude) {
             var def = $q.defer();
 
-            if (commonService.isNative()) {
+            if (lifecycleService.isNative()) {
                 getCurrentLocation()
                     .success(function (currentLocation) {
 

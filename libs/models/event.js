@@ -27,7 +27,7 @@ var eventSchema = mongoose.Schema({
     participants: [
         {
             user: {type: ObjectId, ref: 'User'},
-            approved: {type: Boolean, default: false}
+            dates: [Date]
         }
     ],
     products: [

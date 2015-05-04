@@ -69,27 +69,38 @@
 
         <ion-tab title="Chat" on-select="vm.onChatSelected()" icon="ion-android-chat">
 
-            <ion-content class="content-stable" delegate-handle="chatScroll">
+            <ion-content class="pane-chat content-stable" delegate-handle="chatScroll">
 
-                <div class="chat">
+                <div class=" pane-chat-body">
 
-                    <div ng-repeat="message in vm.event.messages"
-                         ng-class="{other: message.user.id != vm.user.id}"
-                         class="messages">
+                    <div class="message-list">
 
+                        <div ng-repeat="message in vm.event.messages" class="msg msg-group">
 
-                        <div class="message" ng-class="{'slide-right': hideTime}">
-                            <span>{{ message.message }}</span>
-                            <span>{{ message.user.name }}</span>
+                            <div class="message"
+                                 ng-init="me = message.user.id == vm.user.id"
+                                 ng-class="me ? 'message-out' : 'message-in'">
+
+                                <div class="bubble bubble-text">
+
+                                    <!-- TODO get random color method -->
+                                    <div ng-hide="me" class="message-author">⁠⁠⁠
+                                        <span class="content"> {{ message.user.name }} </span>
+                                    </div>
+
+                                    <div class="message-text">
+                                        <span class="message-content" dir="auto">{{ message.message }}</span>
+                                    </div>
+
+                                </div>
+                                <div class="message-meta">{{ message.timestamp | date:'h:mm a' }}</div>
+                            </div>
+
                         </div>
-
-                        <div class="time">{{ message.timestamp | date:'h:mm:ss' }}</div>
-
 
                     </div>
 
                 </div>
-
             </ion-content>
 
             <ion-footer-bar keyboard-attach class="bar-stable item-input-inset">
@@ -114,9 +125,9 @@
                 <ion-content padding="false">
                     <div class="list">
 
-                    <ion-toggle ng-model="vm.approved" toggle-class="toggle-positive">Are you going?</ion-toggle>
+                        <ion-toggle ng-model="vm.approved" toggle-class="toggle-positive">Are you going?</ion-toggle>
 
-                    <ion-toggle ng-model="vm.kosher" toggle-class="toggle-positive">Are you eating kosher?</ion-toggle>
+                        <ion-toggle ng-model="vm.kosher" toggle-class="toggle-positive">Are you eating kosher?</ion-toggle>
                     </div>
 
 

@@ -6,3 +6,5 @@ ionic plugin add https://github.com/apache/cordova-plugin-geolocation.git
 ionic plugin add https://github.com/apache/cordova-plugin-splashscreen.git
 ionic plugin add https://github.com/Jossef/ContactChooser.git
 ionic plugin add https://github.com/dpa99c/phonegap-launch-navigator.git
+ionic plugin add https://github.com/dpa99c/phonegap-launch-navigator.git
+ionic plugin add nl.x-services.plugins.toast
