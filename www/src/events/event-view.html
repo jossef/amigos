@@ -67,11 +67,9 @@
 
         </ion-tab>
 
-        <ion-tab title="Chat" icon="ion-android-chat">
+        <ion-tab title="Chat" on-select="vm.onChatSelected()" icon="ion-android-chat">
 
-            <ion-content class="content-stable"
-                         on-swipe-left="hideTime = false"
-                         on-swipe-right="hideTime = true">
+            <ion-content class="content-stable" delegate-handle="chatScroll">
 
                 <div class="chat">
 
@@ -84,6 +82,8 @@
                             <span>{{ message.message }}</span>
                             <span>{{ message.user.name }}</span>
                         </div>
+
+                        <div class="time">{{ message.timestamp | date:'h:mm:ss' }}</div>
 
 
                     </div>

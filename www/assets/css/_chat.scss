@@ -21,6 +21,7 @@
     -ms-flex-align: center !important;
     align-items: center !important;
     margin-bottom: 20px !important;
+
     .message {
       -webkit-box-flex: 1 !important;
       -moz-box-flex: 1 !important;
@@ -35,6 +36,24 @@
       -webkit-transform: translate3d(0, 0, 0) !important;
       -moz-transform: translate3d(0, 0, 0) !important;
       transform: translate3d(0, 0, 0) !important;
+    }
+
+    &.other {
+      .message {
+        -webkit-transform: translate3d(0, 0, 0) !important;
+        -moz-transform: translate3d(0, 0, 0) !important;
+        transform: translate3d(0, 0, 0) !important;
+        text-align: right !important;
+      }
+      .message.slide-right {
+        -webkit-transform: translate3d(120px, 0, 0) !important;
+        -moz-transform: translate3d(120px, 0, 0) !important;
+        transform: translate3d(120px, 0, 0) !important;
+      }
+      span {
+        color: black !important;
+        background-color: #C7C7CC !important;
+      }
     }
   }
   .time {
@@ -60,24 +79,7 @@
       transform: translate3d(130px, 0, 0) !important;
     }
   }
-  //This will change
-  .messages.other {
-    .message {
-      -webkit-transform: translate3d(0, 0, 0) !important;
-      -moz-transform: translate3d(0, 0, 0) !important;
-      transform: translate3d(0, 0, 0) !important;
-      text-align: right !important;
-    }
-    .message.slide-right {
-      -webkit-transform: translate3d(120px, 0, 0) !important;
-      -moz-transform: translate3d(120px, 0, 0) !important;
-      transform: translate3d(120px, 0, 0) !important;
-    }
-    span {
-      color: black !important;
-      background-color: #C7C7CC !important;
-    }
-  }
+
   span {
     background: $positive !important;
     display: inline-block !important;

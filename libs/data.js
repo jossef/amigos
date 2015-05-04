@@ -177,6 +177,8 @@
                 event.participants.push(user._id);
             }
 
+            event.participants.push(creatorUser._id);
+
             for (var key in data.dates) {
                 var date = data.dates[key];
                 event.dates.push(date);

@@ -8906,6 +8906,18 @@ body {
     -webkit-transform: translate3d(0, 0, 0) !important;
     -moz-transform: translate3d(0, 0, 0) !important;
     transform: translate3d(0, 0, 0) !important; }
+  .chat .messages.other .message {
+    -webkit-transform: translate3d(0, 0, 0) !important;
+    -moz-transform: translate3d(0, 0, 0) !important;
+    transform: translate3d(0, 0, 0) !important;
+    text-align: right !important; }
+  .chat .messages.other .message.slide-right {
+    -webkit-transform: translate3d(120px, 0, 0) !important;
+    -moz-transform: translate3d(120px, 0, 0) !important;
+    transform: translate3d(120px, 0, 0) !important; }
+  .chat .messages.other span {
+    color: black !important;
+    background-color: #C7C7CC !important; }
 .chat .time {
   -webkit-box-flex: 0 !important;
   -moz-box-flex: 0 !important;
@@ -8927,18 +8939,6 @@ body {
     -webkit-transform: translate3d(130px, 0, 0) !important;
     -moz-transform: translate3d(130px, 0, 0) !important;
     transform: translate3d(130px, 0, 0) !important; }
-.chat .messages.other .message {
-  -webkit-transform: translate3d(0, 0, 0) !important;
-  -moz-transform: translate3d(0, 0, 0) !important;
-  transform: translate3d(0, 0, 0) !important;
-  text-align: right !important; }
-.chat .messages.other .message.slide-right {
-  -webkit-transform: translate3d(120px, 0, 0) !important;
-  -moz-transform: translate3d(120px, 0, 0) !important;
-  transform: translate3d(120px, 0, 0) !important; }
-.chat .messages.other span {
-  color: black !important;
-  background-color: #C7C7CC !important; }
 .chat span {
   background: #2196F3 !important;
   display: inline-block !important;

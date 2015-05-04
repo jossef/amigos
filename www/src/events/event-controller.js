@@ -3,9 +3,16 @@
 
     var app = angular.module('amigos');
 
-    app.controller("EventController", function ($scope, $stateParams, eventService, geoNavigationService, commonService, $ionicScrollDelegate, amigosSocket) {
+    app.controller("EventController", function ($scope, $timeout, $ionicTabsDelegate, $stateParams, eventService, geoNavigationService, commonService, $ionicScrollDelegate, amigosSocket) {
         var vm = this;
         var eventId = $stateParams.id;
+
+
+        vm.switchTab = function (index) {
+            $ionicTabsDelegate.select(index);
+        };
+
+        vm.switchTab(1);
 
         vm.mapMarker = {
             location: {
@@ -34,6 +41,8 @@
                     setLocation(event.location.longitude, event.location.latitude)
                 }
 
+                scrollToBottom();
+
             });
 
         function setLocation(longitude, latitude) {
@@ -58,8 +67,6 @@
             vm.user = user;
         });
 
-        $ionicScrollDelegate.scrollBottom(true);
-
         vm.sendMessage = function (message) {
             eventService.addEventMessage(eventId, {
                 message: message,
@@ -67,13 +74,20 @@
             });
         };
 
+        var scrollToBottom = function(){
+            $ionicScrollDelegate.$getByHandle('chatScroll').scrollBottom(true);
+        };
+
+        vm.onChatSelected = function(){
+            $timeout(scrollToBottom);
+        };
+
         amigosSocket.on('reload', function () {
-
             console.log('reloaded');
-
             eventService.getEventMessages(eventId)
                 .success(function (messages) {
                     vm.event.messages = messages;
+                    scrollToBottom();
                 });
         });
 
