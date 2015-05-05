@@ -76,6 +76,7 @@
         var deferred = Q.defer();
 
         Event.findById(id)
+            .populate('participants.user')
             .exec(function (err, event) {
                 if (err) {
                     return deferred.reject(err);
@@ -172,11 +173,7 @@
                 var participant = data.participants[key];
                 var user = await(ensureUserExists(participant.phone, {nickname: participant.name}));
                 usersInvolved.push(user);
-
-                event.participants.push(user._id);
             }
-
-            event.participants.push(creatorUser._id);
 
             for (var key in data.dates) {
                 var date = data.dates[key];
@@ -192,16 +189,22 @@
                 var product = await(ensureProductExists(name));
 
                 approvedProducts.push(product);
-                event.products.push(product._id);
+                event.products.push(product);
             }
 
             event.save();
 
             // Now let's update all of the users
             usersInvolved.forEach(function (user) {
-                user.events.addToSet(event._id);
+                user.events.addToSet(event);
                 user.save();
+                event.participants.push({ user: user });
+
             });
+
+            event.save();
+
+
 
             deferred.resolve(event);
         })();
@@ -224,6 +227,33 @@
 
                 deferred.resolve(user);
             });
+
+        return deferred.promise;
+    }
+
+    function ensureProductExists(name) {
+
+        var deferred = Q.defer();
+
+        User.findOne({'name': name}, function (err, product) {
+            if (err) {
+                return deferred.reject(err);
+            }
+
+            if (!product) {
+                product = new Product();
+                product.name = name;
+            }
+
+            product.save(function (err) {
+
+                if (err) {
+                    return deferred.reject(err);
+                }
+
+                deferred.resolve(product);
+            });
+        });
 
         return deferred.promise;
     }

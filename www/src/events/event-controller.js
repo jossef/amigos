@@ -56,7 +56,7 @@
         }
 
         vm.navigate = function () {
-            if (!vm.event) {
+            if ((!vm.event.location.latitude) && (!vm.event.location.longitude)) {
                 return;
             }
 
