@@ -12,10 +12,6 @@
             $ionicTabsDelegate.select(index);
         };
 
-        $timeout(function(){
-            vm.switchTab(1);
-        });
-
         vm.mapMarker = {
             location: {
                 latitude: 0,
