@@ -39,6 +39,6 @@
 
         app.get('/', api.root);
 
-        app.get('api/getShoppingList', machineLearning.getShoppingList);
+        app.get('/api/getShoppingList/:id', machineLearning.getShoppingList);
     }
 })();

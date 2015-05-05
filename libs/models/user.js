@@ -16,11 +16,10 @@ var userSchema = mongoose.Schema({
 
     password: String,
     nickname: String,
-    gender: String,
+    gender: {type: String, default: 'male'},
     isKosher: { type: Boolean, default: false },
     isVegetarian: { type: Boolean, default: false },
     isVegan: { type: Boolean, default: false },
-
 
     registered: { type: Boolean, default: false },
 

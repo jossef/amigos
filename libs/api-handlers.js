@@ -24,7 +24,10 @@
 
         events: events,
         createEvent: createEvent,
-        getEvent: getEvent
+        getEvent: getEvent,
+        updateEvent: updateEvent,
+        getAllEvents: getAllEvents,
+        apiHandler: apiHandler
     };
 
     // ............................
@@ -69,7 +72,7 @@
 
             var event = req.body;
 
-            await(data.createEvent(req.user, event));
+            await(data.saveEvent(event));
             res.json(req.body);
         });
     }
@@ -79,6 +82,23 @@
             var eventId = req.params.id;
             var event = await(data.getEvent(eventId));
             res.json(event);
+        });
+    }
+
+    function updateEvent(){
+        apiHandler(req, res, function () {
+
+            var event = req.body;
+
+            await(data.updateEvent(event));
+            res.json(req.body);
+        });
+    };
+
+    function getAllEvents(){
+        apiHandler(req, res, function () {
+            var events = await(data.getAllEvents());
+            res.json(events);
         });
     }
 

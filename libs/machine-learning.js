@@ -5,20 +5,49 @@
         getShoppingList: getShoppingList
     };
 
-    var async = require('asyncawait/async');
+    var kmeans = require('node-kmeans');
+
+
     var nn = require('nearest-neighbor');
-    var mongoose = require('mongoose');
     var apiHandlers = require('./api-handlers');
     var data = require('./data');
+    var async = require('asyncawait/async');
+    var await = require('asyncawait/await');
+
 
     function getShoppingList(req, res) {
         apiHandlers.apiHandler(req, res, function () {
+
+            
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+            var eventId = req.params.id;
+            var proposalEvent = await(data.getEvent(eventId));
             var shoppingCart = [];
 
+            /*
             var exampleItem = {eventId: '1234', eventType: 'Party', season:'summer', men: 5, women: 7, kosher: 0,
-                                vegan: 1, vegetarian: 2, participants: ['shay', 'osnat', 'jossef'], products: ['meat', 'marshmelo']};
+                                vegan: 1, vegetarian: 2, participants: ['shay', 'osnat', 'jossef']};
+            */
 
-            var items = getItems();
+            var allEvents = await(data.getAllEvents());
 
             var fields = [
                 { name: "eventType", measure: nn.comparisonMethods.word },
@@ -27,41 +56,18 @@
                 { name: "women", measure: nn.comparisonMethods.number },
                 { name: "kosher", measure: nn.comparisonMethods.number },
                 { name: "vegan", measure: nn.comparisonMethods.number },
-                { name: "vegetarian", measure: nn.comparisonMethods.number },
-                { name: "participants", measure: nn.comparisonMethods.wordArray()}
+                { name: "vegetarian", measure: nn.comparisonMethods.number}
+         //       { name: "participants", measure: nn.comparisonMethods.wordArray()}
             ];
 
-            nn.findMostSimilar(exampleItem, items, fields, saveTaggedItem(nearestNeighbor, probability));
-
-            res.json(shoppingCart);
-        });
-    }
-
-    function saveTaggedItem(nearestNeighbor, probability){
-        if (probability == 1){
-            return;
-        }
-        data.saveTaggedItem(nearestNeighbor);
-
-    };
-
-    function getItems(){
-        var deferred = Q.defer();
-
-        User.find({})
-            .limit(10)
-            .exec(function (err, users) {
-                if (err) {
-                    return deferred.reject(err);
-                }
-
-                deferred.resolve(users);
+            nn.findMostSimilar(proposalEvent, allEvents, fields, function(nearestNeighbor){
+               // apiHandlers.updateEvent(nearestNeighbor)
+                shoppingCart = nearestNeighbor;
             });
 
-        return deferred.promise;
+            res.json(shoppingCart);
 
-        var items = [];
-        return items;
-    };
+        });
+    }
 
 })();
