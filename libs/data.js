@@ -192,14 +192,14 @@
                 var product = await(ensureProductExists(name));
 
                 approvedProducts.push(product);
-                event.products.push(product._id);
+                event.products.push(product);
             }
 
             event.save();
 
             // Now let's update all of the users
             usersInvolved.forEach(function (user) {
-                user.events.addToSet(event._id);
+                user.events.addToSet(event);
                 user.save();
             });
 
@@ -224,6 +224,33 @@
 
                 deferred.resolve(user);
             });
+
+        return deferred.promise;
+    }
+
+    function ensureProductExists(name) {
+
+        var deferred = Q.defer();
+
+        User.findOne({'name': name}, function (err, product) {
+            if (err) {
+                return deferred.reject(err);
+            }
+
+            if (!product) {
+                product = new Product();
+                product.name = name;
+            }
+
+            product.save(function (err) {
+
+                if (err) {
+                    return deferred.reject(err);
+                }
+
+                deferred.resolve(product);
+            });
+        });
 
         return deferred.promise;
     }

@@ -29,12 +29,7 @@ var eventSchema = mongoose.Schema({
             dates: [Date]
         }
     ],
-    products: [
-        {
-            product: {type: ObjectId, ref: 'Product'},
-            amount: {type: Number, default: 1}
-        }
-    ]
+    products: [{type: ObjectId, ref: 'Product'}]
 });
 
 module.exports = mongoose.model('Event', eventSchema);
