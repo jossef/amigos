@@ -29,37 +29,73 @@
                         </div>
                     </div>
 
+                    <div class="item">
+                        <!--TODO: ON CLICK, OPEN THE DATES EXPAND IF DATE HAVEN'T CHOSEN? -->
+                        <!--TODO: ON CLICK, DB UPDATE: APPROVED/IF MORE THEN ONE DATE CHOSEN - SOLVE -->
+                        <button ng-click=""
+                                class="button button-block button-positive button-rect"> Join!
+                        </button>
+                    </div>
 
-                    <div menu-close class="item item-divider">
+                    <div menu-close class="item item-divider" ng-init="isDateListShowen=FALSE"
+                         ng-class="{active: isDateListShowen}"
+                         ng-click="isDateListShowen = !isDateListShowen">
+                        <i class="icon" ng-class="isDateListShowen ? 'ion-minus' : 'ion-plus'"></i>
+                        &nbsp;
+
+                        <!--TODO: DISPLAY DATE IF CHOSEN, ELSE DISPLAY AN "HAVEN'T CHOSEN YET" MESSAGE -->
+                        <!--TODO: CLICK ON MESSAGE IS EXPANDING INSTEAD PLUS -->
                         Date
                     </div>
 
 
-                    <div class="item item-button-right" ng-repeat="date in vm.event.dates">
+                    <div class="item item-button-right" ng-repeat="date in vm.event.dates" ng-show="isDateListShowen">
                         {{date | date}}
                         <button class="button button-positive">
-                            <i class="icon ion-android-calendar"></i>
+                            <i class="icon ion-android-calendar" ></i>
                         </button>
                     </div>
 
 
-                    <div menu-close class="item item-divider">
-                        Location
+                    <div menu-close class="item item-divider"ng-init="isLocationListShowen=FALSE"
+                         ng-class="{active: isLocationListShowen}"
+                         ng-click="isLocationListShowen = !isLocationListShowen">
+                        <i class="icon" ng-class="isLocationListShowen ? 'ion-minus' : 'ion-plus'"></i>
+                        &nbsp;
+                        Location: {{vm.event.location.address}}
                     </div>
 
-                    <div class="item">
-
-                        <h2>
-                            <b>{{vm.event.location.address}}</b>
-                        </h2>
+                    <div class="item" ng-show="isLocationListShowen">
 
                         <ui-gmap-google-map options="vm.mapOptions" center="vm.mapCenter" zoom="vm.mapZoom">
                             <ui-gmap-marker coords="vm.mapMarker.location" idkey="0"></ui-gmap-marker>
                         </ui-gmap-google-map>
 
+
+                        <!--TODO: MOVE OUT OF LOCATION DIV -->
                         <button ng-click="vm.navigate()"
                                 class="button button-block button-positive button-rect"><i class="icon ion-navigate"></i> Take me there!
                         </button>
+
+                    </div>
+
+                    <div menu-close class="item item-divider" ng-init="isWhoListShowen=FALSE"
+                         ng-class="{active: isWhoListShowen}"
+                         ng-click="isWhoListShowen = !isWhoListShowen">
+                        <i class="icon" ng-class="isWhoListShowen ? 'ion-minus' : 'ion-plus'"></i>
+                        &nbsp;
+
+                        <!--TODO: DISPLAY NUMBER OF JOINED FRIENDS, ELSE DISPLAY AN "HAVEN'T JOINED YET" MESSAGE -->
+                        <!--TODO: CLICK ON NUMBER\ICON IS EXPANDING INSTEAD PLUS -->
+                        17 Are coming!
+                    </div>
+
+
+
+                    <div class="item item-button-right" ng-repeat="participant in vm.event.participants" ng-show="isWhoListShowen">
+
+                        {{participant}}
+
 
                     </div>
                 </ion-content>

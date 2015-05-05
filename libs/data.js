@@ -77,6 +77,7 @@
         var deferred = Q.defer();
 
         Event.findById(id)
+            .populate('participants.user')
             .exec(function (err, event) {
                 if (err) {
                     return deferred.reject(err);
@@ -173,11 +174,7 @@
                 var participant = data.participants[key];
                 var user = await(ensureUserExists(participant.phone, {nickname: participant.name}));
                 usersInvolved.push(user);
-
-                event.participants.push(user._id);
             }
-
-            event.participants.push(creatorUser._id);
 
             for (var key in data.dates) {
                 var date = data.dates[key];
@@ -194,7 +191,13 @@
             usersInvolved.forEach(function (user) {
                 user.events.addToSet(event._id);
                 user.save();
+                event.participants.push({ user: user });
+
             });
+
+            event.save();
+
+
 
             deferred.resolve(event);
         })();
