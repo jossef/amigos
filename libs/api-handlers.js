@@ -26,8 +26,10 @@
         createEvent: createEvent,
         getEvent: getEvent,
         getEventMessages: getEventMessages,
-        addEventMessage: addEventMessage
+        addEventMessage: addEventMessage,
 
+        getAllEvents: getAllEvents,
+        apiHandler: apiHandler
     };
 
     // ............................
@@ -82,6 +84,13 @@
             var eventId = req.params.id;
             var event = await(data.getEvent(eventId));
             res.json(event);
+        });
+    }
+
+    function getAllEvents(){
+        apiHandler(req, res, function () {
+            var events = await(data.getAllEvents());
+            res.json(events);
         });
     }
 

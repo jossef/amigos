@@ -7,7 +7,6 @@ var eventSchema = mongoose.Schema({
     name: String,
     type: String,
     dates: [Date],
-    season: String,
     organizer: {type: ObjectId, ref: 'User'},
     location: {
         latitude: String,
@@ -27,16 +26,10 @@ var eventSchema = mongoose.Schema({
     participants: [
         {
             user: {type: ObjectId, ref: 'User'},
-            approved: {type: Boolean, default: false}
+            dates: [Date]
         }
     ],
-    products: [
-        {
-            product: {type: ObjectId, ref: 'Product'},
-            amount: {type: Number, default: 1}
-        }
-    ]
-
+    products: [{type: ObjectId, ref: 'Product'}]
 });
 
 module.exports = mongoose.model('Event', eventSchema);

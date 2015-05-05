@@ -3,7 +3,7 @@
 
     var app = angular.module('amigos');
 
-    app.controller("LoginController", function ($scope, loginService, commonService) {
+    app.controller("LoginController", function ($scope, loginService, commonService, interactiveService) {
         var vm = this;
 
         vm.phone = '';
@@ -12,14 +12,14 @@
         vm.login = function (isValid) {
 
             if (!isValid) {
-                commonService.showAlert('Hey!', "You need to correct the given information");
+                interactiveService.showMessage("You need to correct the given information");
                 return;
             }
 
             loginService
                 .login(vm.phone, vm.password)
                 .success(function (user) {
-                    commonService.showMessage("Logged in successfully");
+                    interactiveService.showMessage("Logged in successfully");
                     commonService.refreshInfo().success(function () {
                         commonService.redirect('home');
                     });
@@ -30,14 +30,14 @@
         vm.register = function (isValid) {
 
             if (!isValid) {
-                commonService.showAlert('Hey!', "You need to correct the given information");
+                interactiveService.showMessage("You need to correct the given information");
                 return;
             }
 
             loginService
                 .register(vm.phone, vm.nickname, vm.password)
                 .success(function (user) {
-                    commonService.showMessage("Welcome!");
+                    interactiveService.showMessage("Welcome!");
                     commonService.refreshInfo().success(function () {
                         commonService.redirect('home');
                     });

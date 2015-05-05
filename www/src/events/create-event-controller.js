@@ -3,7 +3,7 @@
 
     var app = angular.module('amigos');
 
-    app.controller("CreateEventController", function ($scope, $timeout, $state, $ionicTabsDelegate, eventService, contactsService, geoNavigationService, commonService) {
+    app.controller("CreateEventController", function ($scope, $timeout, $state, $ionicTabsDelegate, eventService, contactsService, geoNavigationService, commonService, interactiveService) {
         var vm = this;
 
         vm.newEvent = {};
@@ -179,11 +179,11 @@
 
             eventService.createEvent(event)
                 .success(function(){
-                    commonService.showAlert('Event created');
+                    interactiveService.showMessage('Event created');
                     $state.go('events', null, { reload: true });
                 })
                 .error(function(){
-                    commonService.showAlert('Something went wrong');
+                    interactiveService.showMessage('Something went wrong');
                 });
         }
     });

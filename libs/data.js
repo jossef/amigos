@@ -9,8 +9,8 @@
 
     var User = require('./models/user');
     var Event = require('./models/event');
+    var Product = require('./models/product');
     var common = require('./common');
-    var TaggedItem = require('./models/tagged-item');
 
     var async = require('asyncawait/async');
     var await = require('asyncawait/await');
@@ -29,13 +29,12 @@
         getUserEvents: getUserEvents,
         createEvent: createEvent,
         getEvent: getEvent,
+        getAllEvents: getAllEvents,
         getEventMessages: getEventMessages,
         addEventMessage: addEventMessage,
         getEventParticipants: getEventParticipants,
 
-        User: User,
-
-        saveTaggedItem: saveTaggedItem
+        User: User
     };
 
     // ..........................
@@ -183,13 +182,21 @@
 
             event.location = data.location;
 
-            // TODO set products here as well
+            var approvedProducts = [];
+
+            for (var key in data.products) {
+                var name = data.products[key];
+                var product = await(ensureProductExists(name));
+
+                approvedProducts.push(product);
+                event.products.push(product);
+            }
 
             event.save();
 
             // Now let's update all of the users
             usersInvolved.forEach(function (user) {
-                user.events.addToSet(event._id);
+                user.events.addToSet(event);
                 user.save();
                 event.participants.push({ user: user });
 
@@ -220,6 +227,33 @@
 
                 deferred.resolve(user);
             });
+
+        return deferred.promise;
+    }
+
+    function ensureProductExists(name) {
+
+        var deferred = Q.defer();
+
+        User.findOne({'name': name}, function (err, product) {
+            if (err) {
+                return deferred.reject(err);
+            }
+
+            if (!product) {
+                product = new Product();
+                product.name = name;
+            }
+
+            product.save(function (err) {
+
+                if (err) {
+                    return deferred.reject(err);
+                }
+
+                deferred.resolve(product);
+            });
+        });
 
         return deferred.promise;
     }
@@ -345,42 +379,19 @@
         return deferred.promise;
     }
 
-    function saveTaggedItem(data) {
-
-        //TODO: complete the saving
-
+    function getAllEvents() {
         var deferred = Q.defer();
 
-        async(function () {
+        Event.find({})
+            .exec(function (err, events) {
+                if (err) {
+                    return deferred.reject(err);
+                }
 
-            var taggedItem = new TaggedItem();
-
-            taggedItem.eventType =
-
-                event.name = data.name;
-            event.type = data.type;
-
-            for (var key in data.participants) {
-                var participant = data.participants[key];
-                var user = await(ensureUserExists(participant.phone, {nickname: participant.name}));
-
-                taggedItem.participants.push(user._id);
-            }
-
-            for (var key in data.products) {
-                var products = data.products[key];
-                var product = await(ensureUserExists(products.ID, {name: products.name}));
-
-                taggedItem.products.push(product._id);
-            }
-
-
-            taggedItem.save();
-
-            deferred.resolve(taggedItem);
-        })();
+                deferred.resolve(events);
+            });
 
         return deferred.promise;
-    };
+    }
 
 })();

@@ -1,92 +1,188 @@
 @import "ionic-variables";
 
-.chat {
-  $stable: #f8f8f8 !default;
 
-  .scroll {
-    padding: 10px 0 50px !important;
-  }
-  .messages {
-    display: -webkit-box !important;
-    display: -moz-box !important;
-    display: -ms-flexbox !important;
-    display: -webkit-flex !important;
-    display: flex !important;
-    -webkit-align-content: center !important;
-    -ms-flex-line-pack: center !important;
-    align-content: center !important;
-    -webkit-box-align: center !important;
-    -moz-box-align: center !important;
-    -webkit-align-items: center !important;
-    -ms-flex-align: center !important;
-    align-items: center !important;
-    margin-bottom: 20px !important;
+$color_cerulean_approx: #039be5;
+$black_13: rgba(0, 0, 0, .13);
+$white: #fff;
+$color_snow_flurry_approx: #dcf8c6;
 
-    .message {
-      -webkit-box-flex: 1 !important;
-      -moz-box-flex: 1 !important;
-      -webkit-flex: 1 1 auto !important;
-      -ms-flex: 1 1 auto !important;
-      flex: 1 1 auto !important;
-      padding: 10px !important;
-      -webkit-transition: all 250ms ease-in-out !important;
-      transition: all 250ms ease-in-out !important;
-      overflow: hidden !important;
-      text-align: left !important;
-      -webkit-transform: translate3d(0, 0, 0) !important;
-      -moz-transform: translate3d(0, 0, 0) !important;
-      transform: translate3d(0, 0, 0) !important;
-    }
+$black_45: rgba(0, 0, 0, .45);
+$color_shark_approx: #262626;
+$black_5: rgba(0, 0, 0, .05);
+$black_30: rgba(0, 0, 0, .3);
 
-    &.other {
-      .message {
-        -webkit-transform: translate3d(0, 0, 0) !important;
-        -moz-transform: translate3d(0, 0, 0) !important;
-        transform: translate3d(0, 0, 0) !important;
-        text-align: right !important;
-      }
-      .message.slide-right {
-        -webkit-transform: translate3d(120px, 0, 0) !important;
-        -moz-transform: translate3d(120px, 0, 0) !important;
-        transform: translate3d(120px, 0, 0) !important;
-      }
-      span {
-        color: black !important;
-        background-color: #C7C7CC !important;
-      }
-    }
+$color_burning_orange_approx: #ff7043;
+$color_swiss_coffee_approx: #e0dad6;
+
+$font_0: Open Sans;
+$font_1: sans-serif;
+
+%message-base {
+  border-radius: 7.5px;
+  position: relative;
+  max-width: 336px;
+  box-shadow: 0 1px .5px $black_13;
+}
+
+%message-before {
+  content: '';
+  position: absolute;
+  bottom: 3px;
+  width: 12px;
+  height: 19px;
+  background-position: 50% 50%;
+  background-repeat: no-repeat;
+  background-size: contain;
+}
+
+.msg {
+  margin: 0;
+  padding: 0;
+  border: 0;
+  font-size: 100%;
+  font: inherit;
+  vertical-align: baseline;
+  outline: none;
+  margin-bottom: 9px;
+  &:after {
+    content: '';
+    display: table;
+    clear: both;
   }
-  .time {
-    -webkit-box-flex: 0 !important;
-    -moz-box-flex: 0 !important;
-    -webkit-flex: 0 1 auto !important;
-    -ms-flex: 0 1 auto !important;
-    flex: 0 1 auto !important;
-    -webkit-align-self: auto !important;
-    -ms-flex-item-align: auto !important;
-    align-self: auto !important;
-    width: 120px !important;
-    text-align: center !important;
-    padding: 0 0 0 0 !important;
-    -webkit-transition: all 250ms ease-in-out !important;
-    transition: all 250ms ease-in-out !important;
-    -webkit-transform: translate3d(10px, 0, 0) !important;
-    -moz-transform: translate3d(10px, 0, 0) !important;
-    transform: translate3d(10px, 0, 0) !important;
-    &.slide-right {
-      -webkit-transform: translate3d(130px, 0, 0) !important;
-      -moz-transform: translate3d(130px, 0, 0) !important;
-      transform: translate3d(130px, 0, 0) !important;
-    }
+  a {
+    color: $color_cerulean_approx;
+    text-decoration: underline;
+  }
+}
+
+.message-meta {
+  position: absolute;
+  bottom: 3px;
+  right: 8px;
+  font-size: 11px;
+  color: $black_45;
+  line-height: 15px;
+  height: 15px;
+}
+
+.message-in {
+  @extend %message-base;
+  background-color: $white;
+  float: left;
+  .bubble {
+    padding-top: 5px !important;
+  }
+  &:before {
+    left: -11px;
+    @extend %message-before;
+  }
+}
+
+.message-out {
+  @extend %message-base;
+  background-color: $color_snow_flurry_approx;
+  float: right;
+  &:before {
+    @extend %message-before;
+    right: -11px;
   }
 
-  span {
-    background: $positive !important;
-    display: inline-block !important;
-    color: white !important;
-    padding: 10px !important;
-    border-radius: 10px !important;
-    text-align: left !important;
-    max-width: 240px !important;
+}
+
+.message {
+  user-select: none;
+  &:last-of-type {
+    margin-bottom: 0;
   }
+  .shade {
+    position: absolute;
+    bottom: 0;
+    width: 100%;
+    height: 28px;
+    background: linear-gradient(to top, $black_30, transparent);
+    border-bottom-left-radius: 6px;
+    border-bottom-right-radius: 6px;
+  }
+  .message-text .message-content {
+    cursor: text;
+    user-select: text;
+    white-space: pre-wrap;
+  }
+}
+
+.message-author {
+  font-family: $font_0, $font_1;
+  font-size: 12.5px;
+  line-height: 20px;
+  height: 20px;
+  font-weight: 600;
+  margin-bottom: 1px;
+  color: $color_burning_orange_approx;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+
+  .content {
+
+    position: relative;
+    left: -3px;
+  }
+}
+
+.bubble {
+  padding: 8px;
+}
+
+.message-text {
+  font-size: 13.6px;
+  line-height: 19px;
+  font-family: $font_0, $font_1;
+  word-wrap: break-word;
+  color: $color_shark_approx;
+  position: relative;
+  overflow: hidden;
+  &::after {
+    content: " \00a0\00a0\00a0\00a0\00a0\00a0\00a0\00a0\00a0\00a0\00a0\00a0\00a0\00a0\00a0\00a0\00a0\00a0\00a0";
+    display: inline;
+  }
+}
+
+.message-divider {
+  height: 0;
+  border-bottom: 1px solid $black_5;
+  margin: 6px 0;
+  width: 25%;
+}
+
+.message-text-multi {
+  position: relative;
+  .message-meta {
+    bottom: -5px !important;
+    right: 0 !important;
+  }
+}
+
+.pane-chat-body {
+  transform: translateZ(0);
+  display: flex;
+  flex-direction: column;
+  overflow-x: hidden;
+  position: relative;
+  z-index: 100;
+  padding: 0 5%;
+  padding-start: 9%;
+  padding-end: 9%;
+}
+
+.pane-chat {
+  z-index: 5;
+  background-color: $color_swiss_coffee_approx;
+  background-size: cover;
+  background-position: center center;
+  align-self: flex-end;
+}
+
+.message-list {
+  flex: 0 0 auto;
+  margin-top: 12px;
 }
