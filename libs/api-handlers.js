@@ -5,6 +5,7 @@
     var path = require('path');
     var common = require('./common');
     var data = require('./data');
+    var webSockets = require('./web-sockets');
     var async = require('asyncawait/async');
     var await = require('asyncawait/await');
     var fb = require('fb');
@@ -15,7 +16,6 @@
         getUser: getUser,
 
         validatePhone: validatePhone,
-        getFriends: getFriends,
 
         getInfo: getInfo,
 
@@ -25,7 +25,9 @@
         events: events,
         createEvent: createEvent,
         getEvent: getEvent,
-        updateEvent: updateEvent,
+        getEventMessages: getEventMessages,
+        addEventMessage: addEventMessage,
+
         getAllEvents: getAllEvents,
         apiHandler: apiHandler
     };
@@ -72,7 +74,7 @@
 
             var event = req.body;
 
-            await(data.saveEvent(event));
+            await(data.createEvent(req.user, event));
             res.json(req.body);
         });
     }
@@ -85,20 +87,35 @@
         });
     }
 
-    function updateEvent(){
-        apiHandler(req, res, function () {
-
-            var event = req.body;
-
-            await(data.updateEvent(event));
-            res.json(req.body);
-        });
-    };
-
     function getAllEvents(){
         apiHandler(req, res, function () {
             var events = await(data.getAllEvents());
             res.json(events);
+        });
+    }
+
+    function getEventMessages(req, res) {
+        apiHandler(req, res, function () {
+            var eventId = req.params.id;
+            var event = await(data.getEventMessages(eventId));
+            res.json(event);
+        });
+    }
+
+    function addEventMessage(req, res) {
+        apiHandler(req, res, function () {
+            ensureAuthenticated(req);
+            var eventId = req.params.id;
+            var message = req.body;
+            var phone = req.user.phone;
+            var eventMessage = await(data.addEventMessage(phone, eventId, message));
+            var eventParticipants = await(data.getEventParticipants(eventId));
+
+            eventParticipants.forEach(function (eventParticipant){
+                webSockets.reload(eventParticipant._id);
+            });
+
+            res.json(eventMessage);
         });
     }
 
@@ -109,6 +126,7 @@
             if (user)
             {
                 user = {
+                    id: user._id,
                     phone: user.phone,
                     nickname: user.nickname
                 }
@@ -157,33 +175,6 @@
             res.json(user);
         });
     }
-
-    function getFriends(req, res) {
-        apiHandler(req, res, function () {
-
-            if (!req.isAuthenticated())
-            {
-                throw new Error('yo, uncool.');
-            }
-
-            var google = require('googleapis');
-            var auth = require('../config/auth');
-            var plus = google.plus('v1');
-            var userId = req.user.google.id;
-
-            var oauth2Client = new google.auth.OAuth2(auth.googleAuth.clientID, auth.googleAuth.clientSecret, auth.googleAuth.callbackURL);
-            oauth2Client.setCredentials(req.user.google.token);
-
-
-            plus.people.get({ auth: oauth2Client, userId: 'me' }, function(err, user) {
-                console.log('Result: ' + (err ? err.message : user.displayName));
-
-                res.json(user);
-            });
-
-        });
-    }
-
 
     function validatePhone(req, res) {
 

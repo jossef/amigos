@@ -6,7 +6,7 @@
     app.service('contactsService', ContactsService);
 
 
-    function ContactsService($q, $cordovaContacts, $ionicPlatform, mockService, commonService) {
+    function ContactsService($q, $cordovaContacts, $ionicPlatform, mockService, lifecycleService) {
 
         var getContactsPromise = _getContacts();
 
@@ -20,7 +20,7 @@
         function pickContact() {
             var def = $q.defer();
 
-            if (commonService.isNative()) {
+            if (lifecycleService.isNative()) {
                 window.plugins.ContactChooser.chooseContact(function (contactInfo) {
                     // setTimeout - workaround for ios
                     setTimeout(function () {
@@ -55,7 +55,7 @@
 
             $ionicPlatform.ready(function () {
 
-                if (commonService.isNative()) {
+                if (lifecycleService.isNative()) {
                     $cordovaContacts.find({filter: ''})
                         .then(def.resolve, def.reject);
                 }

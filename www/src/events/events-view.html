@@ -22,6 +22,13 @@
                 </p>
             </a>
 
+            <div class="item item-button-right" ng-hide="vm.events.length" ui-sref="create-event">
+                <b>There are no events</b>
+                <button class="button button-positive button-clear">
+                    Create event
+                </button>
+            </div>
+
         </div>
 
     </ion-content>

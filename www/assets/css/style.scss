@@ -2,6 +2,8 @@
 @import "pager";
 @import "datepicker";
 @import "images";
+@import "event";
+@import "chat";
 
 .form-errors {
 
@@ -53,45 +55,6 @@
 {
   padding-left: 0;
   padding-right: 0;
-}
-
-.event-type-item {
-  transition: all 0.3s ease;
-
-
-
-  position: relative;
-  outline: 1px solid transparent;
-  background: #fff;
-  line-height: 0;
-
-  &.active{
-    outline: 2px solid $positive;
-    color: #fff;
-    .title{
-      background-color: transparentize($positive, 0.1);;
-    }
-  }
-
-  img {
-    @extend .image-responsive;
-  }
-  .title {
-    @extend .text-center;
-
-    line-height: 2.5em;
-
-    display: inline-block;
-    white-space: nowrap;
-    overflow: hidden !important;
-    text-overflow: ellipsis;
-    background: transparentize(#ffffff, 0.2);
-    font-weight: 700;
-    position: absolute;
-    bottom: 0;
-    left: 0;
-    right: 0;
-  }
 }
 
 .button-rect{

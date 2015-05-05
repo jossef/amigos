@@ -9,7 +9,8 @@
         'uiGmapgoogle-maps',
         'geolocation',
         'ion-google-place',
-        'ui.router'
+        'ui.router',
+        'btford.socket-io'
     ]);
 
     app.config(function (uiGmapGoogleMapApiProvider) {

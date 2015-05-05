@@ -15,9 +15,9 @@
 
         app.get('/api/events', api.events);
         app.post('/api/events', api.createEvent);
+        app.get('/api/events/:id/messages', api.getEventMessages);
+        app.post('/api/events/:id/messages', api.addEventMessage);
         app.get('/api/events/:id', api.getEvent);
-
-        app.get('/api/friends', api.getFriends);
 
         app.get('/api/info', api.getInfo);
 

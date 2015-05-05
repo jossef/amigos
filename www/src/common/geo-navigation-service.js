@@ -6,16 +6,40 @@
     app.service('geoNavigationService', GeoNavigationService);
 
 
-
-    function GeoNavigationService($q, commonService, geolocation) {
+    function GeoNavigationService($q, lifecycleService, geolocation) {
 
         var geocoder = new google.maps.Geocoder();
         return {
             getCurrentLocation: getCurrentLocation,
-            reverseGeoLookup: reverseGeoLookup
+            reverseGeoLookup: reverseGeoLookup,
+            navigateToLocation: navigateToLocation
         };
 
         // ........
+
+        function navigateToLocation(longitude, latitude) {
+            var def = $q.defer();
+
+            if (lifecycleService.isNative()) {
+                getCurrentLocation()
+                    .success(function (currentLocation) {
+
+                        launchnavigator.navigate(
+                            [latitude, longitude],
+                            [currentLocation.latitude, currentLocation.longitude],
+                            def.resolve,
+                            def.reject);
+                    })
+                    .error(def.reject);
+            }
+            else
+            {
+                var url = 'http://google.com/maps/dir//' + latitude + ',' + longitude + '/@'+ latitude + ',' + longitude+',13z';
+                window.open(url,'_blank');
+            }
+
+            return def.promise;
+        }
 
         function getCurrentLocation() {
             var def = $q.defer();

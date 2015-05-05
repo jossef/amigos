@@ -29,8 +29,10 @@
         getUserEvents: getUserEvents,
         createEvent: createEvent,
         getEvent: getEvent,
-        updateEvent: updateEvent,
         getAllEvents: getAllEvents,
+        getEventMessages: getEventMessages,
+        addEventMessage: addEventMessage,
+        getEventParticipants: getEventParticipants,
 
         User: User
     };
@@ -40,7 +42,7 @@
     function isPhoneInUse(phone) {
         var deferred = Q.defer();
 
-        User.findOne({phone: phone})
+        User.findOne({phone: phone, registered: true})
             .exec(function (err, user) {
                 if (err) {
                     return deferred.reject(err);
@@ -86,6 +88,70 @@
     }
 
 
+    function getEventMessages(eventId) {
+        var deferred = Q.defer();
+
+        Event.findById(eventId, {messages: true})
+            .exec(function (err, event) {
+                if (err) {
+                    return deferred.reject(err);
+                }
+
+                deferred.resolve(event && event.messages);
+            });
+
+        return deferred.promise;
+    }
+
+    function getEventParticipants(eventId) {
+        var deferred = Q.defer();
+
+        Event.findById(eventId, {participants: true})
+            .exec(function (err, event) {
+                if (err) {
+                    return deferred.reject(err);
+                }
+
+                deferred.resolve(event && event.participants);
+            });
+
+        return deferred.promise;
+    }
+
+    function addEventMessage(phone, eventId, message) {
+        var deferred = Q.defer();
+
+        async(function () {
+            var user = await(getUser(phone));
+
+            Event.findById(eventId, {messages: true})
+                .exec(function (err, event) {
+                    if (err) {
+                        return deferred.reject(err);
+                    }
+
+                    var eventMessage = {
+                        timestamp: new Date(),
+                        type: message.type,
+                        user: {
+                            id: user._id,
+                            name: user.nickname
+                        },
+                        message: message.message
+                    };
+
+                    event.messages.push(eventMessage);
+
+                    event.save();
+
+                    deferred.resolve(eventMessage);
+                });
+        })();
+
+        return deferred.promise;
+    }
+
+
     function createEvent(creatorUser, data) {
         var deferred = Q.defer();
 
@@ -98,6 +164,7 @@
 
             var event = new Event();
 
+            event.organizer = creatorUser;
             event.name = data.name;
             event.type = data.type;
 
@@ -108,6 +175,8 @@
 
                 event.participants.push(user._id);
             }
+
+            event.participants.push(creatorUser._id);
 
             for (var key in data.dates) {
                 var date = data.dates[key];
@@ -129,7 +198,7 @@
             event.save();
 
             // Now let's update all of the users
-            usersInvolved.forEach(function(user){
+            usersInvolved.forEach(function (user) {
                 user.events.addToSet(event._id);
                 user.save();
             });
@@ -179,7 +248,7 @@
                 user.nickname = data.nickname;
             }
 
-            user.save(function(err){
+            user.save(function (err) {
 
                 if (err) {
                     return deferred.reject(err);
@@ -280,12 +349,7 @@
         return deferred.promise;
     }
 
-    function updateEvent(data){
-        var eventToUpdate = getEvent(data.id);
-        createEvent(eventToUpdate.organizer, data);
-    };
-
-    function getAllEvents(){
+    function getAllEvents() {
         var deferred = Q.defer();
 
         Event.find({})
@@ -298,34 +362,6 @@
             });
 
         return deferred.promise;
-    };
-
-
-    function ensureProductExists(name) {
-        var deferred = Q.defer();
-
-        Product.findOne({'name': name}, function (err, product) {
-            if (err) {
-                return deferred.reject(err);
-            }
-
-            if (!product) {
-                product = new Product();
-                product.name = name;
-            }
-
-            product.save(function(err){
-
-                if (err) {
-                    return deferred.reject(err);
-                }
-
-                deferred.resolve(product);
-            });
-        });
-
-        return deferred.promise;
     }
-
 
 })();

@@ -21,14 +21,23 @@
             getEvents: getEvents,
             getEvent: getEvent,
             createEvent: createEvent,
-            eventTypes: eventTypes
+            eventTypes: eventTypes,
+            getEventMessages: getEventMessages,
+            addEventMessage: addEventMessage
         };
 
+        function getEventMessages(eventId){
+            return $http.get(commonService.baseApi + '/api/events/' + eventId + '/messages');
+        }
+
+        function addEventMessage(eventId, message){
+            var json = angular.toJson(message);
+            return $http.post(commonService.baseApi + '/api/events/' + eventId + '/messages', json);
+        }
 
         function getEvents(){
             return $http.get(commonService.baseApi + '/api/events');
         }
-
 
         function createEvent(event){
             var json = angular.toJson(event);

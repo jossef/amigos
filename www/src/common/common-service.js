@@ -3,19 +3,34 @@
 
     var app = angular.module('amigos');
 
-    app.service('commonService', CommonService);
-
     var baseApi = '';
-    var showingAlert = false;
+    var webSocketAddress = 'ws://localhost:8080';
     var _info;
 
-    function CommonService($location, $http, $timeout, $ionicHistory, $ionicPopup, $window, routingService, errorHandlingService, $cordovaLocalNotification) {
+    app.factory('amigosSocket', function (socketFactory) {
+        return socketFactory({
+            ioSocket: io.connect(webSocketAddress, {path: '/api/socket'})
+        });
+    });
+
+    app.service('commonService', CommonService);
+    function CommonService($location, $http, $timeout, $rootScope, $ionicHistory, $window, routingService, errorHandlingService, $cordovaLocalNotification, interactiveService, amigosSocket) {
 
         errorHandlingService.setCommunicationErrorHandler(handleCommunicationError);
 
+        $rootScope.$watch(function () {
+            return _info;
+        }, function watchCallback(newValue, oldValue) {
+            console.log('user changed from ', oldValue, 'to', newValue);
+
+            amigosSocket.emit('identify', newValue && newValue.user);
+        }, true);
+
+        amigosSocket.on('identify', function(){
+            amigosSocket.emit('identify', _info && _info.user);
+        });
+
         return {
-            showMessage: showMessage,
-            showAlert: showAlert,
             setNotification: setNotification,
 
             isFirstTime: isFirstTime,
@@ -32,7 +47,8 @@
             goBack: goBack,
             clearHistory: clearHistory,
 
-            isNative: isNative,
+
+            getUser: getUser,
 
             getInfo: getInfo,
             refreshInfo: refreshInfo
@@ -40,11 +56,15 @@
 
         // .................
 
-        function goBack(){
+        function getUser() {
+            return _info && _info.user;
+        }
+
+        function goBack() {
             $ionicHistory.goBack();
         }
 
-        function clearHistory(){
+        function clearHistory() {
             $ionicHistory.clearHistory();
         }
 
@@ -63,23 +83,7 @@
         }
 
         function handleCommunicationError() {
-            showAlert('No internet connection','please check your internet connection and try again');
-        }
-
-        function showAlert(title, content) {
-
-            if (showingAlert) {
-                return;
-            }
-
-            showingAlert = true;
-
-            return $ionicPopup.alert({
-                title: title,
-                template: content
-            }).then(function () {
-                showingAlert = false;
-            });
+            interactiveService.showMessage('Please check your internet connection and try again');
         }
 
         function getInfo() {
@@ -93,18 +97,12 @@
                 });
         }
 
-        function showMessage(text) {
-            // TODO use toast
-
-            showAlert('Hey', text);
-        }
-
         function errorHandler(error) {
             // TODO perhaps show error messages for each case;
             //      e.g. internet connectivity error
 
             var message = (error && error.userMessage) || 'Oops! that operation just failed :(';
-            showAlert("Failed", message);
+            interactiveService.showAlert("Failed", message);
         }
 
         function redirect(name) {
@@ -141,12 +139,6 @@
             storageSet('user:first-time', value);
         }
 
-        function isNative() {
-            // TOOD hack this around when more platform are relevant
-            var isAndroid = ionic.Platform.isAndroid();
-            return isAndroid;
-
-        }
 
     }
 
