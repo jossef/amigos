@@ -1,10 +1,13 @@
+@import url(http://fonts.googleapis.com/css?family=Roboto:500,900italic,900,400italic,100,700italic,300,700,500italic,100italic,300italic,400);
+
+
 * {
   box-sizing: border-box; }
 
 body {
   padding: 0;
   margin: 0;
-  font-family: "Open Sans", "Helvetica Neue", Helvetica, Arial, sans-serif;
+  font-family: 'Roboto', sans-serif;
   font-size: 16px;
   line-height: 1.5;
   color: #606c71; }
@@ -56,8 +59,19 @@ a {
 .page-header {
   color: #fff;
   text-align: center;
-  background-color: #159957;
-  background-image: linear-gradient(120deg, #155799, #159957); }
+  background-size:100%;
+  background-color:#e8441e;
+}
+
+.logo{
+  margin-left: auto;
+  margin-right: auto;
+  width: 200px;
+  height: 200px;
+  background-size:100%;
+  background-image: url('https://raw.githubusercontent.com/Jossef/amigos/master/resources/icon.png')
+}
+
 
 @media screen and (min-width: 64em) {
   .page-header {
@@ -112,7 +126,7 @@ a {
   margin-top: 2rem;
   margin-bottom: 1rem;
   font-weight: normal;
-  color: #159957; }
+  color: #e8441e; }
 .main-content p {
   margin-bottom: 1em; }
 .main-content code {
