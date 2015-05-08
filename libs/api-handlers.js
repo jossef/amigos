@@ -112,7 +112,7 @@
             var eventParticipants = await(data.getEventParticipants(eventId));
 
             eventParticipants.forEach(function (eventParticipant){
-                webSockets.reload(eventParticipant._id);
+                webSockets.reload(eventParticipant.user);
             });
 
             res.json(eventMessage);

@@ -1,9 +1,10 @@
 
 ![image](https://raw.githubusercontent.com/Jossef/amigos/master/resources/splash.png)
 
-
 # Social meetings are popular
-We offering **a simple, cool & friendly interface to manage and organize social meetings** in one app
+We offering **a simple, cool & friendly interface to manage and organize social meetings** in one app.
+http://jossef.github.io/amigos/
+
 	
 ## The need
 Organize social meetings Today is long and Sisyphean work, getting many forced compromises.
@@ -41,5 +42,7 @@ Database – MongoDB
 ## Credits
 - We've used some illustrations from [freepik](http://www.freepik.com/).
 - Built using [Ionic framework](http://ionicframework.com/)
+
+
 
 
