@@ -89,7 +89,7 @@
                         Location: {{vm.event.location.address}}
                     </div>
 
-                    <div class="item" ng-show="isLocationListShowen">
+                    <div class="item" ng-if="isLocationListShowen">
 
                         <ui-gmap-google-map options="vm.mapOptions" center="vm.mapCenter" zoom="vm.mapZoom">
                             <ui-gmap-marker coords="vm.mapMarker.location" idkey="0"></ui-gmap-marker>
