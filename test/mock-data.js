@@ -440,7 +440,13 @@ async(function () {
             var participantsCount = common.getRandomInt(3, 10);
             shuffle(userEntities);
             for (var p = 0; p < participantsCount; p++) {
-                usersInvolved.push(userEntities[p]);
+
+                var userEntity = userEntities[p];
+                usersInvolved.push(userEntity);
+
+                event.participants.push({
+                    user: userEntity
+                });
             }
 
             var productsCount = common.getRandomInt(5, 10);
