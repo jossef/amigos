@@ -30,6 +30,7 @@
         createEvent: createEvent,
         getEvent: getEvent,
         getAllEvents: getAllEvents,
+        getAllEventsExcept: getAllEventsExcept,
         getEventMessages: getEventMessages,
         addEventMessage: addEventMessage,
         getEventParticipants: getEventParticipants,
@@ -380,6 +381,21 @@
         var deferred = Q.defer();
 
         Event.find({})
+            .exec(function (err, events) {
+                if (err) {
+                    return deferred.reject(err);
+                }
+
+                deferred.resolve(events);
+            });
+
+        return deferred.promise;
+    }
+
+    function getAllEventsExcept(eventId) {
+        var deferred = Q.defer();
+
+        Event.find({ ObjectId: { $not: eventId }})
             .exec(function (err, events) {
                 if (err) {
                     return deferred.reject(err);
