@@ -35,6 +35,8 @@
         addEventMessage: addEventMessage,
         getEventParticipants: getEventParticipants,
 
+        ensureProductExists: ensureProductExists,
+
         User: User
     };
 

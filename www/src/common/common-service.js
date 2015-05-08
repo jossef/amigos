@@ -18,7 +18,7 @@
     });
 
     app.service('commonService', CommonService);
-    function CommonService($location, $HTTP, $timeout, $rootScope, $ionicHistory, $window, routingService, errorHandlingService, $cordovaLocalNotification, interactiveService, amigosSocket) {
+    function CommonService($location, $http, $timeout, $rootScope, $ionicHistory, $window, routingService, errorHandlingService, $cordovaLocalNotification, interactiveService, amigosSocket) {
 
         errorHandlingService.setCommunicationErrorHandler(handleCommunicationError);
 
