@@ -80,6 +80,7 @@
 
         Event.findById(id)
             .populate('participants.user')
+            .populate('products')
             .exec(function (err, event) {
                 if (err) {
                     return deferred.reject(err);
