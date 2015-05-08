@@ -9,7 +9,6 @@
     function InteractiveService($q, $ionicPopup, lifecycleService) {
 
         return {
-            showToast: showToast,
             showMessage: showMessage,
             showAlert: showAlert
         };
