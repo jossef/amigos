@@ -11,8 +11,22 @@
     var async = require('asyncawait/async');
     var await = require('asyncawait/await');
 
-    var eventTypeToInt = {'party': 1000, 'friendship': 2000, 'beach': 3000, 'nature': 4000, 'bbq': 5000, 'picnic': 6000, 'other': 7000};
-    var seasonToInt = {'spring': 1000, 'summer': 2000, 'fall': 3000, 'winter': 4000};
+    var eventTypeToInt = {
+        'party': 1000,
+        'friendship': 2000,
+        'beach': 3000,
+        'nature': 4000,
+        'bbq': 5000,
+        'picnic': 6000,
+        'other': 7000
+    };
+
+    var seasonToInt = {
+        'spring': 1000,
+        'summer': 2000,
+        'fall': 3000,
+        'winter': 4000
+    };
 
     function getShoppingList(req, res) {
         apiHandlers.apiHandler(req, res, function () {
@@ -34,48 +48,60 @@
                 vectorsData.push(vector);
             }
 
-            //{'type': '4' , 'season': '3, 'menOfParticipnts': 5/13, 'womenOfParticipnts': 8/13,
+            // {'type': '4' , 'season': '3, 'menOfParticipnts': 5/13, 'womenOfParticipnts': 8/13,
             // 'koshersOfParticipnts': 0, 'vegetariansOfParticipnts': 2/13, 'vegansOfParticipnts': 0}
 
             var vectors = [];
             for (var i = 0; i < vectorsData.length; i++) {
-                vectors[i] = [vectorsData[i]['type'], vectorsData[i]['season'], vectorsData[i]['menOfParticipnts'], vectorsData[i]['womenOfParticipnts'],
-                    vectorsData[i]['koshersOfParticipnts'], vectorsData[i]['vegetariansOfParticipnts'], vectorsData[i]['vegansOfParticipnts']];
+                vectors[i] = [
+                    vectorsData[i]['type'],
+                    vectorsData[i]['season'],
+                    vectorsData[i]['menOfParticipnts'],
+                    vectorsData[i]['womenOfParticipnts'],
+                    vectorsData[i]['koshersOfParticipnts'],
+                    vectorsData[i]['vegetariansOfParticipnts'],
+                    vectorsData[i]['vegansOfParticipnts']
+                ];
             }
 
-            kmeans.clusterize(vectors, {k: 4}, function (err, res) {
-                if (err) console.error(err);
-                else console.log('%o', res);
+            kmeans.clusterize(vectors, {k: huristicalGenrationOfK()},
+                function (err, clusterResult) {
+                    if (err) {
+                        console.error(err);
+                    }
+                    else {
+                        console.log('%o', clusterResult);
+                    }
 
-                var isMatch = false;
-                var clusterId = 0;
-                var innerVectorId = 0;
+                    var isMatch = false;
+                    var clusterId = 0;
+                    var innerVectorId = 0;
 
-                for (var i = 0; i < res.length; i++) {
-                    for (var j = 0; j < res[i].clusterInd.length; j++) {
-                        if (res[i].clusterInd[j] == 0) {
-                            isMatch = true;
-                            innerVectorId = j;
+                    for (var i = 0; i < clusterResult.length; i++) {
+                        for (var j = 0; j < clusterResult[i].clusterInd.length; j++) {
+                            if (clusterResult[i].clusterInd[j] == 0) {
+                                isMatch = true;
+                                innerVectorId = j;
+                                break;
+                            }
+                        }
+
+                        if (isMatch) {
+                            clusterId = i;
                             break;
                         }
                     }
 
-                    if (isMatch) {
-                        clusterId = i;
-                        break;
+                    var vectorsInd = clusterResult[clusterId].clusterInd;
+                    var productsFromAllEvents = [];
+                    for (var i = 0; i < vectorsInd.length; i++) {
+                        productsFromAllEvents.push(events[i].products);
                     }
-                }
 
-                var vectorsInd = res[clusterId].clusterInd;
-                var productsFromAllEvents = [];
-                for (var i = 0; i < vectorsInd.length; i++) {
-                    productsFromAllEvents.push(events[i].products);
-                }
+                    var shoppingCart = getFreqeuntProducts(productsFromAllEvents);
 
-                var shoppingCart = getFreqeuntProducts(productsFromAllEvents);
-
-                res.json(shoppingCart);
-            });
+                    res.json(shoppingCart);
+                });
 
 
             /*
@@ -83,7 +109,12 @@
              cluster : array of X elements containing the vectors of the input data
              clusterInd : array of X integers which are the indexes of the input data
              */
+
         });
+    }
+
+    function huristicalGenrationOfK() {
+        return 4;
     }
 
     function createVector(event) {
@@ -200,23 +231,27 @@
             }
         }
 
-
-        var items = Object.keys(productToFrequent).map(function(key) {
+        var items = Object.keys(productToFrequent).map(function (key) {
             return [key, productToFrequent[key]];
         });
 
-        items.sort(function(first, second) {
+        items.sort(function (first, second) {
             return second[1] - first[1];
         });
 
         var sortedProducts = [];
-        for (var i = 0; i < items.length; i++)
-        {
+        for (var i = 0; i < items.length; i++) {
             sortedProducts[i] = items[i][0];
         }
 
         if (sortedProducts.length > 5) {
-            var result = [sortedProducts[0], sortedProducts[1], sortedProducts[2], sortedProducts[3], sortedProducts[4]];
+            var result = [
+                sortedProducts[0],
+                sortedProducts[1],
+                sortedProducts[2],
+                sortedProducts[3],
+                sortedProducts[4]
+            ];
             return result;
         }
 
