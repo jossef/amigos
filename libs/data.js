@@ -1,9 +1,6 @@
 (function () {
     'use strict';
     var Q = require("q");
-    var redisClient = require("redis").createClient();
-    var mongoClient = require('mongodb').MongoClient;
-    var mongoDBUrl = 'mongodb://127.0.0.1:27017/Amigos';
     var mongoose = require('mongoose');
     var chalk = require('chalk');
 

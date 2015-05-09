@@ -9,6 +9,7 @@
     var async = require('asyncawait/async');
     var await = require('asyncawait/await');
     var fb = require('fb');
+    var notifications = require('./notifications');
 
     module.exports = {
         root: root,
@@ -22,13 +23,14 @@
         getProfile: getProfile,
         updateProfile: updateProfile,
 
-        events: events,
+        getUserEvents: getUserEvents,
         createEvent: createEvent,
         getEvent: getEvent,
         getEventMessages: getEventMessages,
         addEventMessage: addEventMessage,
 
-        getAllEvents: getAllEvents,
+        getNotifications: getNotifications,
+
         apiHandler: apiHandler
     };
 
@@ -60,7 +62,7 @@
         res.sendFile(path.join(common.appDir, 'static', 'index.html'));
     }
 
-    function events(req, res) {
+    function getUserEvents(req, res) {
         apiHandler(req, res, function () {
             ensureAuthenticated(req);
             var events = await(data.getUserEvents(req.user));
@@ -89,13 +91,6 @@
         });
     }
 
-    function getAllEvents(){
-        apiHandler(req, res, function () {
-            var events = await(data.getAllEvents());
-            res.json(events);
-        });
-    }
-
     function getEventMessages(req, res) {
         apiHandler(req, res, function () {
             var eventId = req.params.id;
@@ -107,14 +102,29 @@
     function addEventMessage(req, res) {
         apiHandler(req, res, function () {
             ensureAuthenticated(req);
+
+            var user = req.user;
             var eventId = req.params.id;
             var message = req.body;
             var phone = req.user.phone;
             var eventMessage = await(data.addEventMessage(phone, eventId, message));
-            var eventParticipants = await(data.getEventParticipants(eventId));
+            var event = await(data.getEvent(eventId));
 
-            eventParticipants.forEach(function (eventParticipant){
-                webSockets.reload(eventParticipant.user);
+            event.participants.forEach(function (eventParticipant) {
+                var userId = eventParticipant.user._id;
+
+                webSockets.reload(userId);
+
+                if (userId != user.id) {
+
+                    notifications.notify(userId, {
+                        eventId: eventId,
+                        eventName: event.name,
+                        type: 'message',
+                        message: message
+                    });
+
+                }
             });
 
             res.json(eventMessage);
@@ -125,8 +135,7 @@
         apiHandler(req, res, function () {
 
             var user = req.user;
-            if (user)
-            {
+            if (user) {
                 user = {
                     id: user._id,
                     phone: user.phone,
@@ -137,7 +146,7 @@
             // TODO move version to somewhere else
 
             res.json({
-                user:  user,
+                user: user,
                 version: 0.1
             });
         });
@@ -146,7 +155,7 @@
     function listUsers(req, res) {
         apiHandler(req, res, function () {
             var users = await(data.getUsers());
-            res.json({users:users, user: req.user || false});
+            res.json({users: users, user: req.user || false});
         });
     }
 
@@ -197,6 +206,16 @@
             res.json({
                 isTaken: isTaken
             });
+        });
+    }
+
+    function getNotifications(req, res) {
+        apiHandler(req, res, function () {
+            ensureAuthenticated(req);
+
+            var userId = req.user.id;
+            var notifications = await(notifications.getNotifications(userId));
+            res.json(notifications);
         });
     }
 
