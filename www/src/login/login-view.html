@@ -103,6 +103,22 @@
                         <input type="password" ng-model="vm.passwordConfirm" name="confirmPassword" required match="vm.password">
                     </label>
                 </div>
+
+                <label class="item item-input">
+                    <span class="input-label">
+                        Gender
+                    </span>
+
+                    <select ng-options="option as option for option in ['male', 'female']" ng-model="vm.gender" match="vm.gender">
+                    </select>
+                </label>
+
+                <div class="push-far">
+                    <ion-toggle ng-model="vm.isKosher" toggle-class="toggle-calm">Are you eating Kosher?</ion-toggle>
+                    <ion-toggle ng-model="vm.isVegetarian" toggle-class="toggle-calm">Are you a Vegetarian?</ion-toggle>
+                    <ion-toggle ng-model="vm.isVegan" toggle-class="toggle-calm">Are you a Vegan?</ion-toggle>
+                </div>
+
                 <div class="row">
                     <div class="col">
                         <button type="button" class="button button-block button-outline button-stable" ng-click="state='sign-in'">Existing user?</button>

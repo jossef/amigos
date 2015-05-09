@@ -8,6 +8,7 @@
 
         vm.phone = '';
         vm.password = '';
+        vm.gender = 'male';
 
         vm.login = function (isValid) {
 
