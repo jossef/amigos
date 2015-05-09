@@ -214,8 +214,8 @@
             ensureAuthenticated(req);
 
             var userId = req.user.id;
-            var notifications = await(notifications.getNotifications(userId));
-            res.json(notifications);
+            var data = await(notifications.getNotifications(userId));
+            res.json(data);
         });
     }
 

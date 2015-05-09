@@ -21,6 +21,8 @@
 
         app.get('/api/info', api.getInfo);
 
+        app.get('/api/notifications', api.getNotifications);
+
         app.get('/api/profile', api.getProfile);
         app.post('/api/profile', api.updateProfile);
         app.post('/api/profile', api.updateProfile);

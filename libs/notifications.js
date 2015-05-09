@@ -2,7 +2,7 @@
     'use strict';
 
     var redis = require("redis").createClient();
-
+    var Q = require("q");
 
     module.exports = {
         notify: notify,
@@ -23,10 +23,13 @@
         var key = 'notifications:' + userId;
         var notifications = redis.lrange(key, 0, -1, function (err, notifications) {
 
-            if (err)
-            {
+            if (err) {
                 def.reject(err);
             }
+
+            notifications = notifications.map(function(item){
+                return JSON.parse(item);
+            });
 
             redis.del(key);
             def.resolve(notifications);
