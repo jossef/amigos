@@ -49,15 +49,30 @@
 
         interactiveService.setOnNotificationClicked(function (notification) {
 
-            var eventId = notification.data && notification.data.event && notification.data.event.id;
+            var data = notification.id && notification.id.data;
 
-            if (eventId) {
-                commonService.changeState('event', {id: eventId});
+            if (data) {
+
+                // Data retrieved as json string
+                data = JSON.parse(data);
+
+                var type = data.type;
+
+                if (type == 'chat') {
+                    commonService.changeState('event', {id: data.event.id});
+                    return;
+                }
+
+                if (type == 'new-event') {
+                    commonService.redirect('events');
+                    return;
+                }
+
             }
-            else {
-                // TODO support more states
-                commonService.redirect('events');
-            }
+
+            // If we got to this line, something broke down. let's show a debug message
+            interactiveService.showAlert(JSON.stringify(notification));
+
         });
 
         var getNotifications = function () {
