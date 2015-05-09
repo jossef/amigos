@@ -75,7 +75,8 @@
         var deferred = Q.defer();
 
         Event.findById(id)
-            .populate('participants.user')
+            .select('-messages')
+            .populate('participants.user', '-password')
             .populate('products')
             .exec(function (err, event) {
                 if (err) {
@@ -398,5 +399,7 @@
 
         return deferred.promise;
     }
+
+
 
 })();
