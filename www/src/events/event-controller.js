@@ -7,10 +7,32 @@
         var vm = this;
         var eventId = $stateParams.id;
 
+        eventService.getEvent(eventId)
+            .success(function (event) {
+                vm.event = event;
 
-        vm.switchTab = function (index) {
-            $ionicTabsDelegate.select(index);
-        };
+                if (!event) {
+                    return;
+                }
+
+                if (event.location && event.location.latitude && event.location.longitude) {
+                    setLocation(event.location.longitude, event.location.latitude)
+                }
+
+                getEventMessages();
+            });
+
+        function getEventMessages() {
+
+            eventService.getEventMessages(eventId)
+                .success(function (messages) {
+                    vm.messages = messages;
+                    scrollToBottom();
+                });
+        }
+
+        // ..............................
+        // Map
 
         vm.mapMarker = {
             location: {
@@ -26,22 +48,6 @@
         // Default location - Tel Aviv
         vm.mapCenter = {latitude: 34.77056443691254, longitude: 32.08776046606412};
         vm.mapZoom = 15;
-
-        eventService.getEvent(eventId)
-            .success(function (event) {
-                vm.event = event;
-
-                if (!event) {
-                    return;
-                }
-
-                if (event.location && event.location.latitude && event.location.longitude) {
-                    setLocation(event.location.longitude, event.location.latitude)
-                }
-
-                scrollToBottom();
-
-            });
 
         function setLocation(longitude, latitude) {
             vm.mapCenter.latitude = latitude;
@@ -83,11 +89,7 @@
 
         amigosSocket.on('reload', function () {
             console.log('reloaded in event ', eventId);
-            eventService.getEventMessages(eventId)
-                .success(function (messages) {
-                    vm.event.messages = messages;
-                    scrollToBottom();
-                });
+            getEventMessages();
         });
 
         vm.showOnCalendar = function (date) {
@@ -95,8 +97,15 @@
         };
 
 
+        // ..............................
+        // Other
+
+        vm.switchTab = function (index) {
+            $ionicTabsDelegate.select(index);
+        };
+
         // For more info: https://github.com/driftyco/ionic/issues/2320
-        vm.scrollWorkaround = function(){
+        vm.scrollWorkaround = function () {
             $ionicScrollDelegate.resize();
         }
     });
