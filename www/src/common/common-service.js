@@ -20,7 +20,7 @@
     });
 
     app.service('commonService', CommonService);
-    function CommonService($location, $http, $timeout, $rootScope, $ionicHistory, $window, routingService, errorHandlingService, interactiveService, amigosSocket) {
+    function CommonService($location, $http, $state, $timeout, $rootScope, $ionicHistory, $window, routingService, errorHandlingService, interactiveService, amigosSocket) {
 
         errorHandlingService.setCommunicationErrorHandler(handleCommunicationError);
 
@@ -42,6 +42,7 @@
 
             errorHandler: errorHandler,
             redirect: redirect,
+            changeState: changeState,
             baseApi: baseApi,
 
             clearStorage: clearStorage,
@@ -106,6 +107,10 @@
                 var route = routingService.routes[name];
                 $location.path(route.path);
             });
+        }
+
+        function changeState(name, args) {
+            $state.go(name, args);
         }
 
         function clearStorage() {
