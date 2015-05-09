@@ -35,125 +35,144 @@
                     <div class="item">
                         <!--TODO: ON CLICK, OPEN THE DATES EXPAND IF DATE HAVEN'T CHOSEN? -->
                         <!--TODO: ON CLICK, DB UPDATE: APPROVED/IF MORE THEN ONE DATE CHOSEN - SOLVE -->
-                        <button ng-click="isDateListShowen=true"
+                        <button ng-click="isDateListShown=true"
                                 class="button button-block button-positive button-rect"> Join!
                         </button>
                     </div>
 
-                    <div menu-close class="item item-divider" ng-init="isDateListShowen=false"
-                         ng-switch="vm.event.dates.length"
-                         ng-class="{active: isDateListShowen}"
-                         ng-click="(vm.event.dates.length > 1) && (isDateListShowen = !isDateListShowen)">
-                        <i class="icon" ng-show="vm.event.dates.length > 1" ng-class="isDateListShowen ? 'ion-minus' : 'ion-plus'"></i>
-                        &nbsp;
+                    <div ng-click="vm.scrollWorkaround()">
 
-                        <!--TODO: DISPLAY DATE IF CHOSEN, ELSE DISPLAY AN "HAVEN'T CHOSEN YET" MESSAGE -->
-                        <!--TODO: CLICK ON MESSAGE IS EXPANDING INSTEAD PLUS -->
+                        <!-- - - - - - - - - - - - - - - - - - - - - - -->
+                        <!-- Dates -->
 
-                        Date:
-                        <span ng-switch-when="1">  {{ vm.event.dates[0] | date }} </span>
-                        <span ng-switch-default> Click to vote! </span>
+                        <div class="item item-divider"
+                             ng-switch="vm.event.dates.length"
+                             ng-class="{active: isDateListShown}"
+                             ng-click="(vm.event.dates.length > 1) && (isDateListShown = !isDateListShown)">
+                            <i class="icon" ng-show="vm.event.dates.length > 1" ng-class="isDateListShown ? 'ion-minus' : 'ion-plus'"></i>
+                            &nbsp;
 
-                    </div>
+                            <!--TODO: DISPLAY DATE IF CHOSEN, ELSE DISPLAY AN "HAVEN'T CHOSEN YET" MESSAGE -->
+                            <!--TODO: CLICK ON MESSAGE IS EXPANDING INSTEAD PLUS -->
 
-                    <div class="item item-icon-left item-icon-right"
-                         ng-repeat="date in vm.event.dates"
-                         ng-show="isDateListShowen">
-                        <i class="icon ion-android-calendar" ng-click="vm.showOnCalendar(date)"></i>
+                            Date:
+                            <span ng-switch-when="1"> {{ vm.event.dates[0] | date }}</span>
+                            <span ng-switch-default> Click to vote!</span>
+
+                        </div>
+
+                        <div ng-show="isDateListShown">
+
+                            <div class="item item-icon-left item-icon-right"
+                                 ng-repeat="date in vm.event.dates">
+                                <i class="icon ion-android-calendar" ng-click="vm.showOnCalendar(date)"></i>
+
+                                {{date | date}} {{osnat}}
+                                <i class="icon">
+                                    <label class="toggle toggle-positive">
+                                        <input type="checkbox" ng-model="osnat">
+
+                                        <div class="track">
+                                            <div class="handle"></div>
+                                        </div>
+                                    </label>
+                                </i>
+                            </div>
+
+                        </div>
 
 
+                        <!-- - - - - - - - - - - - - - - - - - - - - - -->
+                        <!-- Location -->
 
-                        {{date | date}} {{osnat}}
-                        <i class="icon">
-                            <label class="toggle toggle-positive">
-                                <input type="checkbox" ng-model="osnat">
-                                <div class="track">
-                                    <div class="handle"></div>
+                        <div class="item item-divider"
+                             ng-class="{active: isLocationListShown}"
+                             ng-click="isLocationListShown = !isLocationListShown;">
+                            <i class="icon" ng-class="isLocationListShown ? 'ion-minus' : 'ion-plus'"></i>
+                            &nbsp;
+                            Location: {{vm.event.location.address}}
+                        </div>
+
+                        <div class="item" ng-if="isLocationListShown">
+
+                            <ui-gmap-google-map options="vm.mapOptions" center="vm.mapCenter" zoom="vm.mapZoom">
+                                <ui-gmap-marker coords="vm.mapMarker.location" idkey="0"></ui-gmap-marker>
+                            </ui-gmap-google-map>
+
+
+                            <!--TODO: MOVE OUT OF LOCATION DIV -->
+                            <button ng-click="vm.navigate()"
+                                    class="button button-block button-positive button-rect"><i class="icon ion-navigate"></i> Take me there!
+                            </button>
+
+                        </div>
+
+
+                        <!-- - - - - - - - - - - - - - - - - - - - - - -->
+                        <!-- Participants -->
+
+                        <div class="item item-divider"
+                             ng-class="{active: isWhoListShown}"
+                             ng-click="isWhoListShown = !isWhoListShown;"
+                             ng-switch="vm.event.participants.length">
+                            <i class="icon" ng-class="isWhoListShown ? 'ion-minus' : 'ion-plus'"></i>
+                            &nbsp;
+
+                            <!--TODO: DISPLAY NUMBER OF JOINED FRIENDS, ELSE DISPLAY AN "HAVEN'T JOINED YET" MESSAGE -->
+                            <!--TODO: CLICK ON NUMBER\ICON IS EXPANDING INSTEAD PLUS -->
+                            <span ng-switch-when="0"> There are no participants yet</span>
+                            <span ng-switch-when="1"> 1 participant</span>
+                            <span ng-switch-default> {{vm.event.participants.length}} participants!</span>
+
+                        </div>
+
+
+                        <div ng-show="isWhoListShown">
+
+                            <!--TODO: ADD CLICK TO CALL ICON -->
+                            <div class="item item-button-right" ng-repeat="participant in vm.event.participants">
+
+                                {{participant.user.nickname}}
+
+                                <button class="button button-positive">
+                                    <i class="ion-ios-telephone"></i>
+                                </button>
+
+                            </div>
+
+                        </div>
+
+                        <!-- - - - - - - - - - - - - - - - - - - - - - -->
+                        <!-- Products -->
+
+                        <div ng-show="vm.event.products.length">
+
+                            <div class="item item-divider"
+                                 ng-class="{active: isCartListShown}"
+                                 ng-click="isCartListShown = !isCartListShown;">
+                                <i class="icon" ng-class="isCartListShown  ? 'ion-minus' : 'ion-plus'"></i>
+                                &nbsp;
+
+                                <!--TODO: DISPLAY MESSAGE: "ALL PRODUCTS HAVE VOLUNTEERS!", ELSE DISPLAY AN "THERE ARE STILL PRODUCTS YOU CAN BRING!" MESSAGE -->
+                                <!--TODO: CLICK ON NUMBER\ICON IS EXPANDING INSTEAD PLUS -->
+                                Cart
+                            </div>
+
+                            <div ng-show="isCartListShown">
+
+                                <!--TODO: ADD CLICK TO CALL ICON -->
+                                <div class="item item-button-right"
+                                     ng-repeat="product in vm.event.products">
+
+                                    {{product.name}}
+
+                                    <button class="button button-positive">
+                                        <i class="ion-ios-telephone"></i>
+                                    </button>
+
                                 </div>
-                            </label>
-                        </i>
-
-
-                    </div>
-
-
-
-
-
-
-                    <div menu-close class="item item-divider"ng-init="isLocationListShowen=false"
-                         ng-class="{active: isLocationListShowen}"
-                         ng-click="isLocationListShowen = !isLocationListShowen">
-                        <i class="icon" ng-class="isLocationListShowen ? 'ion-minus' : 'ion-plus'"></i>
-                        &nbsp;
-                        Location: {{vm.event.location.address}}
-                    </div>
-
-                    <div class="item" ng-if="isLocationListShowen">
-
-                        <ui-gmap-google-map options="vm.mapOptions" center="vm.mapCenter" zoom="vm.mapZoom">
-                            <ui-gmap-marker coords="vm.mapMarker.location" idkey="0"></ui-gmap-marker>
-                        </ui-gmap-google-map>
-
-
-                        <!--TODO: MOVE OUT OF LOCATION DIV -->
-                        <button ng-click="vm.navigate()"
-                                class="button button-block button-positive button-rect"><i class="icon ion-navigate"></i> Take me there!
-                        </button>
-
-                    </div>
-
-                    <div menu-close class="item item-divider" ng-init="isWhoListShowen=false"
-                         ng-class="{active: isWhoListShowen}"
-                         ng-click="isWhoListShowen = !isWhoListShowen"
-                         ng-switch="vm.event.participants.length">
-                        <i class="icon" ng-class="isWhoListShowen ? 'ion-minus' : 'ion-plus'"></i>
-                        &nbsp;
-
-                        <!--TODO: DISPLAY NUMBER OF JOINED FRIENDS, ELSE DISPLAY AN "HAVEN'T JOINED YET" MESSAGE -->
-                        <!--TODO: CLICK ON NUMBER\ICON IS EXPANDING INSTEAD PLUS -->
-                        <span ng-switch-when="0"> There are no participants yet </span>
-                        <span ng-switch-when="1">  1 participant </span>
-                        <span ng-switch-default> {{vm.event.participants.length}} participants! </span>
-
-                    </div>
-
-
-                    <!--TODO: ADD CLICK TO CALL ICON -->
-                    <div class="item item-button-right" ng-repeat="participant in vm.event.participants"
-                         ng-show="isWhoListShowen">
-
-                        {{participant.user.nickname}}
-
-                        <button class="button button-positive">
-                            <i class="ion-ios-telephone" ></i>
-                        </button>
-
-                    </div>
-
-                    <div menu-close class="item item-divider" ng-init="isCartListShowen=false"
-                         ng-show="vm.event.products.length"
-                         ng-class="{active: isCartListShowen}"
-                         ng-click="isCartListShowen = !isCartListShowen">
-                        <i class="icon" ng-class="isCartListShowen  ? 'ion-minus' : 'ion-plus'"></i>
-                        &nbsp;
-
-                        <!--TODO: DISPLAY MESSAGE: "ALL PRODUCTS HAVE VOLUNTEERS!", ELSE DISPLAY AN "THERE ARE STILL PRODUCTS YOU CAN BRING!" MESSAGE -->
-                        <!--TODO: CLICK ON NUMBER\ICON IS EXPANDING INSTEAD PLUS -->
-                        Cart
-                    </div>
-
-
-                    <!--TODO: ADD CLICK TO CALL ICON -->
-                    <div class="item item-button-right"
-                         ng-repeat="product in vm.event.products" ng-show="isCartListShowen">
-
-                        {{product.name}}
-
-                        <button class="button button-positive">
-                            <i class="ion-ios-telephone" ></i>
-                        </button>
-
+                            </div>
+                        </div>
                     </div>
 
                 </ion-content>
@@ -179,7 +198,7 @@
 
                                     <!-- TODO get random color method -->
                                     <div ng-hide="me" class="message-author">⁠⁠⁠
-                                        <span class="content"> {{ message.user.name }} </span>
+                                        <span class="content"> {{ message.user.name }}</span>
                                     </div>
 
                                     <div class="message-text">
@@ -202,8 +221,8 @@
                     <input type="text" placeholder="Type your message"
                            ng-enter="vm.sendMessage(chatMessage); chatMessage = ''; closeKeyboard()"
                            ng-model="chatMessage"
-                           on-focus="inputUp()"
-                           on-blur="inputDown()"/>
+                           on-focus="vm.onChatSelected()"
+                           on-blur="vm.onChatSelected()"/>
 
                 </label>
                 <button class="button button-clear" ng-click="vm.sendMessage(chatMessage); chatMessage = '';">

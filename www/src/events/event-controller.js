@@ -60,6 +60,7 @@
         };
 
         // ..............................
+        // Chat
 
         $scope.$watch(commonService.getUser, function (user) {
             vm.user = user;
@@ -69,32 +70,35 @@
             eventService.addEventMessage(eventId, {
                 message: message,
                 type: 'text'
-            });
+            }).success(vm.onChatSelected);
         };
 
-        var scrollToBottom = function(){
+        var scrollToBottom = function () {
             $ionicScrollDelegate.$getByHandle('chatScroll').scrollBottom(true);
         };
 
-        vm.onChatSelected = function(){
+        vm.onChatSelected = function () {
             $timeout(scrollToBottom);
         };
 
         amigosSocket.on('reload', function () {
-            console.log('reloaded');
+            console.log('reloaded in event ', eventId);
             eventService.getEventMessages(eventId)
                 .success(function (messages) {
                     vm.event.messages = messages;
                     scrollToBottom();
                 });
-        })
+        });
 
-
-        vm.showOnCalendar = function(date){
+        vm.showOnCalendar = function (date) {
             calendarService.openCurrentDateInCalendar(date);
         };
 
 
+        // For more info: https://github.com/driftyco/ionic/issues/2320
+        vm.scrollWorkaround = function(){
+            $ionicScrollDelegate.resize();
+        }
     });
 
 })();
