@@ -3,6 +3,7 @@
 
     var redis = require("redis").createClient();
     var Q = require("q");
+    var common = require("./common");
 
     module.exports = {
         notify: notify,
@@ -13,9 +14,12 @@
 
     function notify(userId, data) {
         var key = 'notifications:' + userId;
+
+        data.id = common.generateUUID();
+        data.timestamp = new Date();
+
         redis.rpush(key, JSON.stringify(data));
     }
-
 
     function getNotifications(userId) {
         var def = Q.defer();
