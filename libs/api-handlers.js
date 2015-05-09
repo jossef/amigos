@@ -74,6 +74,7 @@
         apiHandler(req, res, function () {
             ensureAuthenticated(req);
 
+            var user = req.user;
             var event = await(data.createEvent(req.user, req.body));
 
             event.participants.forEach(function (eventParticipant) {
@@ -87,7 +88,9 @@
                             name: event.name
                         },
                         type: 'new-event',
-                        content: 'New Event!'
+                        content: {
+                            message: 'New Event'
+                        }
                     });
                 }
 
@@ -236,7 +239,6 @@
             res.json(data);
         });
     }
-
 
 
 })();
