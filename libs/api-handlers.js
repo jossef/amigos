@@ -74,9 +74,26 @@
         apiHandler(req, res, function () {
             ensureAuthenticated(req);
 
-            var event = req.body;
+            var event = await(data.createEvent(req.user, req.body));
 
-            await(data.createEvent(req.user, event));
+            event.participants.forEach(function (eventParticipant) {
+                var userId = eventParticipant.user._id;
+
+                if (userId != user.id) {
+
+                    notifications.notify(userId, {
+                        event: {
+                            id: event._id,
+                            name: event.name
+                        },
+                        type: 'new-event',
+                        content: 'New Event!'
+                    });
+                }
+
+                webSockets.reload(userId);
+            });
+
             res.json(req.body);
         });
     }
@@ -113,18 +130,19 @@
             event.participants.forEach(function (eventParticipant) {
                 var userId = eventParticipant.user._id;
 
-                webSockets.reload(userId);
-
                 if (userId != user.id) {
 
                     notifications.notify(userId, {
-                        eventId: eventId,
-                        eventName: event.name,
-                        type: 'message',
-                        message: message
+                        event: {
+                            id: eventId,
+                            name: event.name
+                        },
+                        type: 'chat',
+                        content: message
                     });
-
                 }
+
+                webSockets.reload(userId);
             });
 
             res.json(eventMessage);
