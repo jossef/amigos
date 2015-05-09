@@ -90,8 +90,13 @@
     }
 
 
-    function getEventMessages(eventId) {
+    function getEventMessages(eventId, limit) {
         var deferred = Q.defer();
+
+        if (!limit)
+        {
+            limit = 15;
+        }
 
         Event.findById(eventId, {messages: true})
             .exec(function (err, event) {
@@ -99,7 +104,15 @@
                     return deferred.reject(err);
                 }
 
-                deferred.resolve(event && event.messages);
+
+                var messages = event.messages || [];
+
+                if (messages.length > limit)
+                {
+                    messages = messages.slice(messages.length - limit);
+                }
+
+                deferred.resolve(messages);
             });
 
         return deferred.promise;
