@@ -6,9 +6,11 @@
     var baseApi = '';
     var webSocketAddress = 'ws://localhost:8080';
 
-    // var baseApi = 'http://192.168.1.107:8080';
-    // var webSocketAddress = 'ws://192.168.1.107:8080';
+    /*
 
+    baseApi = 'http://10.0.0.6:8080';
+    webSocketAddress = 'ws://10.0.0.6:8080';
+     */
     var _info;
 
     app.factory('amigosSocket', function (socketFactory) {
@@ -18,7 +20,7 @@
     });
 
     app.service('commonService', CommonService);
-    function CommonService($location, $http, $timeout, $rootScope, $ionicHistory, $window, routingService, errorHandlingService, $cordovaLocalNotification, interactiveService, amigosSocket) {
+    function CommonService($location, $http, $timeout, $rootScope, $ionicHistory, $window, routingService, errorHandlingService, interactiveService, amigosSocket) {
 
         errorHandlingService.setCommunicationErrorHandler(handleCommunicationError);
 
@@ -35,8 +37,6 @@
         });
 
         return {
-            setNotification: setNotification,
-
             isFirstTime: isFirstTime,
             setFirstTime: setFirstTime,
 
@@ -54,6 +54,7 @@
 
             getUser: getUser,
 
+            getNotifications: getNotifications,
             getInfo: getInfo,
             refreshInfo: refreshInfo
         };
@@ -72,20 +73,6 @@
             $ionicHistory.clearHistory();
         }
 
-        function setNotification(id, title, message) {
-
-            var alarmTime = new Date();
-            $cordovaLocalNotification.add({
-                id: id,
-                date: alarmTime,
-                message: title,
-                title: message
-            }).then(function () {
-                console.log("The notification has been set");
-            });
-
-        }
-
         function handleCommunicationError() {
             interactiveService.showMessage('Please check your internet connection and try again');
         }
@@ -97,8 +84,13 @@
         function refreshInfo() {
             return $http.get(baseApi + '/api/info')
                 .success(function (info) {
+                    console.log('info', info);
                     _info = info;
                 });
+        }
+
+        function getNotifications() {
+            return $http.get(baseApi + '/api/notifications');
         }
 
         function errorHandler(error) {
