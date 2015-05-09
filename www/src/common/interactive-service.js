@@ -5,11 +5,25 @@
 
     var showingAlert = false;
 
+    var _onNotificationClicked;
+
     app.service('interactiveService', InteractiveService);
-    function InteractiveService($q, $ionicPopup, lifecycleService) {
+    function InteractiveService($q, $ionicPopup, $rootScope, $cordovaLocalNotification, lifecycleService) {
+
+
+        $rootScope.$on("$cordovaLocalNotification:clicked", function (e, notification) {
+            if (!_onNotificationClicked) {
+                return;
+            }
+
+            _onNotificationClicked(notification);
+
+        });
 
         return {
             showMessage: showMessage,
+            showNotification: showNotification,
+            setOnNotificationClicked: setOnNotificationClicked,
             showAlert: showAlert
         };
 
@@ -31,6 +45,10 @@
             return def.promise;
         }
 
+
+        function setOnNotificationClicked(callback) {
+            _onNotificationClicked = callback;
+        }
 
         function showMessage(message) {
 
@@ -59,6 +77,22 @@
             });
         }
 
+
+        function showNotification(notification) {
+
+            if (lifecycleService.isNative()) {
+                $cordovaLocalNotification.add({
+                    id: notification.id,
+                    title: notification.event.name,
+                    text: notification.content.message,
+                    date: new Date(notification.timestamp),
+                    data: notification
+                });
+            }
+            else {
+                console.log("notification", notification);
+            }
+        }
     }
 
 })();
