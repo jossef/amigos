@@ -248,7 +248,7 @@
 
         var deferred = Q.defer();
 
-        User.findOne({'name': name}, function (err, product) {
+        Product.findOne({'name': name}, function (err, product) {
             if (err) {
                 return deferred.reject(err);
             }
