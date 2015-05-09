@@ -12,6 +12,11 @@
 
     <ion-content has-header="true" padding="false">
 
+        <ion-refresher
+                pulling-text="Pull to refresh..."
+                on-refresh="vm.getEvents()">
+        </ion-refresher>
+
         <div class="list">
 
             <a class="item item-avatar" ui-sref="event({id: event._id})" ng-repeat="event in vm.events">

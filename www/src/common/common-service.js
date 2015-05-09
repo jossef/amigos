@@ -11,6 +11,9 @@
     baseApi = 'http://10.0.0.6:8080';
     webSocketAddress = 'ws://10.0.0.6:8080';
      */
+
+
+
     var _info;
 
     app.factory('amigosSocket', function (socketFactory) {
@@ -51,7 +54,6 @@
 
             goBack: goBack,
             clearHistory: clearHistory,
-
 
             getUser: getUser,
 
