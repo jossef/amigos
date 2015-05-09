@@ -66,6 +66,11 @@ module.exports = function (passport) {
                         newUser.phone = phone;
                         newUser.password = newUser.generateHash(password);
                         newUser.nickname = req.body.nickname;
+                        newUser.isKosher = req.body.isKosher;
+                        newUser.isVegetarian = req.body.isVegetarian;
+                        newUser.isVegan = req.body.isVegan;
+                        newUser.gender = req.body.gender;
+
                         newUser.registered = true;
 
                         // save the user
