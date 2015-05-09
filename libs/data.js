@@ -199,12 +199,11 @@
             usersInvolved.forEach(function (user) {
                 user.events.addToSet(event);
                 user.save();
-                event.participants.push({ user: user });
+                event.participants.push({user: user});
 
             });
 
             event.save();
-
 
 
             deferred.resolve(event);
@@ -396,9 +395,11 @@
     }
 
     function getAllEventsExcept(eventId) {
-        var deferred = Q.defer();
+        var ObjectId = mongoose.Types.ObjectId;
+        var x = ObjectId.fromString(eventId);
 
-        Event.find({ ObjectId: { $not: eventId }})
+        var deferred = Q.defer();
+        Event.find({"_id":  ObjectId.fromString(eventId)})
             .exec(function (err, events) {
                 if (err) {
                     return deferred.reject(err);
