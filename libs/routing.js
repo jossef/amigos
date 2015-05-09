@@ -13,7 +13,7 @@
         app.get('/api/users', api.listUsers);
         app.get('/api/users/:id', api.getUser);
 
-        app.get('/api/events', api.events);
+        app.get('/api/events', api.getUserEvents);
         app.post('/api/events', api.createEvent);
         app.get('/api/events/:id/messages', api.getEventMessages);
         app.post('/api/events/:id/messages', api.addEventMessage);
@@ -21,8 +21,8 @@
 
         app.get('/api/info', api.getInfo);
 
-
         app.get('/api/profile', api.getProfile);
+        app.post('/api/profile', api.updateProfile);
         app.post('/api/profile', api.updateProfile);
 
         app.post('/api/validate/phone', api.validatePhone);

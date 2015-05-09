@@ -13,6 +13,7 @@
                             Your Phone
                             <div class="form-errors" ng-show="loginForm.$submitted || loginForm.phone.$touched" ng-messages="loginForm.phone.$error">
                                 <p class="error" ng-message="required">required </p>
+
                                 <p class="error" ng-message="pattern">invalid</p>
                             </div>
                         </span>
@@ -102,21 +103,23 @@
                         </span>
                         <input type="password" ng-model="vm.passwordConfirm" name="confirmPassword" required match="vm.password">
                     </label>
-                </div>
 
-                <label class="item item-input">
-                    <span class="input-label">
-                        Gender
-                    </span>
+                    <div class="push-far">
 
-                    <select ng-options="option as option for option in ['male', 'female']" ng-model="vm.gender" match="vm.gender">
-                    </select>
-                </label>
+                        <label class="item item-input">
+                            <span class="input-label">
+                                Gender
+                            </span>
 
-                <div class="push-far">
-                    <ion-toggle ng-model="vm.isKosher" toggle-class="toggle-calm">Are you eating Kosher?</ion-toggle>
-                    <ion-toggle ng-model="vm.isVegetarian" toggle-class="toggle-calm">Are you a Vegetarian?</ion-toggle>
-                    <ion-toggle ng-model="vm.isVegan" toggle-class="toggle-calm">Are you a Vegan?</ion-toggle>
+                            <select ng-options="option as option for option in ['male', 'female']" ng-model="vm.gender">
+                            </select>
+                        </label>
+
+                        <ion-toggle ng-model="vm.isKosher" toggle-class="toggle-positive">Are you eating Kosher?</ion-toggle>
+                        <ion-toggle ng-model="vm.isVegetarian" toggle-class="toggle-positive">Are you a Vegetarian?</ion-toggle>
+                        <ion-toggle ng-model="vm.isVegan" toggle-class="toggle-positive">Are you a Vegan?</ion-toggle>
+                    </div>
+
                 </div>
 
                 <div class="row">

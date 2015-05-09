@@ -40,14 +40,8 @@
             return $http.get(commonService.baseApi + '/api/logout');
         }
 
-        function register(phone, nickname, password) {
-            var data = {
-                phone: phone,
-                nickname: nickname,
-                password: password
-            };
-
-            var json = angular.toJson(data);
+        function register(user) {
+            var json = angular.toJson(user);
             return $http.post(commonService.baseApi + '/api/register/', json);
         }
     }
