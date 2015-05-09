@@ -35,6 +35,8 @@
         addEventMessage: addEventMessage,
         getEventParticipants: getEventParticipants,
 
+        ensureProductExists: ensureProductExists,
+
         User: User
     };
 
@@ -78,6 +80,7 @@
 
         Event.findById(id)
             .populate('participants.user')
+            .populate('products')
             .exec(function (err, event) {
                 if (err) {
                     return deferred.reject(err);
@@ -309,6 +312,11 @@
             if (data.nickname) {
                 user.nickname = data.nickname;
             }
+
+            user.isKosher = data.isKosher;
+            user.isVegetarian = data.isVegetarian;
+            user.isVegan = data.isVegan;
+            user.gender = data.gender;
 
             if (data.password) {
                 user.password = user.generateHash(data.password);

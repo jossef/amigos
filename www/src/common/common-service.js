@@ -5,6 +5,10 @@
 
     var baseApi = '';
     var webSocketAddress = 'ws://localhost:8080';
+
+    // var baseApi = 'http://192.168.1.107:8080';
+    // var webSocketAddress = 'ws://192.168.1.107:8080';
+
     var _info;
 
     app.factory('amigosSocket', function (socketFactory) {

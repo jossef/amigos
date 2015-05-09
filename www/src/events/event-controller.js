@@ -3,7 +3,7 @@
 
     var app = angular.module('amigos');
 
-    app.controller("EventController", function ($scope, $timeout, $ionicTabsDelegate, $stateParams, eventService, geoNavigationService, commonService, $ionicScrollDelegate, amigosSocket) {
+    app.controller("EventController", function ($scope, $timeout, $ionicTabsDelegate, $stateParams, eventService, geoNavigationService, commonService, $ionicScrollDelegate, amigosSocket, calendarService) {
         var vm = this;
         var eventId = $stateParams.id;
 
@@ -87,7 +87,12 @@
                     vm.event.messages = messages;
                     scrollToBottom();
                 });
-        });
+        })
+
+
+        vm.showOnCalendar = function(date){
+            calendarService.openCurrentDateInCalendar(date);
+        };
 
 
     });

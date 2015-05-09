@@ -22,6 +22,10 @@
             .success(function (profile) {
                 vm.phone = profile.phone;
                 vm.nickname = profile.nickname;
+                vm.isKosher = profile.isKosher;
+                vm.isVegetarian = profile.isVegetarian;
+                vm.isVegan = profile.isVegan;
+                vm.gender = profile.gender;
                 vm.password = '';
                 vm.changePassword = false;
             });
@@ -35,7 +39,11 @@
             }
 
             var data = {
-                nickname: vm.nickname
+                nickname: vm.nickname,
+                isKosher: vm.isKosher,
+                gender: vm.gender,
+                isVegetarian: vm.isVegetarian,
+                isVegan: vm.isVegan
             };
 
             if (vm.changePassword && vm.password) {
@@ -45,12 +53,13 @@
             profileService.updateProfile(data)
                 .success(function (profile) {
                     commonService.refreshInfo();
-                    commonService.goBack();
+                    interactiveService.showMessage('Profile Updated Successfully');
+                    commonService.redirect('home');
                 });
         };
 
         vm.cancel = function(){
-            commonService.goBack();
+            commonService.redirect('home');
         };
 
 
