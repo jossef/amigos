@@ -390,6 +390,7 @@
         var deferred = Q.defer();
 
         Event.find({})
+            .populate('products')
             .exec(function (err, events) {
                 if (err) {
                     return deferred.reject(err);

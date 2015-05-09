@@ -17,33 +17,33 @@
     function getShoppingList(req, res) {
         apiHandlers.apiHandler(req, res, function () {
 
-            var data = [];
+            var vectorsData = [];
 
             var eventId = req.params.id;
             var proposalEvent = await(data.getEvent(eventId));
             var proposalEventVector = createVector(proposalEvent);
 
-            data.push(proposalEventVector);
+            vectorsData.push(proposalEventVector);
 
-            var events = await(data.getAllEventsExcept(eventId));
-            for (i = 0; i < events.length; i++) {
+            var events = await(data.getAllEvents());
+            for (var i = 0; i < events.length; i++) {
+                if (events[i]._id == eventId) {
+                    continue;
+                }
                 var vector = createVector(events[i]);
-                data.push(vector);
+                vectorsData.push(vector);
             }
-
-
-            //type: 1-7
-            //seaon: 1-4
 
             //{'type': '4' , 'season': '3, 'menOfParticipnts': 5/13, 'womenOfParticipnts': 8/13,
             // 'koshersOfParticipnts': 0, 'vegetariansOfParticipnts': 2/13, 'vegansOfParticipnts': 0}
 
-            var vectors = new Array();
-            for (var i = 0; i < data.length; i++)
-                vectors[i] = [data[i]['type'], data[i]['season'], data[i]['menOfParticipnts'], data[i]['womenOfParticipnts'],
-                    data[i]['koshersOfParticipnts'], data[i]['vegetariansOfParticipnts'], data[i]['vegansOfParticipnts']];
+            var vectors = [];
+            for (var i = 0; i < vectorsData.length; i++) {
+                vectors[i] = [vectorsData[i]['type'], vectorsData[i]['season'], vectorsData[i]['menOfParticipnts'], vectorsData[i]['womenOfParticipnts'],
+                    vectorsData[i]['koshersOfParticipnts'], vectorsData[i]['vegetariansOfParticipnts'], vectorsData[i]['vegansOfParticipnts']];
+            }
 
-            kmeans.clusterize(vectors, {k: 7}, function (err, res) {
+            kmeans.clusterize(vectors, {k: 4}, function (err, res) {
                 if (err) console.error(err);
                 else console.log('%o', res);
 
@@ -51,8 +51,8 @@
                 var clusterId = 0;
                 var innerVectorId = 0;
 
-                for (i = 0; i < res.length; i++) {
-                    for (j = 0; j < res[i].clusterInd.length; j++) {
+                for (var i = 0; i < res.length; i++) {
+                    for (var j = 0; j < res[i].clusterInd.length; j++) {
                         if (res[i].clusterInd[j] == 0) {
                             isMatch = true;
                             innerVectorId = j;
@@ -66,10 +66,10 @@
                     }
                 }
 
-                var vectorsInd = res[clusterId];
+                var vectorsInd = res[clusterId].clusterInd;
                 var productsFromAllEvents = [];
-                for (i = 0; i < vectorsInd.length; i++) {
-                    productsFromAllEvents.push(events[i + 1].products);
+                for (var i = 0; i < vectorsInd.length; i++) {
+                    productsFromAllEvents.push(events[i].products);
                 }
 
                 var shoppingCart = getFreqeuntProducts(productsFromAllEvents);
@@ -91,7 +91,11 @@
         var vector = {
             type: eventTypeToInt[event.type],
             season: getSeason(event.dates),
-            participantDetails: participantDetails
+            menOfParticipnts: participantDetails.menOfParticipnts,
+            womenOfParticipnts: participantDetails.womenOfParticipnts,
+            koshersOfParticipnts: participantDetails.koshersOfParticipnts,
+            vegetariansOfParticipnts: participantDetails.vegetariansOfParticipnts,
+            vegansOfParticipnts: participantDetails.vegansOfParticipnts
         };
 
         return vector;
@@ -142,12 +146,18 @@
      */
 
     function getSeason(dates) {
+
+        if (dates.length == 0) {
+            return '0'
+        }
+
+
         var spring = 0;
         var summer = 0;
         var fall = 0;
         var winter = 0;
 
-        for (i = 0; i < dates.length; i++) {
+        for (var i = 0; i < dates.length; i++) {
             var month = dates[i].getMonth();
 
             if (3 <= month <= 5) {
@@ -168,10 +178,10 @@
         }
 
         var seasons = {'spring': spring, 'summer': summer, 'fall': fall, 'winter': winter};
-        var maxSeason = Math.max(seasons[0], seasons[1], seasons[2], seasons[3]);
-        for (j = 0; j < seasons.length; j++) {
-            if (seasons[j].value == maxSeason) {
-                return seasonToInt[seasons[j].key];
+        var maxSeason = Math.max(seasons['spring'], seasons['summer'], seasons['fall'], seasons['winter']);
+        for (var key in seasons) {
+            if (seasons[key] == maxSeason) {
+                return seasonToInt[key];
             }
         }
     }
@@ -180,36 +190,37 @@
 
         var productToFrequent = {};
 
-        for (i = 0; i < products.length; i++) {
-            var value = productToFrequent[products[i]];
-            if (!value) {
-                value = productToFrequent[products[i]] = 0;
+        for (var i = 0; i < products.length; i++) {
+            for (var j = 0; j < products[i].length; j++) {
+                var value = productToFrequent[products[i][j].name];
+                if (!value) {
+                    value = productToFrequent[products[i][j].name] = 0;
+                }
+                productToFrequent[products[i][j].name] = value + 1;
             }
-            productToFrequent[products[i]] = value + 1;
         }
 
-        var keys = [];
-        for (var key in productToFrequent) {
-            keys[keys.length] = key;
+
+        var items = Object.keys(productToFrequent).map(function(key) {
+            return [key, productToFrequent[key]];
+        });
+
+        items.sort(function(first, second) {
+            return second[1] - first[1];
+        });
+
+        var sortedProducts = [];
+        for (var i = 0; i < items.length; i++)
+        {
+            sortedProducts[i] = items[i][0];
         }
 
-        var values = [];
-        for (var i = 0; i < keys.length; i++) {
-            values[values.length] = productToFrequent[keys [i]];
-        }
-
-        var sortedValues = values.sort(sortNumber);
-
-        if (sortedValues.length > 5) {
-            var result = [sortedValues[0].key, sortedValues[1].key, sortedValues[2].key, sortedValues[3].key, sortedValues[4].key];
+        if (sortedProducts.length > 5) {
+            var result = [sortedProducts[0], sortedProducts[1], sortedProducts[2], sortedProducts[3], sortedProducts[4]];
             return result;
         }
 
-        return sortedValues;
-    }
-
-    function sortNumber(a, b) {
-        return a - b;
+        return sortedProducts;
     }
 
 })();
