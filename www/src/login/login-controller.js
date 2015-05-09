@@ -59,6 +59,17 @@
                 .error(commonService.errorHandler);
         };
 
+        // ----
+        // Check if user already logged in, redirect him to events if so
+        //
+        $scope.$watch(commonService.getInfo, function (info) {
+            if (info && info.user) {
+                console.log('Already logged in', info);
+                commonService.redirect('home');
+            }
+        });
+
+
     });
 
 })();
