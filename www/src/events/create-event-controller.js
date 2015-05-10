@@ -83,8 +83,8 @@
 
             if (value) {
                 vm.selectedLocationAddress = value.formatted_address;
-                var longitude = value.geometry.location.D;
-                var latitude = value.geometry.location.k;
+                var longitude = value.geometry.location.lng();
+                var latitude = value.geometry.location.lat();
 
                 setLocation(latitude, longitude);
             }
