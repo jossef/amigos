@@ -1,15 +1,17 @@
 (function () {
     'use strict';
 
-    module.exports = {
-        getShoppingList: getShoppingList
-    };
-
     var kmeans = require('node-kmeans');
-    var apiHandlers = require('./api-handlers');
     var data = require('./data');
     var async = require('asyncawait/async');
     var await = require('asyncawait/await');
+    var Q = require('q');
+
+    module.exports = {
+        recommendProducts: recommendProducts
+    };
+
+    // ...........................
 
     var eventTypeToInt = {
         'party': 1000,
@@ -28,12 +30,14 @@
         'winter': 4000
     };
 
-    function getShoppingList(req, res) {
-        apiHandlers.apiHandler(req, res, function () {
+    function recommendProducts(eventId) {
+
+        var def = Q.defer();
+
+        async(function () {
 
             var vectorsData = [];
 
-            var eventId = req.params.id;
             var proposalEvent = await(data.getEvent(eventId));
             var proposalEventVector = createVector(proposalEvent);
 
@@ -48,29 +52,28 @@
                 vectorsData.push(vector);
             }
 
-            // {'type': '4' , 'season': '3, 'menOfParticipnts': 5/13, 'womenOfParticipnts': 8/13,
-            // 'koshersOfParticipnts': 0, 'vegetariansOfParticipnts': 2/13, 'vegansOfParticipnts': 0}
+            // {'type': '4' , 'season': '3, 'malesCount': 5/13, 'femalesCount': 8/13,
+            // 'kosherCount': 0, 'vegetariansCount': 2/13, 'vegansCount': 0}
 
             var vectors = [];
             for (var i = 0; i < vectorsData.length; i++) {
                 vectors[i] = [
                     vectorsData[i]['type'],
                     vectorsData[i]['season'],
-                    vectorsData[i]['menOfParticipnts'],
-                    vectorsData[i]['womenOfParticipnts'],
-                    vectorsData[i]['koshersOfParticipnts'],
-                    vectorsData[i]['vegetariansOfParticipnts'],
-                    vectorsData[i]['vegansOfParticipnts']
+                    vectorsData[i]['malesCount'],
+                    vectorsData[i]['femalesCount'],
+                    vectorsData[i]['kosherCount'],
+                    vectorsData[i]['vegetariansCount'],
+                    vectorsData[i]['vegansCount']
                 ];
             }
 
-            kmeans.clusterize(vectors, {k: huristicalGenrationOfK()},
+            kmeans.clusterize(vectors, {
+                    k: heuristicGestationOfK(events)
+                },
                 function (err, clusterResult) {
                     if (err) {
                         console.error(err);
-                    }
-                    else {
-                        console.log('%o', clusterResult);
                     }
 
                     var isMatch = false;
@@ -100,7 +103,7 @@
 
                     var shoppingCart = getFreqeuntProducts(productsFromAllEvents);
 
-                    res.json(shoppingCart);
+                    def.resolve(shoppingCart);
                 });
 
 
@@ -110,11 +113,37 @@
              clusterInd : array of X integers which are the indexes of the input data
              */
 
-        });
+        })();
+
+        return def.promise;
     }
 
-    function huristicalGenrationOfK() {
-        return 4;
+    function heuristicGestationOfK(events) {
+        /**
+         *  k is known to be hard to choose when not given by external constraints.
+         */
+
+        var minK = 3;
+        var maxK = 8;
+
+        var i;
+        var k = 4;
+        for(i=minK; i<=maxK; i++)
+        {
+            // How many results
+
+            // save the results
+
+            // max
+        }
+
+        // Heuristic k
+
+
+        /**
+         *  k is known to be hard to choose when not given by external constraints.
+         */
+        return k;
     }
 
     function createVector(event) {
@@ -122,11 +151,11 @@
         var vector = {
             type: eventTypeToInt[event.type],
             season: getSeason(event.dates),
-            menOfParticipnts: participantDetails.menOfParticipnts,
-            womenOfParticipnts: participantDetails.womenOfParticipnts,
-            koshersOfParticipnts: participantDetails.koshersOfParticipnts,
-            vegetariansOfParticipnts: participantDetails.vegetariansOfParticipnts,
-            vegansOfParticipnts: participantDetails.vegansOfParticipnts
+            malesCount: participantDetails.malesCount,
+            femalesCount: participantDetails.femalesCount,
+            kosherCount: participantDetails.kosherCount,
+            vegetariansCount: participantDetails.vegetariansCount,
+            vegansCount: participantDetails.vegansCount
         };
 
         return vector;
@@ -159,11 +188,11 @@
         }
 
         var result = {
-            menOfParticipnts: men / participants.length,
-            womenOfParticipnts: women / participants.length,
-            koshersOfParticipnts: koshers / participants.length,
-            vegetariansOfParticipnts: vegetarians / participants.length,
-            vegansOfParticipnts: vegans / participants.length
+            malesCount: men / participants.length,
+            femalesCount: women / participants.length,
+            kosherCount: koshers / participants.length,
+            vegetariansCount: vegetarians / participants.length,
+            vegansCount: vegans / participants.length
         };
 
         return result;
@@ -208,8 +237,19 @@
             }
         }
 
-        var seasons = {'spring': spring, 'summer': summer, 'fall': fall, 'winter': winter};
+        var seasons = {
+            'spring': spring,
+            'summer': summer,
+            'fall': fall,
+            'winter': winter
+        };
+
+        /**
+         * calculating the maximum season
+         * and translating it into our mathematical representation
+         */
         var maxSeason = Math.max(seasons['spring'], seasons['summer'], seasons['fall'], seasons['winter']);
+
         for (var key in seasons) {
             if (seasons[key] == maxSeason) {
                 return seasonToInt[key];

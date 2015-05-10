@@ -3,7 +3,7 @@
 
     var app = angular.module('amigos');
 
-    app.controller("EventController", function ($scope, $timeout, $ionicTabsDelegate, $stateParams, eventService, geoNavigationService, commonService, $ionicScrollDelegate, amigosSocket, calendarService) {
+    app.controller("EventController", function ($scope, $timeout, $ionicTabsDelegate, $stateParams, eventService, geoNavigationService, commonService, contactsService, $ionicScrollDelegate, amigosSocket, calendarService) {
         var vm = this;
         var eventId = $stateParams.id;
 
@@ -19,17 +19,31 @@
                     setLocation(event.location.longitude, event.location.latitude)
                 }
 
-                getEventMessages();
+                getMessages();
             });
 
-        function getEventMessages() {
+        function getMessages() {
 
-            eventService.getEventMessages(eventId)
+            eventService.getMessages(eventId)
                 .success(function (messages) {
                     vm.messages = messages;
                     scrollToBottom();
                 });
         }
+
+        // ..............................
+        // Operations
+
+        vm.addParticipant = function () {
+            contactsService.pickContact()
+                .success(function (participant) {
+                    eventService.addParticipant(eventId, participant);
+                });
+        };
+
+        vm.removeParticipant = function (participant) {
+            eventService.removeParticipant(eventId, participant);
+        };
 
         // ..............................
         // Map
@@ -73,7 +87,7 @@
         });
 
         vm.sendMessage = function (message) {
-            eventService.addEventMessage(eventId, {
+            eventService.addMessage(eventId, {
                 message: message,
                 type: 'text'
             }).success(vm.onChatSelected);
@@ -89,7 +103,7 @@
 
         amigosSocket.on('reload', function () {
             console.log('reloaded in event ', eventId);
-            getEventMessages();
+            getMessages();
         });
 
         vm.showOnCalendar = function (date) {

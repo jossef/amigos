@@ -20,7 +20,7 @@
         <div class="list">
 
             <a class="item item-avatar" ui-sref="event({id: event._id})" ng-repeat="event in vm.events">
-                <img src="http://lorempixel.com/100/100/?1=32">
+                <img src="http://dummyimage.com/400x400/eee/ff0000&text={{event.name}}">
                 <h2>{{event.name}}</h2>
                 <p>
                     {{event.participants.length}} Participants
