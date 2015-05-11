@@ -93,7 +93,7 @@
                         <!-- - - - - - - - - - - - - - - - - - - - - - -->
                         <!-- Location -->
 
-                        <div class="item item-divider item-icon-left item-icon-right"
+                        <div class="item item-divider item-icon-left item-icon-right item-input"
                              ng-class="{active: isLocationListShown}"
                              ng-click="isLocationListShown = !isLocationListShown;">
                             <i  ng-class="isLocationListShown ? 'ion-minus' : 'ion-plus'"></i>
@@ -101,10 +101,25 @@
                             &nbsp;
                             Location: {{vm.event.location.address}}
 
-                            <i class="icon ion-edit"  ng-show="vm.isEditable"></i>
+                            <!--TODO: JOSS, THIS IS ALWAYS CLASS=ION-EDIT!!! SEE BOTH PRINTING: isLocationCahnged IS FALSE! MAYBE INHETIANCE?..-->
+                            <i ng-show="vm.isEditable"ng-init="isLocationCahnged=false"
+                               ng-class="isLocationCahnged ? 'ion-plus' : 'icon ion-edit'"
+                               ></i>
                         </div>
 
                         <div class="item" ng-if="isLocationListShown">
+
+                            <!--TODO: DELETE-->{{isLocationCahnged}}
+                            <div class="list list-insert" ng-show="vm.isEditable">
+                                <label class="item item-input">
+                                    <i class="icon ion-search placeholder-icon"></i>
+                                    <!--TODO: DELETE-->{{isLocationCahnged}}
+                                    <ion-google-place placeholder="Enter an new address to change your location"
+                                                      ng-model="vm.selectedLocation"
+                                                      ng-change="isLocationCahnged=true"
+                                                      ></ion-google-place>
+                                </label>
+                            </div>
 
                             <ui-gmap-google-map options="vm.mapOptions" center="vm.mapCenter" zoom="vm.mapZoom">
                                 <ui-gmap-marker coords="vm.mapMarker.location" idkey="0"></ui-gmap-marker>
