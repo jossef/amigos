@@ -6,7 +6,6 @@
     var path = require('path');
     var common = require('./common');
     var authentication = require('./authentication');
-    var machineLearning = require('./machine-learning');
 
     module.exports = function(app, passport) {
 
@@ -17,6 +16,9 @@
         app.post('/api/events', api.createEvent);
         app.get('/api/events/:id/messages', api.getEventMessages);
         app.post('/api/events/:id/messages', api.addEventMessage);
+        app.post('/api/events/:id/participants', api.addEventParticipant);
+        app.post('/api/events/:id/participants/remove', api.removeEventParticipant);
+        app.get('/api/events/:id/recommend', api.recommendEventProducts);
         app.get('/api/events/:id', api.getEvent);
 
         app.get('/api/info', api.getInfo);
@@ -40,7 +42,5 @@
         app.get('/auth/google/callback', authentication.googleAuthCallback);
 
         app.get('/', api.root);
-
-        app.get('/api/getShoppingList/:id', machineLearning.getShoppingList);
     }
 })();

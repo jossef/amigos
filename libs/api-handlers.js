@@ -10,6 +10,7 @@
     var await = require('asyncawait/await');
     var fb = require('fb');
     var notifications = require('./notifications');
+    var machineLearning = require('./machine-learning');
 
     module.exports = {
         root: root,
@@ -26,8 +27,11 @@
         getUserEvents: getUserEvents,
         createEvent: createEvent,
         getEvent: getEvent,
+        recommendEventProducts: recommendEventProducts,
         getEventMessages: getEventMessages,
         addEventMessage: addEventMessage,
+        addEventParticipant: addEventParticipant,
+        removeEventParticipant: removeEventParticipant,
 
         getNotifications: getNotifications,
 
@@ -50,7 +54,7 @@
     }
 
     function ensureAuthenticated(req) {
-        if (!req.isAuthenticated()) {
+        if (!req.user) {
             throw Error('User not logged in');
         }
     }
@@ -152,6 +156,46 @@
         });
     }
 
+    function addEventParticipant(req, res) {
+        apiHandler(req, res, function () {
+            ensureAuthenticated(req);
+
+            var user = req.user;
+            var eventId = req.params.id;
+            var participant = req.body;
+
+            console.log(user.id, eventId, participant);
+
+            res.json({});
+        });
+    }
+
+    function removeEventParticipant(req, res) {
+        apiHandler(req, res, function () {
+
+            ensureAuthenticated(req);
+
+            var user = req.user;
+            var eventId = req.params.id;
+            var participant = req.body;
+
+            var event = await(removeEventParticipant(participant._id));
+
+            // Verify the performing user is the event organizer
+
+            res.json({});
+        });
+    }
+
+    function recommendEventProducts(req, res) {
+        apiHandler(req, res, function () {
+            ensureAuthenticated(req);
+            var eventId = req.params.id;
+            var data = await(machineLearning.recommendProducts(eventId));
+            res.json(data);
+        });
+    }
+
     function getInfo(req, res) {
         apiHandler(req, res, function () {
 
@@ -239,6 +283,7 @@
             res.json(data);
         });
     }
+
 
 
 })();

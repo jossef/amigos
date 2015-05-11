@@ -30,6 +30,7 @@
         getEventMessages: getEventMessages,
         addEventMessage: addEventMessage,
         getEventParticipants: getEventParticipants,
+        removeEventParticipant: removeEventParticipant,
 
         ensureProductExists: ensureProductExists,
 
@@ -90,11 +91,37 @@
     }
 
 
+    function removeEventParticipant(eventId, userId) {
+        var deferred = Q.defer();
+
+        Event.update({
+                _id: eventId
+            },
+            {
+                $pull: {
+                    participants: {
+                        user: {
+                            _id: mongoose.Types.ObjectId(userId)
+                        }
+                    }
+                }
+            })
+            .exec(function (err) {
+                if (err) {
+                    return deferred.reject(err);
+                }
+
+                deferred.resolve();
+            });
+
+        return deferred.promise;
+    }
+
+
     function getEventMessages(eventId, limit) {
         var deferred = Q.defer();
 
-        if (!limit)
-        {
+        if (!limit) {
             limit = 15;
         }
 
@@ -107,8 +134,7 @@
 
                 var messages = event.messages || [];
 
-                if (messages.length > limit)
-                {
+                if (messages.length > limit) {
                     messages = messages.slice(messages.length - limit);
                 }
 
@@ -412,7 +438,6 @@
 
         return deferred.promise;
     }
-
 
 
 })();
