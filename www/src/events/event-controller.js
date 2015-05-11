@@ -3,7 +3,7 @@
 
     var app = angular.module('amigos');
 
-    app.controller("EventController", function ($scope, $timeout, $ionicTabsDelegate, $stateParams, eventService, geoNavigationService, commonService, $ionicScrollDelegate, amigosSocket, calendarService) {
+    app.controller("EventController", function ($scope, $timeout, $ionicTabsDelegate, $stateParams, eventService, geoNavigationService, commonService, $ionicScrollDelegate, amigosSocket, calendarService, contactsService) {
         var vm = this;
         var eventId = $stateParams.id;
 
@@ -96,6 +96,26 @@
             calendarService.openCurrentDateInCalendar(date);
         };
 
+        // ..............................
+        // Participants
+
+        vm.pickFriend = function () {
+            contactsService.pickContact()
+                .success(function (contact) {
+
+                    if (!contact || !contact.phone || !contact.name) {
+                        commonService.alert('no contact selected');
+                    }
+
+                    //TODO: SAVE TO DB WITH JOSSEF'S FUNCTION
+
+                    /*vm.friends[contact.phone] = {
+                        name: contact.name,
+                        phone: contact.phone
+                    };*/
+
+                });
+        };
 
         // ..............................
         // Other

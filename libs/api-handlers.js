@@ -106,7 +106,7 @@
             var eventId = req.params.id;
             var event = await(data.getEvent(eventId));
             event = common.clone(event);
-            event.isAdmin = req.user._id == event.organizer;
+            event.isAdmin = req.user.id == event.organizer;
             res.json(event);
         });
     }
