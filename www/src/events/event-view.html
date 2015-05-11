@@ -11,6 +11,7 @@
                     ng-show="vm.event.isAdmin"
                     ng-init="vm.isEditable=false"
                     ng-click="vm.isEditable = !vm.isEditable">
+                    <!--TODO: change edit & done icons to text -->
                     <i class="icon" ng-class="vm.isEditable ? 'ion-android-done' : 'ion-edit'"></i>
             </button>
         </ion-nav-buttons>
@@ -68,7 +69,7 @@
                                 <div class="item-remove-animate item item-icon-right item item-icon-left {{participant.user.nickname}}">
                                     <div class="icon">
 
-                                    <i class="ion-minus-circled" ng-show="vm.isEditable" ng-click="vm.showOnCalendar(date)"></i>
+                                    <i class=" ion-android-delete assertive" ng-show="vm.isEditable" ng-click="vm.showOnCalendar(date)"></i>
                                     <i class="ion-android-calendar" ng-click="vm.showOnCalendar(date)"></i>
                                     </div>
 
@@ -84,7 +85,7 @@
                                     </i>
                                 </div>
                                 <div class="item-left-edit item-delete enable-pointer-events visible active">
-                                    <a class="ion-minus-circled button icon button-icon">
+                                    <a class=" ion-android-delete assertive button icon button-icon">
                                     </a>
                                 </div>
                             </div>
@@ -101,22 +102,20 @@
                             &nbsp;
                             Location: {{vm.event.location.address}}
 
-                            <!--TODO: JOSS, THIS IS ALWAYS CLASS=ION-EDIT!!! SEE BOTH PRINTING: isLocationCahnged IS FALSE! MAYBE INHETIANCE?..-->
-                            <i ng-show="vm.isEditable"ng-init="isLocationCahnged=false"
-                               ng-class="isLocationCahnged ? 'ion-plus' : 'icon ion-edit'"
+                            <!--TODO: change edit & done icons to text -->
+                            <i ng-show="vm.isEditable"ng-init="vm.isLocationCahnged=false"
+                               ng-class="vm.isLocationCahnged ? 'icon ion-android-done' : 'icon ion-edit'"
                                ></i>
                         </div>
 
                         <div class="item" ng-if="isLocationListShown">
 
-                            <!--TODO: DELETE-->{{isLocationCahnged}}
                             <div class="list list-insert" ng-show="vm.isEditable">
                                 <label class="item item-input">
                                     <i class="icon ion-search placeholder-icon"></i>
-                                    <!--TODO: DELETE-->{{isLocationCahnged}}
                                     <ion-google-place placeholder="Enter an new address to change your location"
                                                       ng-model="vm.selectedLocation"
-                                                      ng-change="isLocationCahnged=true"
+                                                      ng-change="vm.isLocationCahnged=true"
                                                       ></ion-google-place>
                                 </label>
                             </div>
@@ -157,7 +156,7 @@
 
                             <div class="item item-icon-left item-icon-right"
                                  ng-repeat="participant in vm.event.participants">
-                                <i class="icon ion-minus-circled" ng-show="vm.isEditable" ng-click="vm.showOnCalendar(date)"></i>
+                                <i class="icon  ion-android-delete assertive" ng-show="vm.isEditable" ng-click="vm.showOnCalendar(date)"></i>
 
                                 {{participant.user.nickname}}
 
