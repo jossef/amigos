@@ -57,7 +57,7 @@
                     return response || $q.when(response);
                 },
                 responseError: function (rejection) {
-                    if (rejection.status === 404) {
+                    if (rejection.status === 404 || rejection.status === 0) {
 
                         var errorHandler = errorHandlingService.getCommunicationErrorHandler();
                         if (errorHandler) {
