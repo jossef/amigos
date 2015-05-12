@@ -51,7 +51,7 @@
     display: inline-block;
     white-space: nowrap;
     overflow: hidden !important;
-    background: transparentize(#000, 0.6);
+    background: transparentize(#000, 0.7);
     position: absolute;
     line-height: 2.5em;
 
@@ -62,10 +62,31 @@
     .title{
       padding-left: 10px;
       padding-top: 10px;
-      padding-bottom: 10px;
       color: #fff;
       text-overflow: ellipsis;
       font-weight: 700;
+      margin-bottom: 0;
+
+    }
+
+    .info{
+      @extend .title;
+
+      padding-top: 0;
+      margin-bottom: 0;
+    }
+
+
+    .buttons{
+      @extend .title;
+
+      font-weight: 400;
+      padding-top: 0;
+      padding-bottom: 10px;
+      margin-bottom: 0;
+
+      text-align: right;
+      @extend .padding-right;
 
     }
   }

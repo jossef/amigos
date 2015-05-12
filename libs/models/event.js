@@ -6,7 +6,8 @@ var ObjectId = mongoose.Schema.ObjectId;
 var eventSchema = mongoose.Schema({
     name: String,
     type: String,
-    dates: [Date],
+    dates: [Date], // This is the optional dates
+    date: Date, // This is the primary date
     organizer: {type: ObjectId, ref: 'User'},
     location: {
         latitude: String,

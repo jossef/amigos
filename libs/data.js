@@ -27,12 +27,22 @@
         createEvent: createEvent,
         getEvent: getEvent,
         getAllEvents: getAllEvents,
+
         getEventMessages: getEventMessages,
         addEventMessage: addEventMessage,
+
         getEventParticipants: getEventParticipants,
         removeEventParticipant: removeEventParticipant,
+        addEventParticipant: addEventParticipant,
+        getEventOrganizer: getEventOrganizer,
+        isEventParticipant: isEventParticipant,
+
+        removeEventDate: removeEventDate,
+        addEventDate: addEventDate,
+        setEventPrimaryDate: setEventPrimaryDate,
 
         ensureProductExists: ensureProductExists,
+        ensureUserExists: ensureUserExists,
 
         User: User
     };
@@ -77,7 +87,8 @@
 
         Event.findById(id)
             .select('-messages')
-            .populate('participants.user', '-password')
+            .populate('participants.user', '_id nickname phone')
+            .populate('organizer', '_id nickname phone')
             .populate('products')
             .exec(function (err, event) {
                 if (err) {
@@ -90,8 +101,24 @@
         return deferred.promise;
     }
 
+    function getEventOrganizer(id) {
+        var deferred = Q.defer();
 
-    function removeEventParticipant(eventId, userId) {
+        Event.findById(id, {organizer: true})
+            .populate('organizer', '_id nickname phone')
+            .exec(function (err, event) {
+                if (err) {
+                    return deferred.reject(err);
+                }
+
+                deferred.resolve(event.organizer);
+            });
+
+        return deferred.promise;
+    }
+
+
+    function removeEventParticipant(eventId, participantId) {
         var deferred = Q.defer();
 
         Event.update({
@@ -100,11 +127,125 @@
             {
                 $pull: {
                     participants: {
-                        user: {
-                            _id: mongoose.Types.ObjectId(userId)
-                        }
+                        _id: mongoose.Types.ObjectId(participantId)
                     }
                 }
+            })
+            .exec(function (err) {
+                if (err) {
+                    return deferred.reject(err);
+                }
+
+                deferred.resolve();
+            });
+
+        return deferred.promise;
+    }
+
+
+    function isEventParticipant(eventId, user) {
+        var deferred = Q.defer();
+
+        console.log(user._id);
+        Event.findOne({
+                _id: eventId,
+                'participants.user': user._id
+            },
+            {
+                _id: true
+            })
+            .exec(function (err, exists) {
+                if (err) {
+                    return deferred.reject(err);
+                }
+
+                deferred.resolve(!!exists);
+            });
+
+        return deferred.promise;
+    }
+
+
+    function addEventParticipant(eventId, participantUser) {
+        var deferred = Q.defer();
+
+
+        Event.update({
+                _id: eventId
+            },
+            {
+                $addToSet: {
+                    participants: {
+                        user: participantUser._id
+                    }
+                }
+            })
+            .exec(function (err) {
+                if (err) {
+                    return deferred.reject(err);
+                }
+
+                deferred.resolve();
+            });
+
+        return deferred.promise;
+    }
+
+
+    function removeEventDate(eventId, date) {
+        var deferred = Q.defer();
+
+        Event.update({
+                _id: eventId
+            },
+            {
+                $pull: {
+                    dates: date
+                }
+            })
+            .exec(function (err) {
+                if (err) {
+                    return deferred.reject(err);
+                }
+
+                deferred.resolve();
+            });
+
+        return deferred.promise;
+    }
+
+    function addEventDate(eventId, date) {
+        var deferred = Q.defer();
+
+
+        Event.update({
+                _id: eventId
+            },
+            {
+                $addToSet: {
+                    dates: date
+                }
+            })
+            .exec(function (err) {
+                if (err) {
+                    return deferred.reject(err);
+                }
+
+                deferred.resolve();
+            });
+
+        return deferred.promise;
+    }
+
+    function setEventPrimaryDate(eventId, date) {
+        var deferred = Q.defer();
+
+
+        Event.update({
+                _id: eventId
+            },
+            {
+                date: date
             })
             .exec(function (err) {
                 if (err) {

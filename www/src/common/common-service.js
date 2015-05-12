@@ -73,7 +73,6 @@
         }
 
         function clearHistory() {
-            $ionicHistory.clearHistory();
         }
 
         function handleCommunicationError() {

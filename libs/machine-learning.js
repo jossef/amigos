@@ -69,7 +69,7 @@
             }
 
             kmeans.clusterize(vectors, {
-                    k: heuristicGestationOfK(events)
+                    k: getK(events)
                 },
                 function (err, clusterResult) {
                     if (err) {
@@ -118,7 +118,7 @@
         return def.promise;
     }
 
-    function heuristicGestationOfK(events) {
+    function getK(events) {
         /**
          *  k is known to be hard to choose when not given by external constraints.
          */

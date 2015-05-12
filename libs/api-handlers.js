@@ -32,6 +32,10 @@
         addEventMessage: addEventMessage,
         addEventParticipant: addEventParticipant,
         removeEventParticipant: removeEventParticipant,
+        addEventDate: addEventDate,
+        removeEventDate: removeEventDate,
+        setEventPrimaryDate: setEventPrimaryDate,
+
 
         getNotifications: getNotifications,
 
@@ -56,6 +60,16 @@
     function ensureAuthenticated(req) {
         if (!req.user) {
             throw Error('User not logged in');
+        }
+    }
+
+    function isOrganizer(organizer, user) {
+        return organizer.id == user.id;
+    }
+
+    function ensureOrganizer(organizer, user) {
+        if (!isOrganizer(organizer, user)) {
+            throw Error("Cannot perform this action. you are not the event organizer");
         }
     }
 
@@ -109,8 +123,11 @@
         apiHandler(req, res, function () {
             var eventId = req.params.id;
             var event = await(data.getEvent(eventId));
+            var isAdmin = isOrganizer(event.organizer, req.user);
+
             event = common.clone(event);
-            event.isAdmin = req.user.id == event.organizer;
+            event.isAdmin = isAdmin;
+
             res.json(event);
         });
     }
@@ -160,11 +177,16 @@
         apiHandler(req, res, function () {
             ensureAuthenticated(req);
 
-            var user = req.user;
             var eventId = req.params.id;
             var participant = req.body;
 
-            console.log(user.id, eventId, participant);
+            var participantUser = await(data.ensureUserExists(participant.phone, participant));
+
+            var isEventParticipant = (await(data.isEventParticipant(eventId, participantUser)));
+            if (!isEventParticipant)
+            {
+                await(data.addEventParticipant(eventId, participantUser));
+            }
 
             res.json({});
         });
@@ -172,17 +194,64 @@
 
     function removeEventParticipant(req, res) {
         apiHandler(req, res, function () {
-
             ensureAuthenticated(req);
 
             var user = req.user;
-            var eventId = req.params.id;
-            var participant = req.body;
-
-            var event = await(removeEventParticipant(participant._id));
+            var eventId = req.params.eventId;
+            var participantId = req.params.participantId;
 
             // Verify the performing user is the event organizer
+            var organizer = await(data.getEventOrganizer(eventId));
+            ensureOrganizer(organizer, user);
 
+            await(data.removeEventParticipant(eventId, participantId));
+            res.json({});
+        });
+    }
+
+
+    function addEventDate(req, res) {
+        apiHandler(req, res, function () {
+            ensureAuthenticated(req);
+
+            var eventId = req.params.id;
+            var date = req.body.date;
+
+            await(data.addEventDate(eventId, date));
+
+            res.json({});
+        });
+    }
+
+    function setEventPrimaryDate(req, res) {
+        apiHandler(req, res, function () {
+            ensureAuthenticated(req);
+
+            var eventId = req.params.id;
+            var date = req.body.date;
+
+            await(data.setEventPrimaryDate(eventId, date));
+
+            res.json({});
+        });
+    }
+
+    function removeEventDate(req, res) {
+        apiHandler(req, res, function () {
+            ensureAuthenticated(req);
+
+            var user = req.user;
+            var eventId = req.params.eventId;
+            var dateEpoch = req.params.dateEpoch;
+            var date = new Date(parseInt(dateEpoch));
+
+            console.log(dateEpoch, date);
+
+            // Verify the performing user is the event organizer
+            var organizer = await(data.getEventOrganizer(eventId));
+            ensureOrganizer(organizer, user);
+
+            await(data.removeEventDate(eventId, date));
             res.json({});
         });
     }
@@ -283,7 +352,6 @@
             res.json(data);
         });
     }
-
 
 
 })();

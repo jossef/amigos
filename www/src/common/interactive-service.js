@@ -22,6 +22,7 @@
 
         return {
             showMessage: showMessage,
+            confirm: confirm,
             showNotification: showNotification,
             setOnNotificationClicked: setOnNotificationClicked,
             showAlert: showAlert
@@ -75,6 +76,24 @@
             }).then(function () {
                 showingAlert = false;
             });
+        }
+
+        function confirm(title, content) {
+
+            var def = $q.defer();
+
+            $ionicPopup.confirm({
+                title: title,
+                template: content
+            }).success(function (res) {
+                if (res) {
+                    def.resolve();
+                } else {
+                    def.reject();
+                }
+            }).error(def.reject);
+
+            return def.promise;
         }
 
 

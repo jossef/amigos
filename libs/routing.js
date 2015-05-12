@@ -14,10 +14,20 @@
 
         app.get('/api/events', api.getUserEvents);
         app.post('/api/events', api.createEvent);
+
         app.get('/api/events/:id/messages', api.getEventMessages);
         app.post('/api/events/:id/messages', api.addEventMessage);
+
         app.post('/api/events/:id/participants', api.addEventParticipant);
-        app.post('/api/events/:id/participants/remove', api.removeEventParticipant);
+        app.delete('/api/events/:eventId/participants/:participantId', api.removeEventParticipant);
+
+        app.post('/api/events/:id/dates', api.addEventDate);
+        app.delete('/api/events/:eventId/dates/:dateEpoch', api.removeEventDate);
+        app.post('/api/events/:id/dates/primary', api.setEventPrimaryDate);
+
+
+        // TODO set event location
+
         app.get('/api/events/:id/recommend', api.recommendEventProducts);
         app.get('/api/events/:id', api.getEvent);
 

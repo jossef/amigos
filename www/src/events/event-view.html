@@ -9,10 +9,9 @@
         <ion-nav-buttons side="right">
             <button class="button button-icon"
                     ng-show="vm.event.isAdmin"
-                    ng-init="vm.isEditable=false"
                     ng-click="vm.isEditable = !vm.isEditable">
-                    <!--TODO: change edit & done icons to text -->
-                    <i class="icon" ng-class="vm.isEditable ? 'ion-android-done' : 'ion-edit'"></i>
+                <!--TODO: change edit & done icons to text -->
+                <i class="icon" ng-class="vm.isEditable ? 'ion-android-done' : 'ion-edit'"></i>
             </button>
         </ion-nav-buttons>
     </ion-nav-bar>
@@ -24,12 +23,44 @@
             <ion-view>
                 <ion-content padding="false">
 
+                    <ion-refresher
+                            pulling-text="Pull to refresh..."
+                            on-refresh="vm.getEvent()">
+                    </ion-refresher>
+
 
                     <div class="event-image">
                         <img src="http://lorempixel.com/800/380/">
 
                         <div class="title-wrapper">
                             <h3 class="title">{{vm.event.name}}</h3>
+
+                            <p class="info">
+                                <span ng-show="vm.event.date">
+                                    {{vm.event.date | date:'medium'}}
+                                    <button class="button button-small padding-right padding-left  button-assertive "
+                                            ng-show="vm.event.isAdmin && vm.isEditable"
+                                            ng-click="vm.setPrimaryDate(null)"> <i class="icon ion-android-delete"></i> Clear Date</button>
+
+                                </span>
+                                <span ng-hide="vm.event.date">
+                                    Planning ...
+                                </span>
+
+                            </p>
+
+                            <div class="buttons">
+
+                                <button class="button button-small padding-right padding-left button-light "
+                                        ng-disabled="vm.isEditable"
+                                        ng-class="{'button-outline':vm.isEditable}"
+                                        ng-click="vm.showOnCalendar(vm.event.date)"><i class="icon ion-android-calendar"></i> Show in Calendar</button>
+
+                                <button class="button button-small padding-right padding-left button-light "
+                                        ng-class="{'button-outline':vm.isEditable}"
+                                        ng-disabled="vm.isEditable || !vm.event.location.address"
+                                        ng-click="vm.navigate()"><i class="icon ion-navigate"></i> Navigate</button>
+                            </div>
 
                         </div>
                     </div>
@@ -64,16 +95,31 @@
                         </div>
 
 
-                        <div show-delete="vm.isEditable"  ng-show="isDateListShown">
-                            <div ng-repeat="date in vm.event.dates">
+                        <div ng-show="isDateListShown">
+
+
+                            <div ng-show="vm.isEditable" class="item text-center">
+
+                                <date-picker ng-model="newDate" ng-required="vm.haveDate" ng-change="vm.addDate(newDate)">
+                                    <button class="button button-positive" ng-click="showDatePicker()"
+                                            ng-class="{'button-outline':!vm.hasDates()}">
+                                        <span ng-hide="vm.event.dates.length">Click to set date</span>
+                                        <span ng-show="vm.event.dates.length">Add another date</span>
+                                    </button>
+                                </date-picker>
+                            </div>
+
+
+                            <div ng-repeat="date in vm.event.dates | orderBy:'toString()'">
                                 <div class="item-remove-animate item item-icon-right item item-icon-left {{participant.user.nickname}}">
                                     <div class="icon">
 
-                                    <i class=" ion-android-delete assertive" ng-show="vm.isEditable" ng-click="vm.showOnCalendar(date)"></i>
-                                    <i class="ion-android-calendar" ng-click="vm.showOnCalendar(date)"></i>
+                                        <i class=" ion-android-delete assertive" ng-show="vm.isEditable" ng-click="vm.removeDate(date)"></i>
+                                        <i class="ion-android-bulb" ng-show="vm.isEditable" ng-click="vm.setPrimaryDate(date)"></i>
                                     </div>
 
-                                    {{date | date}} {{osnat}}
+                                    {{date | date:'medium'}}
+                                    <span ng-show="date == vm.event.date">primary</span>
                                     <i class="icon">
                                         <label class="toggle toggle-positive">
                                             <input type="checkbox" ng-model="osnat">
@@ -97,15 +143,15 @@
                         <div class="item item-divider item-icon-left item-icon-right item-input"
                              ng-class="{active: isLocationListShown}"
                              ng-click="isLocationListShown = !isLocationListShown;">
-                            <i  ng-class="isLocationListShown ? 'ion-minus' : 'ion-plus'"></i>
+                            <i ng-class="isLocationListShown ? 'ion-minus' : 'ion-plus'"></i>
 
                             &nbsp;
                             Location: {{vm.event.location.address}}
 
                             <!--TODO: change edit & done icons to text -->
-                            <i ng-show="vm.isEditable"ng-init="vm.isLocationCahnged=false"
+                            <i ng-show="vm.isEditable" ng-init="vm.isLocationCahnged=false"
                                ng-class="vm.isLocationCahnged ? 'icon ion-android-done' : 'icon ion-edit'"
-                               ></i>
+                                    ></i>
                         </div>
 
                         <div class="item" ng-if="isLocationListShown">
@@ -116,7 +162,7 @@
                                     <ion-google-place placeholder="Enter an new address to change your location"
                                                       ng-model="vm.selectedLocation"
                                                       ng-change="vm.isLocationCahnged=true"
-                                                      ></ion-google-place>
+                                            ></ion-google-place>
                                 </label>
                             </div>
 
@@ -156,36 +202,26 @@
 
                             <div class="item item-icon-left item-icon-right"
                                  ng-repeat="participant in vm.event.participants">
-                                <i class="icon  ion-android-delete assertive" ng-show="vm.isEditable" ng-click="vm.showOnCalendar(date)"></i>
+                                <i class="icon ion-android-delete assertive" ng-show="vm.isEditable"></i>
 
                                 {{participant.user.nickname}}
 
-                                <button class="icon button button-positive">
-                                    <i class="ion-ios-telephone"></i>
-                                </button>
+                                <div class="icon" ng-click="vm.removeParticipant(participant)">
+
+                                    <i class="ion-ios-trash"></i>
+
+                                </div>
                             </div>
 
                             <!--TODO: ADD CLICK TO CALL ICON -->
 
-                            <div class="list">
-                                <div class="item item-input-inset">
+                            <div class="item text-center">
 
-                                    <label class="item-input-wrapper">
-
-                                        <input type="text" name="name"
-                                               ng-focus="vm.pickFriend()"
-                                               placeholder="Click to pick a friend">
-                                        <!--ng-model="product"
-                                           ng-enter="vm.addProduct(product); product=''"-->
+                                <button class="button button-positive button-outline" ng-click="vm.addParticipant()">
+                                    Click to add a friend
+                                </button>
 
 
-                                    </label>
-                                    <button class="button button-clear button-large button-positive" ng-click="vm.addProduct(product); product=''">
-                                        Add
-                                    </button>
-
-
-                                </div>
                             </div>
                         </div>
 
