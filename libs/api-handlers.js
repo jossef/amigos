@@ -27,14 +27,24 @@
         getUserEvents: getUserEvents,
         createEvent: createEvent,
         getEvent: getEvent,
+
         recommendEventProducts: recommendEventProducts,
+        addEventProduct: addEventProduct,
+        removeEventProduct: removeEventProduct,
+
         getEventMessages: getEventMessages,
         addEventMessage: addEventMessage,
+
         addEventParticipant: addEventParticipant,
         removeEventParticipant: removeEventParticipant,
+
+        joinEvent: joinEvent,
         addEventDate: addEventDate,
+        setEventLocation: setEventLocation,
         removeEventDate: removeEventDate,
         setEventPrimaryDate: setEventPrimaryDate,
+        confirmEventDate: confirmEventDate,
+        declineEventDate: declineEventDate,
 
 
         getNotifications: getNotifications,
@@ -75,7 +85,6 @@
 
     // ............................
 
-
     function root(req, res) {
         res.sendFile(path.join(common.appDir, 'static', 'index.html'));
     }
@@ -87,6 +96,7 @@
             res.json(events);
         });
     }
+
 
     function createEvent(req, res) {
         apiHandler(req, res, function () {
@@ -183,8 +193,7 @@
             var participantUser = await(data.ensureUserExists(participant.phone, participant));
 
             var isEventParticipant = (await(data.isEventParticipant(eventId, participantUser)));
-            if (!isEventParticipant)
-            {
+            if (!isEventParticipant) {
                 await(data.addEventParticipant(eventId, participantUser));
             }
 
@@ -209,6 +218,35 @@
         });
     }
 
+    function addEventProduct(req, res) {
+        apiHandler(req, res, function () {
+            ensureAuthenticated(req);
+
+            var eventId = req.params.id;
+            var productName = req.body.name;
+
+            var product = await(data.ensureProductExists(productName));
+            var event = await(data.getEvent(eventId));
+
+            event.products.addToSet(product);
+            event.save();
+
+            res.json({});
+        });
+    }
+
+    function removeEventProduct(req, res) {
+        apiHandler(req, res, function () {
+            ensureAuthenticated(req);
+
+            var eventId = req.params.eventId;
+            var productId = req.params.productId;
+
+            await(data.removeEventProduct(eventId, productId));
+
+            res.json({});
+        });
+    }
 
     function addEventDate(req, res) {
         apiHandler(req, res, function () {
@@ -223,6 +261,19 @@
         });
     }
 
+    function setEventLocation(req, res) {
+        apiHandler(req, res, function () {
+            ensureAuthenticated(req);
+
+            var eventId = req.params.id;
+            var location = req.body;
+
+            await(data.setEventLocation(eventId, location));
+
+            res.json({});
+        });
+    }
+
     function setEventPrimaryDate(req, res) {
         apiHandler(req, res, function () {
             ensureAuthenticated(req);
@@ -231,6 +282,47 @@
             var date = req.body.date;
 
             await(data.setEventPrimaryDate(eventId, date));
+
+            res.json({});
+        });
+    }
+
+    function confirmEventDate(req, res) {
+        apiHandler(req, res, function () {
+            ensureAuthenticated(req);
+
+            var eventId = req.params.id;
+            var date = req.body.date;
+            var user = req.user;
+
+            await(data.setEventParticipantDate(user, eventId, date, true));
+
+            res.json({});
+        });
+    }
+
+    function joinEvent(req, res) {
+        apiHandler(req, res, function () {
+            ensureAuthenticated(req);
+
+            var eventId = req.params.id;
+            var user = req.user;
+
+            await(data.joinEvent(user, eventId));
+
+            res.json({});
+        });
+    }
+
+    function declineEventDate(req, res) {
+        apiHandler(req, res, function () {
+            ensureAuthenticated(req);
+
+            var eventId = req.params.id;
+            var date = req.body.date;
+            var user = req.user;
+
+            await(data.setEventParticipantDate(user, eventId, date, false));
 
             res.json({});
         });

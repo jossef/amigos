@@ -51,7 +51,7 @@
     display: inline-block;
     white-space: nowrap;
     overflow: hidden !important;
-    background: transparentize(#000, 0.7);
+    background: transparentize(#fff, 0.4);
     position: absolute;
     line-height: 2.5em;
 
@@ -62,7 +62,7 @@
     .title{
       padding-left: 10px;
       padding-top: 10px;
-      color: #fff;
+      color: #000;
       text-overflow: ellipsis;
       font-weight: 700;
       margin-bottom: 0;
@@ -71,7 +71,7 @@
 
     .info{
       @extend .title;
-
+      color: #333;
       padding-top: 0;
       margin-bottom: 0;
     }
@@ -88,6 +88,35 @@
       text-align: right;
       @extend .padding-right;
 
+    }
+  }
+}
+
+
+.date-list{
+
+  .date{
+    .title{
+      font-weight: 700;
+      font-size: 1.4em;
+      line-height: 1.5em;
+
+      i{
+
+        color: #aaa;
+
+      }
+    }
+    .subtitle{
+      font-weight: 700;
+      color: #666;
+      padding-top: 10px;
+      padding-bottom: 10px;
+    }
+
+    hr
+    {
+      border: 0; border-top: 1px dotted #eee;
     }
   }
 }

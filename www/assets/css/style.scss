@@ -59,17 +59,34 @@
 }
 
 
-.list .item.item-accordion {
-  line-height: 38px;
-  padding-top: 0;
-  padding-bottom: 0;
-  transition: 0.09s all linear;
-}
-.list .item.item-accordion.ng-hide {
-  line-height: 0px;
-}
-.list .item.item-accordion.ng-hide-add,
-.list .item.item-accordion.ng-hide-remove {
-  display: block !important;
+.item{
+  &.active
+  {
+    font-weight: 700;
+    background: #eee;
+  }
 }
 
+
+$button-medium-font-size:          14px !default;
+$button-medium-height:             32px !default;
+$button-medium-padding:            4px !default;
+$button-medium-icon-size:          16px !default;
+
+
+.button-medium {
+  padding: 2px $button-medium-padding 1px;
+  min-width: $button-medium-height;
+  min-height: $button-medium-height + 2;
+  font-size: $button-medium-font-size;
+  line-height: $button-medium-height - $button-border-width - 1;
+
+  .icon:before,
+  &.icon:before,
+  &.icon-left:before,
+  &.icon-right:before {
+    font-size: $button-small-icon-size;
+    line-height: $button-small-icon-size + 3;
+    margin-top: 3px;
+  }
+}

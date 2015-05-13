@@ -21,14 +21,18 @@
         app.post('/api/events/:id/participants', api.addEventParticipant);
         app.delete('/api/events/:eventId/participants/:participantId', api.removeEventParticipant);
 
+        app.post('/api/events/:id/join', api.joinEvent);
         app.post('/api/events/:id/dates', api.addEventDate);
+        app.post('/api/events/:id/location', api.setEventLocation);
         app.delete('/api/events/:eventId/dates/:dateEpoch', api.removeEventDate);
         app.post('/api/events/:id/dates/primary', api.setEventPrimaryDate);
+        app.post('/api/events/:id/dates/confirm', api.confirmEventDate);
+        app.post('/api/events/:id/dates/decline', api.declineEventDate);
 
+        app.get('/api/events/:id/products/recommend', api.recommendEventProducts);
+        app.delete('/api/events/:eventId/products/:productId', api.removeEventProduct);
+        app.post('/api/events/:id/products', api.addEventProduct);
 
-        // TODO set event location
-
-        app.get('/api/events/:id/recommend', api.recommendEventProducts);
         app.get('/api/events/:id', api.getEvent);
 
         app.get('/api/info', api.getInfo);

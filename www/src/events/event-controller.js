@@ -17,6 +17,52 @@
             var promise = eventService.getEvent(eventId)
                 .success(function (event) {
                     vm.event = event;
+
+                    if (event.location && event.location.latitude && event.location.longitude) {
+                        setLocation(event.location.longitude, event.location.latitude)
+                    }
+
+                    vm.dateConfirmed = {};
+                    vm.dateParticipants = {};
+
+                    vm.kosherEaters = 0;
+                    vm.vegetarians = 0;
+                    vm.vegans = 0;
+
+                    event.participants.forEach(function (participant) {
+
+                        if (participant.user.isKosher)
+                        {
+                            vm.kosherEaters++;
+                        }
+
+                        if (participant.user.isVegan)
+                        {
+                            vm.vegans++;
+                        }
+
+                        if (participant.user.isVegetarian)
+                        {
+                            vm.vegetarians++;
+                        }
+
+                        var isCurrentUser = vm.user.id == participant.user._id;
+
+                        participant.dates.forEach(function (date) {
+
+                            if (isCurrentUser) {
+                                vm.dateConfirmed[date] = true;
+                            }
+                            else {
+                                if (!vm.dateParticipants[date]) {
+                                    vm.dateParticipants[date] = [];
+                                }
+
+                                vm.dateParticipants[date].push(participant.user);
+                            }
+                        });
+
+                    });
                 });
 
             promise
@@ -42,10 +88,6 @@
                     return;
                 }
 
-                if (event.location && event.location.latitude && event.location.longitude) {
-                    setLocation(event.location.longitude, event.location.latitude)
-                }
-
                 getMessages();
             });
 
@@ -56,6 +98,20 @@
         vm.addDate = function (date) {
             eventService.addDate(eventId, date)
                 .success(getEvent);
+        };
+
+        vm.join = function () {
+            eventService.join(eventId)
+                .success(getEvent);
+        };
+
+        vm.isJoined = function () {
+            if (!vm.dateConfirmed)
+            {
+                return false;
+            }
+
+            return Object.keys(vm.dateConfirmed).length;
         };
 
         vm.setPrimaryDate = function (date) {
@@ -70,6 +126,42 @@
                         .success(getEvent);
                 });
         };
+
+        vm.confirmDate = function (date) {
+            eventService.confirmDate(eventId, date)
+                .success(getEvent);
+        };
+
+        vm.declineDate = function (date) {
+            eventService.declineDate(eventId, date)
+                .success(getEvent);
+        };
+        
+        // ..............................
+        // Products
+
+        vm.addProduct = function (productName) {
+            eventService.addProduct(eventId, productName)
+                .success(getEvent);
+        };
+
+        vm.removeProduct = function (product) {
+
+            // Prompt
+            interactiveService.confirm('Remove', 'Are you sure you want to remove ' + product.name + ' ?')
+                .success(function () {
+                    eventService.removeProduct(eventId, product._id)
+                        .success(getEvent);
+                });
+        };
+
+        vm.recommendProducts = function () {
+            eventService.recommendProducts(eventId)
+                .success(function(products){
+                    vm.recommendedProducts = products;
+                });
+        };
+
 
         // ..............................
         // Participants
@@ -91,7 +183,7 @@
         vm.removeParticipant = function (participant) {
 
             // Prompt
-            interactiveService.confirm('Remove', 'Are you sure you want to remove ' +  participant.user.nickname +  ' ?')
+            interactiveService.confirm('Remove', 'Are you sure you want to remove ' + participant.user.nickname + ' ?')
                 .success(function () {
                     eventService.removeParticipant(eventId, participant._id)
                         .success(getEvent);
@@ -100,6 +192,20 @@
 
         // ..............................
         // Map
+
+        $scope.$watch(function () {
+            return vm.selectedLocation;
+        }, function (value) {
+
+            if (value) {
+                var address = vm.selectedLocationAddress = value.formatted_address;
+                var longitude = value.geometry.location.lng();
+                var latitude = value.geometry.location.lat();
+
+                eventService.setEventLocation(eventId, address, latitude, longitude );
+                setLocation(longitude, latitude);
+            }
+        });
 
         vm.mapMarker = {
             location: {
@@ -161,27 +267,6 @@
 
         vm.showOnCalendar = function (date) {
             calendarService.openCurrentDateInCalendar(date);
-        };
-
-        // ..............................
-        // Participants
-
-        vm.pickFriend = function () {
-            contactsService.pickContact()
-                .success(function (contact) {
-
-                    if (!contact || !contact.phone || !contact.name) {
-                        commonService.alert('no contact selected');
-                    }
-
-                    //TODO: SAVE TO DB WITH JOSSEF'S FUNCTION
-
-                    /*vm.friends[contact.phone] = {
-                     name: contact.name,
-                     phone: contact.phone
-                     };*/
-
-                });
         };
 
         // ..............................

@@ -36,10 +36,17 @@
         addEventParticipant: addEventParticipant,
         getEventOrganizer: getEventOrganizer,
         isEventParticipant: isEventParticipant,
+        setEventParticipantDate: setEventParticipantDate,
 
         removeEventDate: removeEventDate,
         addEventDate: addEventDate,
+
+        setEventLocation: setEventLocation,
         setEventPrimaryDate: setEventPrimaryDate,
+
+        removeEventProduct: removeEventProduct,
+
+        joinEvent: joinEvent,
 
         ensureProductExists: ensureProductExists,
         ensureUserExists: ensureUserExists,
@@ -81,13 +88,12 @@
         return deferred.promise;
     }
 
-
     function getEvent(id) {
         var deferred = Q.defer();
 
         Event.findById(id)
             .select('-messages')
-            .populate('participants.user', '_id nickname phone')
+            .populate('participants.user', '_id nickname phone isKosher isVegetarian isVegan')
             .populate('organizer', '_id nickname phone')
             .populate('products')
             .exec(function (err, event) {
@@ -129,6 +135,29 @@
                     participants: {
                         _id: mongoose.Types.ObjectId(participantId)
                     }
+                }
+            })
+            .exec(function (err) {
+                if (err) {
+                    return deferred.reject(err);
+                }
+
+                deferred.resolve();
+            });
+
+        return deferred.promise;
+    }
+
+    function removeEventProduct(eventId, productId) {
+        var deferred = Q.defer();
+
+        console.log(eventId, productId);
+        Event.update({
+                _id: eventId
+            },
+            {
+                $pull: {
+                    products: mongoose.Types.ObjectId(productId)
                 }
             })
             .exec(function (err) {
@@ -257,6 +286,90 @@
 
         return deferred.promise;
     }
+
+    function setEventLocation(eventId, location) {
+        var deferred = Q.defer();
+
+
+        Event.update({
+                _id: eventId
+            },
+            {
+                location: location
+            })
+            .exec(function (err) {
+                if (err) {
+                    return deferred.reject(err);
+                }
+
+                deferred.resolve();
+            });
+
+        return deferred.promise;
+    }
+
+    function setEventParticipantDate(user, eventId, date, confirm) {
+        var deferred = Q.defer();
+
+        async(function () {
+            var event = await(getEvent(eventId));
+
+            var i;
+            for (i = 0; i <event.participants.length; i++)
+            {
+                var participant = event.participants[i];
+                if (participant.user.id == user.id)
+                {
+                    if (confirm)
+                    {
+                        participant.dates.addToSet(date);
+                    }
+                    else
+                    {
+                        participant.dates.pull(date);
+                    }
+                    break;
+                }
+            }
+
+            event.save();
+
+            deferred.resolve();
+
+        })();
+
+        return deferred.promise;
+    }
+
+
+
+    function joinEvent(user, eventId) {
+        var deferred = Q.defer();
+
+        async(function () {
+            var event = await(getEvent(eventId));
+
+            var i;
+            for (i = 0; i <event.participants.length; i++)
+            {
+                var participant = event.participants[i];
+                if (participant.user.id == user.id)
+                {
+                    participant.dates = event.dates;
+                    break;
+                }
+            }
+
+            event.save();
+
+            deferred.resolve();
+
+        })();
+
+        return deferred.promise;
+    }
+
+
 
 
     function getEventMessages(eventId, limit) {

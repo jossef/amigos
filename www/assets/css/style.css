@@ -8856,7 +8856,7 @@ body {
     white-space: nowrap;
     overflow: hidden !important;
     text-overflow: ellipsis;
-    background: rgba(255, 255, 255, 0.7);
+    background: rgba(255, 255, 255, 0.8);
     font-weight: 700;
     position: absolute;
     bottom: 0;
@@ -8873,7 +8873,7 @@ body {
     display: inline-block;
     white-space: nowrap;
     overflow: hidden !important;
-    background: rgba(0, 0, 0, 0.3);
+    background: rgba(255, 255, 255, 0.6);
     position: absolute;
     line-height: 2.5em;
     bottom: 0;
@@ -8882,11 +8882,12 @@ body {
     .event-image .title-wrapper .title, .event-image .title-wrapper .info, .event-image .title-wrapper .buttons {
       padding-left: 10px;
       padding-top: 10px;
-      color: #fff;
+      color: #000;
       text-overflow: ellipsis;
       font-weight: 700;
       margin-bottom: 0; }
     .event-image .title-wrapper .info {
+      color: #333;
       padding-top: 0;
       margin-bottom: 0; }
     .event-image .title-wrapper .buttons {
@@ -8895,6 +8896,21 @@ body {
       padding-bottom: 10px;
       margin-bottom: 0;
       text-align: right; }
+
+.date-list .date .title, .date-list .date .event-image .title-wrapper .info, .event-image .title-wrapper .date-list .date .info, .date-list .date .event-image .title-wrapper .buttons, .event-image .title-wrapper .date-list .date .buttons {
+  font-weight: 700;
+  font-size: 1.4em;
+  line-height: 1.5em; }
+  .date-list .date .title i, .date-list .date .event-image .title-wrapper .info i, .event-image .title-wrapper .date-list .date .info i, .date-list .date .event-image .title-wrapper .buttons i, .event-image .title-wrapper .date-list .date .buttons i {
+    color: #aaa; }
+.date-list .date .subtitle {
+  font-weight: 700;
+  color: #666;
+  padding-top: 10px;
+  padding-bottom: 10px; }
+.date-list .date hr {
+  border: 0;
+  border-top: 1px dotted #eee; }
 
 .message-in, .message-out {
   border-radius: 7.5px;
@@ -9068,17 +9084,19 @@ body {
 .button-rect {
   border-radius: 0 !important; }
 
-.list .item.item-accordion {
-  line-height: 38px;
-  padding-top: 0;
-  padding-bottom: 0;
-  transition: 0.09s all linear; }
+.item.active {
+  font-weight: 700;
+  background: #eee; }
 
-.list .item.item-accordion.ng-hide {
-  line-height: 0px; }
-
-.list .item.item-accordion.ng-hide-add,
-.list .item.item-accordion.ng-hide-remove {
-  display: block !important; }
+.button-medium {
+  padding: 2px 4px 1px;
+  min-width: 32px;
+  min-height: 34px;
+  font-size: 14px;
+  line-height: 30px; }
+  .button-medium .icon:before, .button-medium.icon:before, .button-medium.icon-left:before, .button-medium.icon-right:before {
+    font-size: 16px;
+    line-height: 19px;
+    margin-top: 3px; }
 
 /*# sourceMappingURL=style.css.map */
