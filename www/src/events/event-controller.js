@@ -31,18 +31,15 @@
 
                     event.participants.forEach(function (participant) {
 
-                        if (participant.user.isKosher)
-                        {
+                        if (participant.user.isKosher) {
                             vm.kosherEaters++;
                         }
 
-                        if (participant.user.isVegan)
-                        {
+                        if (participant.user.isVegan) {
                             vm.vegans++;
                         }
 
-                        if (participant.user.isVegetarian)
-                        {
+                        if (participant.user.isVegetarian) {
                             vm.vegetarians++;
                         }
 
@@ -106,8 +103,7 @@
         };
 
         vm.isJoined = function () {
-            if (!vm.dateConfirmed)
-            {
+            if (!vm.dateConfirmed) {
                 return false;
             }
 
@@ -136,7 +132,7 @@
             eventService.declineDate(eventId, date)
                 .success(getEvent);
         };
-        
+
         // ..............................
         // Products
 
@@ -157,7 +153,7 @@
 
         vm.recommendProducts = function () {
             eventService.recommendProducts(eventId)
-                .success(function(products){
+                .success(function (products) {
                     vm.recommendedProducts = products;
                 });
         };
@@ -190,6 +186,15 @@
                 });
         };
 
+        vm.call = function (participant) {
+
+            var phone = participant.user.phone;
+            phone = phone.replace(/-/g, '');
+            phone = phone.replace(/ /g, '');
+
+            window.open('tel:' + phone, '_system')
+        };
+
         // ..............................
         // Map
 
@@ -202,7 +207,7 @@
                 var longitude = value.geometry.location.lng();
                 var latitude = value.geometry.location.lat();
 
-                eventService.setEventLocation(eventId, address, latitude, longitude );
+                eventService.setEventLocation(eventId, address, latitude, longitude);
                 setLocation(longitude, latitude);
             }
         });
