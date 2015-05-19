@@ -100,6 +100,9 @@
         vm.join = function () {
             eventService.join(eventId)
                 .success(getEvent);
+
+            vm.showDates = true;
+
         };
 
         vm.isJoined = function () {
@@ -207,8 +210,10 @@
                 var longitude = value.geometry.location.lng();
                 var latitude = value.geometry.location.lat();
 
-                eventService.setEventLocation(eventId, address, latitude, longitude);
+                eventService.setEventLocation(eventId, address, latitude, longitude).success(getEvent);
                 setLocation(longitude, latitude);
+
+
             }
         });
 

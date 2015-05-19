@@ -69,42 +69,11 @@
                     </div>
 
                     <div ng-click="vm.scrollWorkaround()">
-
-                        <!-- - - - - - - - - - - - - - - - - - - - - - -->
-                        <!-- Info -->
-
-                        <div ng-show="vm.event.products.length">
-
-                            <div class="item item-icon-left "
-                                 ng-class="{active: vm.showInfo}"
-                                 ng-init="vm.showInfo = true;"
-                                 ng-click="vm.showInfo = !vm.showInfo;">
-                                <i class="icon ion-information-circled"></i>
-
-                                Event Info
-                            </div>
-
-                            <div class="item" ng-show="vm.showInfo">
-
-                                <h2>Organizer: <b>{{vm.event.organizer.nickname}}</b></h2>
-
-                                <h2>Created at: <b>{{vm.event.created | date:'medium'}}</b></h2>
-
-                                <h2>Participants: <b>{{vm.event.participants.length}}</b></h2>
-
-                                <h2>Kosher eaters: <b>{{vm.kosherEaters}}</b></h2>
-
-                                <h2>Vegetarians: <b>{{vm.vegetarians}}</b></h2>
-
-                                <h2>Vegans: <b>{{vm.vegans}}</b></h2>
-
-
-                                <button ng-hide="vm.isJoined()" ng-click="vm.join()"
-                                        class="button button-block button-outline button-positive"> Click to Join!
-                                </button>
-
-                            </div>
-                        </div>
+                    <div class="item">
+                        <button ng-hide="vm.isJoined() + vm.event.isAdmin" ng-click="vm.join()"
+                                class="button button-block button-positive"> Click to Join!
+                        </button>
+                    </div>
 
                         <!-- - - - - - - - - - - - - - - - - - - - - - -->
                         <!-- Dates -->
@@ -116,7 +85,7 @@
 
                             Date:
                             <span ng-show="vm.event.date"> {{ vm.event.date | date }}</span>
-                            <span ng-hide="vm.event.date"> Click to vote</span>
+                            <span ng-hide="vm.event.date"> Click to vote </span>
                             <span class="badge badge-dark">{{vm.event.dates.length}}</span>
 
                         </div>
@@ -294,6 +263,37 @@
 
                         </div>
 
+                        <!-- - - - - - - - - - - - - - - - - - - - - - -->
+                        <!-- Info -->
+
+                        <div >
+
+                            <div class="item item-icon-left "
+                                 ng-class="{active: vm.showInfo}"
+                                 ng-init="vm.showInfo = false;"
+                                 ng-click="vm.showInfo = !vm.showInfo;">
+                                <i class="icon ion-information-circled"></i>
+
+                                Event Info
+                            </div>
+
+                            <div class="item" ng-show="vm.showInfo">
+
+                                <h2>Organizer: <b>{{vm.event.organizer.nickname}}</b></h2>
+
+                                <h2>Created at: <b>{{vm.event.created | date:'medium'}}</b></h2>
+
+                                <h2>Participants: <b>{{vm.event.participants.length}}</b></h2>
+
+                                <h2>Kosher eaters: <b>{{vm.kosherEaters}}</b></h2>
+
+                                <h2>Vegetarians: <b>{{vm.vegetarians}}</b></h2>
+
+                                <h2>Vegans: <b>{{vm.vegans}} {{vm.showDates}}</b></h2>
+
+                            </div>
+                        </div>
+
                     </div>
 
                 </ion-content>
@@ -416,7 +416,8 @@
                             {{product.name}}
 
                             <i class="icon ion-android-delete assertive"
-                               ng-click="vm.removeProduct(product)"></i>
+                               ng-click="vm.removeProduct(product)"
+                                    ng-show="vm.editMode"></i>
 
                         </div>
 
